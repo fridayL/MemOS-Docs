@@ -68,19 +68,6 @@ make install
 **Download Examples**<br>To download example code, data and configurations, run the following command:<br>`memos download_examples`
 ::
 
-## Documentation Structure
-
-- **Overview**: Project structure and architecture
-- **Examples**: Step-by-step usage and code samples
-- **MOS**: Memory-augmented orchestration for LLMs
-- **MemCube**: Unified memory container
-- **Memories**: Details on each memory type (textual, tree, KV cache)
-- **Basic Modules**: Core building blocks (e.g., Neo4j graph DB)
-- **Contribution**: How to contribute
-- **Troubleshooting**: Network and environment tips
-
-Use the navigation sidebar to explore each section in detail.
-
 ## Contributing
 
 We welcome contributions! Please see the [contribution guidelines](/contribution/overview) for details on setting up your environment and
