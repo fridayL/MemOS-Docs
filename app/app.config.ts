@@ -40,6 +40,10 @@ export default defineAppConfig({
       target: '_blank',
       to: 'https://memos.openmem.net/paper_memos_v2'
     }, {
+      label: 'header.openmem',
+      target: '_blank',
+      to: 'https://memos.openmem.net/openmem'
+    }, {
       label: 'header.changelog',
       to: '/changelog'
     }]

@@ -20,6 +20,11 @@ const localizedMenus = computed(() => {
       to: 'https://memos.openmem.net/paper_memos_v2'
     },
     {
+      label: t('header.openmem'),
+      target: '_blank',
+      to: 'https://memos.openmem.net/openmem'
+    },
+    {
       label: t('header.changelog'),
       to: '/changelog',
       active: route.path.includes('/changelog')
