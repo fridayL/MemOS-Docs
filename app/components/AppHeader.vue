@@ -39,7 +39,7 @@ function handleLocaleSwitch() {
   const newLocale = locale.value === 'en' ? 'cn' : 'en'
   setLocale(newLocale)
 
-  saveCookie('MEMOS_LANG', newLocale)
+  // saveCookie('MEMOS_LANG', newLocale)
 
   // For production, redirect to the corresponding domain
   // if (locale.value === 'en') {

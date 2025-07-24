@@ -1,6 +1,6 @@
 import type { ContentNavigationItem } from '@nuxt/content'
 import enSettings from '../../content/en/settings.yml'
-import cnSettings from '../../content/cn/settings.yml'
+import cnSettings from '../../content/zh/settings.yml'
 
 interface ParsedTitle {
   icon?: string
@@ -99,7 +99,10 @@ export const useContentNavigation = (locale: Ref<string>) => {
         return []
       }
 
-      return parseNavigation(navItems)
+      return parseNavigation(navItems).map(item => ({
+        ...item,
+        path: locale.value === 'cn' ? `/cn${item.path}` : item.path
+      }))
     } catch (error) {
       console.error('Error in useContentNavigation:', error)
       return []
@@ -149,7 +152,7 @@ export const useSurroundWithDesc = async (
 
   const docs = await Promise.all(
     base.map((item) => {
-      if (env === 'dev' && item.path.startsWith('/zh')) {
+      if (env === 'dev' && item.path.startsWith('/cn')) {
         return queryCollection('docs').path(`${item.path}`).first()
       }
 

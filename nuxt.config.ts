@@ -1,10 +1,11 @@
 import yaml from '@rollup/plugin-yaml'
 import type { NuxtConfig } from '@nuxt/schema'
 import pkg from './package.json'
+import { getCnRoutes } from './scripts/extract-routes.mjs'
 
+const cnRoutes = getCnRoutes()
 // Get locale from command line arguments or environment variable
 const env = process.env.NUXT_ENV_CONFIG || 'dev'
-const locale = process.env.NUXT_PUBLIC_LOCALE || 'en'
 
 const armsScript = process.env.NODE_ENV === 'production'
   ? [{ innerHTML: `var _czc = _czc || [];
@@ -80,7 +81,12 @@ const config: NuxtConfig = {
     // locale prefix added for every locale except default
     strategy: 'prefix_except_default',
     vueI18n: './i18n.config.ts',
-    detectBrowserLanguage: false,
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'MEMOS_LANG',
+      cookieDomain: 'openmem.net',
+      fallbackLocale: 'en'
+    },
     pages: undefined
   },
 
@@ -123,7 +129,8 @@ const config: NuxtConfig = {
     prerender: {
       routes: [
         '/',
-        '/cn'
+        '/cn',
+        ...cnRoutes
       ],
       crawlLinks: true
     }

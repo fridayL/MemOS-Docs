@@ -15,11 +15,13 @@ const { data: page } = await useAsyncData(normalizedPath, () => {
     console.log('queryCollection', res)
   })
 
-  if (config.public.env === 'dev' && normalizedPath.startsWith('/cn')) {
-    return queryCollection('docs').path(`${normalizedPath}`).first()
-  }
+  // if (config.public.env === 'dev' && normalizedPath.startsWith('/cn')) {
+  //   return queryCollection('docs').path(`${normalizedPath}`).first()
+  // }
 
-  return queryCollection('docs').path(`/${locale.value}${normalizedPath}`).first()
+  const docsPath = locale.value === 'cn' ? normalizedPath.replace('/cn', '/zh') : `/en${normalizedPath}`
+
+  return queryCollection('docs').path(docsPath).first()
 })
 
 // Watch locale changes and refresh content

@@ -32,7 +32,7 @@ export default defineContentConfig({
   collections: {
     docs: defineCollection({
       source: {
-        include: isDev ? '**' : `${locale}/**/*`
+        include: '**'
       },
       type: 'page',
       schema

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import releasesData from '../../content/releases.json'
 import enChangelogData from '../../content/en/changelog.yml'
-import cnChangelogData from '../../content/cn/changelog.yml'
+import cnChangelogData from '../../content/zh/changelog.yml'
 
 const { t, locale } = useI18n()
 
