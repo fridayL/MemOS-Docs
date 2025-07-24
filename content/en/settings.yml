@@ -35,6 +35,16 @@ nav:
       - "(ri:database-line) Neo4j Graph Database": modules/memories/neo4j_graph_db.md
     - "(ri:cpu-line) Parametric Memory": modules/memories/parametric_memory.md
 
+  - "(ri:history-line) Scenario Examples":
+    - "(ri:database-2-line) Overview": cookbook/overview.md
+    - "(ri:seedling-line) Chapter 1: Your First MemCube":
+      - "(ri:cloud-line) API": cookbook/chapter1/api.md
+      - "(ri:node-tree) OLLAMA": cookbook/chapter1/ollama.md
+    - "(ri:database-2-line) Chapter 2: TreeNodeTextualMemoryMetadata": 
+      - "(ri:cloud-line) API": cookbook/chapter2/api.md
+      - "(ri:node-tree) OLLAMA": cookbook/chapter2/ollama.md
+    - "(ri:search-2-line) Chapter 3: Intelligent Novel Analysis System": cookbook/chapter3/overview.md
+
   - "(ri:star-line) Best Practice":
     - "(ri:speed-line) Performance Tuning": best_practice/performance_tuning.md
     - "(ri:building-3-line) Memory Structure Design": best_practice/memory_structure_design.md
