@@ -2,7 +2,6 @@
 title: Linux API Version
 desc: "MemCube is the core component of MemOS, like a 'memory chip' in Cyberpunk 2077, allowing agents to load different 'memory packages' to gain different knowledge and abilities. In this chapter, we will help you master the basic operations of MemCube through three progressive recipes.<br/>Note that the MemOS system has two levels: OS level and Cube level. Here we first introduce the more basic Cube level. Many of the operations below, such as add and search operations, also exist at the OS level. The difference is: OS manages multiple Cubes and can perform overall search and operations on multiple Cubes, while Cube is only responsible for its own writing and querying."
 ---
-
 ### Recipe 1.1: Install and Configure Your MemOS Development Environment (API Version)
 
 **🎯 Problem Scenario:** You are an AI application developer who wants to try the latest and hottest MemOS, but don't know how to configure the MemOS environment.
@@ -72,16 +71,16 @@ from dotenv import load_dotenv
 def check_openai_environment():
     """🎯 Check OpenAI environment variable configuration"""
     print("🔍 Checking OpenAI environment variable configuration...")
-    
+  
     # Load .env file
     load_dotenv()
-    
+  
     # Check OpenAI configuration
     openai_key = os.getenv("OPENAI_API_KEY")
     openai_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
-    
+  
     print(f"📋 OpenAI environment variable status:")
-    
+  
     if openai_key:
         masked_key = openai_key[:8] + "..." + openai_key[-4:] if len(openai_key) > 12 else "***"
         print(f"  ✅ OPENAI_API_KEY: {masked_key}")
@@ -95,19 +94,19 @@ def check_openai_environment():
 def check_memos_installation():
     """🎯 Check MemOS installation status"""
     print("\n🔍 Checking MemOS installation status...")
-    
+  
     try:
         import memos
         print(f"✅ MemOS version: {memos.__version__}")
-        
+      
         # Test core component import
         from memos.mem_cube.general import GeneralMemCube
         from memos.mem_os.main import MOS
         from memos.configs.mem_os import MOSConfig
-        
+      
         print("✅ Core components imported successfully")
         return True
-        
+      
     except ImportError as e:
         print(f"❌ Import failed: {e}")
         return False
@@ -118,28 +117,28 @@ def check_memos_installation():
 def test_api_functionality():
     """🎯 Test API mode functionality"""
     print("\n🔍 Testing API mode functionality...")
-    
+  
     try:
         from memos.mem_os.main import MOS
-        
+      
         # Use default MOS.simple() method
         print("🚀 Creating MOS instance (using MOS.simple())...")
         memory = MOS.simple()
-        
+      
         print("✅ MOS.simple() created successfully!")
         print(f"  📊 User ID: {memory.user_id}")
         print(f"  📊 Session ID: {memory.session_id}")
-        
+      
         # Test adding memory
         print("\n🧠 Testing adding memory...")
         memory.add(memory_content="This is a test memory in API mode")
         print("✅ Memory added successfully!")
-        
+      
         # Test chat functionality
         print("\n💬 Testing chat functionality...")
         response = memory.chat("What memory did I just add?")
         print(f"✅ Chat response: {response}")
-        
+      
         # Test search functionality
         print("\n🔍 Testing search functionality...")
         search_results = memory.search("test memory", top_k=3)
@@ -147,10 +146,10 @@ def test_api_functionality():
             print(f"✅ Search successful, found {len(search_results['text_mem'])} results")
         else:
             print("⚠️ Search returned no results")
-        
+      
         print("✅ API mode functionality test successful!")
         return True
-        
+      
     except Exception as e:
         print(f"❌ API mode functionality test failed: {e}")
         print("💡 Tip: Please check OpenAI API key and network connection.")
@@ -159,13 +158,13 @@ def test_api_functionality():
 def main():
     """🎯 API mode main verification process"""
     print("🚀 Starting MemOS API mode environment verification...\n")
-    
+  
     # Step 1: Check OpenAI environment variables
     env_ok = check_openai_environment()
-    
+  
     # Step 2: Check installation status
     install_ok = check_memos_installation()
-    
+  
     # Step 3: Test functionality
     if env_ok and install_ok:
         func_ok = test_api_functionality()
@@ -175,14 +174,14 @@ def main():
             print("\n⚠️ Skipping functionality test due to incomplete OpenAI environment variable configuration")
         elif not install_ok:
             print("\n⚠️ Skipping functionality test due to MemOS installation failure")
-    
+  
     # Summary
     print("\n" + "="*50)
     print("📊 API mode verification results summary:")
     print(f"  OpenAI environment variables: {'✅ Passed' if env_ok else '❌ Failed'}")
     print(f"  MemOS installation: {'✅ Passed' if install_ok else '❌ Failed'}")
     print(f"  Functionality test: {'✅ Passed' if func_ok else '❌ Failed'}")
-    
+  
     if env_ok and install_ok and func_ok:
         print(f"\n🎉 Congratulations! MemOS API mode environment configuration completely successful!")
         print(f"💡 You can now start using MemOS API mode.")
@@ -194,7 +193,7 @@ def main():
         print("💡 Please configure OPENAI_API_KEY in .env file.")
     else:
         print("\n❌ Environment configuration has problems, please check the error messages above.")
-    
+  
     return bool(env_ok and install_ok and func_ok)
 
 if __name__ == "__main__":
@@ -291,25 +290,25 @@ def create_memcube_with_memreader():
     """
     🎯 Complete process of creating MemCube using MemReader (API version)
     """
-    
+  
     print("🔧 Creating MemCube configuration...")
-    
+  
     # Load environment variables
     load_dotenv()
-    
+  
     # Get OpenAI configuration
     openai_key = os.getenv("OPENAI_API_KEY")
     openai_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
-    
+  
     if not openai_key:
         raise ValueError("❌ OPENAI_API_KEY not configured. Please configure OpenAI API key in .env file.")
-    
+  
     print("✅ Detected OpenAI API mode")
-    
+  
     # Get MemOS configuration
     user_id = os.getenv("MOS_USER_ID", "default_user")
     top_k = int(os.getenv("MOS_TOP_K", "5"))
-    
+  
     # OpenAI mode configuration
     cube_config = {
         "user_id": user_id,
@@ -351,32 +350,32 @@ def create_memcube_with_memreader():
         "act_mem": {"backend": "uninitialized"},
         "para_mem": {"backend": "uninitialized"}
     }
-    
+  
     # Create MemCube instance
     config_obj = GeneralMemCubeConfig.model_validate(cube_config)
     mem_cube = GeneralMemCube(config_obj)
-    
+  
     print("✅ MemCube created successfully!")
     print(f"  📊 User ID: {mem_cube.config.user_id}")
     print(f"  📊 MemCube ID: {mem_cube.config.cube_id}")
     print(f"  📊 Text memory backend: {mem_cube.config.text_mem.backend}")
     print(f"  🔍 Embedding model: text-embedding-ada-002 (OpenAI)")
     print(f"  🎯 Configuration mode: OPENAI API")
-    
+  
     return mem_cube
 
 def create_memreader_config():
     """
     🎯 Create MemReader configuration
     """
-    
+  
     # Load environment variables
     load_dotenv()
-    
+  
     # Get OpenAI configuration
     openai_key = os.getenv("OPENAI_API_KEY")
     openai_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
-    
+  
     # MemReader configuration
     mem_reader_config = MemReaderConfigFactory(
         backend="simple_struct",
@@ -413,24 +412,24 @@ def create_memreader_config():
             "remove_prompt_example": False
         }
     )
-    
+  
     return mem_reader_config
 
 def load_document_to_memcube(mem_cube, doc_path):
     """
     🎯 Load document to MemCube using MemReader
     """
-    
+  
     print(f"\n📖 Reading document using MemReader: {doc_path}")
-    
+  
     # Create MemReader
     mem_reader_config = create_memreader_config()
     mem_reader = MemReaderFactory.from_config(mem_reader_config)
-    
+  
     # Prepare document data
     print("📄 Preparing document data...")
     documents = [doc_path]  # MemReader expects list of document paths
-    
+  
     # Use MemReader to process documents
     print("🧠 Extracting memories using MemReader...")
     memories = mem_reader.get_memory(
@@ -441,16 +440,16 @@ def load_document_to_memcube(mem_cube, doc_path):
             "session_id": str(uuid.uuid4())
         }
     )
-    
+  
     print(f"📚 MemReader generated {len(memories)} memory fragments")
-    
+  
     # Add memories to MemCube
     print("💾 Adding memories to MemCube...")
     for mem in memories:
         mem_cube.text_mem.add(mem)
-    
+  
     print(f"✅ Successfully added {len(memories)} memory fragments to MemCube")
-    
+  
     # Output basic information
     print("\n📊 MemCube basic information:")
     print(f"  📁 Document source: {doc_path}")
@@ -460,21 +459,21 @@ def load_document_to_memcube(mem_cube, doc_path):
     print(f"  🔍 Embedding model: text-embedding-ada-002 (OpenAI)")
     print(f"  🎯 Configuration mode: OPENAI API")
     print(f"  🧠 Memory extractor: MemReader (simple_struct)")
-    
+  
     return mem_cube
 
 if __name__ == "__main__":
     print("🚀 Starting to create document MemCube using MemReader (API version)...")
-    
+  
     # Create MemCube
     mem_cube = create_memcube_with_memreader()
-    
+  
     # Load document
     import os
     current_dir = os.path.dirname(os.path.abspath(__file__))
     doc_path = os.path.join(current_dir, "company_handbook.txt")
     load_document_to_memcube(mem_cube, doc_path)
-    
+  
     print("\n🎉 MemCube creation completed!") 
 ```
 
@@ -508,7 +507,6 @@ python create_memcube_with_memreader_api.py
 #         self.mem_scheduler.submit_messages(messages=[message_item])
 ```
 
-
 ```python
 # test_memcube_search_and_chat_api.py
 # 🎯 Test MemCube search and chat functionality (API version)
@@ -522,15 +520,15 @@ def create_mos_config():
     🎯 Create MOS configuration (API version)
     """
     load_dotenv()
-    
+  
     user_id = os.getenv("MOS_USER_ID", "default_user")
     top_k = int(os.getenv("MOS_TOP_K", "5"))
     openai_key = os.getenv("OPENAI_API_KEY")
     openai_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
-    
+  
     if not openai_key:
         raise ValueError("❌ OPENAI_API_KEY not configured. Please configure OpenAI API key in .env file.")
-    
+  
     # OpenAI mode configuration
     return MOSConfig(
         user_id=user_id,
@@ -583,12 +581,12 @@ def test_memcube_search_and_chat():
     """
     🎯 Test MemCube search and chat functionality (API version)
     """
-    
+  
     print("🚀 Starting to test MemCube search and chat functionality (API version)...")
-    
+  
     # Import functions from step 2
     from create_memcube_with_memreader_api import create_memcube_with_memreader, load_document_to_memcube
-    
+  
     # Create MemCube and load document
     print("\n1️⃣ Creating MemCube and loading document...")
     mem_cube = create_memcube_with_memreader()
@@ -597,16 +595,16 @@ def test_memcube_search_and_chat():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     doc_path = os.path.join(current_dir, "company_handbook.txt")
     load_document_to_memcube(mem_cube, doc_path)
-    
+  
     # Create MOS configuration
     print("\n2️⃣ Creating MOS configuration...")
     mos_config = create_mos_config()
-    
+  
     # Create MOS instance and register MemCube
     print("3️⃣ Creating MOS instance and registering MemCube...")
     mos = MOS(mos_config)
     mos.register_mem_cube(mem_cube, mem_cube_id="handbook")
-    
+  
     print("✅ MOS instance created successfully!")
     print(f"  📊 User ID: {mos.user_id}")
     print(f"  📊 Session ID: {mos.session_id}")
@@ -614,7 +612,7 @@ def test_memcube_search_and_chat():
     print(f"  🎯 Configuration mode: OPENAI API")
     print(f"  🤖 Chat model: gpt-3.5-turbo (OpenAI)")
     print(f"  🔍 Embedding model: text-embedding-ada-002 (OpenAI)")
-    
+  
     # Test search functionality
     print("\n🔍 Testing search functionality...")
     test_queries = [
@@ -623,13 +621,13 @@ def test_memcube_search_and_chat():
         "What benefits are available?",
         "How to contact HR department?"
     ]
-    
+  
     for query in test_queries:
         print(f"\n❓ Query: {query}")
-        
+      
         # Use MOS search
         search_results = mos.search(query, top_k=2)
-        
+      
         if search_results and search_results.get("text_mem"):
             print(f"📋 Found {len(search_results['text_mem'])} relevant results:")
             for cube_result in search_results['text_mem']:
@@ -640,7 +638,7 @@ def test_memcube_search_and_chat():
                     print(f"    {i}. {memory.memory[:100]}...")
         else:
             print("😓 No relevant results found")
-    
+  
     # Test chat functionality
     print("\n💬 Testing chat functionality...")
     chat_questions = [
@@ -648,16 +646,16 @@ def test_memcube_search_and_chat():
         "What benefits can employees enjoy?",
         "How to contact IT support department?"
     ]
-    
+  
     for question in chat_questions:
         print(f"\n👤 Question: {question}")
-        
+      
         try:
             response = mos.chat(question)
             print(f"🤖 Answer: {response}")
         except Exception as e:
             print(f"❌ Chat failed: {e}")
-    
+  
     print("\n🎉 Test completed!")
     return mos
 
@@ -700,25 +698,25 @@ class MemCubeManager:
         self.storage_root = Path(storage_root)
         self.storage_root.mkdir(exist_ok=True)
         self.loaded_cubes = {}  # MemCube cache in memory
-    
+  
     def create_empty_memcube(self, cube_id: str) -> GeneralMemCube:
         """
         🎯 Create an empty MemCube (without sample data)
         """
-        
+      
         # Load environment variables
         load_dotenv()
-        
+      
         # Get OpenAI configuration
         openai_key = os.getenv("OPENAI_API_KEY")
         openai_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
-        
+      
         if not openai_key:
             raise ValueError("❌ OPENAI_API_KEY not configured. Please configure OpenAI API key in .env file.")
-        
+      
         # Get MemOS configuration
         user_id = os.getenv("MOS_USER_ID", "demo_user")
-        
+      
         # OpenAI mode configuration
         cube_config = {
             "user_id": user_id,
@@ -760,10 +758,10 @@ class MemCubeManager:
             "act_mem": {"backend": "uninitialized"},
             "para_mem": {"backend": "uninitialized"}
         }
-        
+      
         config_obj = GeneralMemCubeConfig.model_validate(cube_config)
         mem_cube = GeneralMemCube(config_obj)
-        
+      
         print(f"✅ Created empty MemCube: {cube_id}")
         return mem_cube
   
@@ -771,22 +769,22 @@ class MemCubeManager:
         """
         🎯 Save MemCube to disk
         """
-    
+  
         save_path = self.storage_root / cube_id
-    
+  
         print(f"💾 Saving MemCube to: {save_path}")
-    
+  
         try:
             # ⚠️ If directory exists, clean it first
             if save_path.exists():
                 shutil.rmtree(save_path)
-        
+      
             # Save MemCube
             mem_cube.dump(str(save_path))
-        
+      
             print(f"✅ MemCube '{cube_id}' saved successfully")
             return str(save_path)
-        
+      
         except Exception as e:
             print(f"❌ Save failed: {e}")
             raise
@@ -795,24 +793,24 @@ class MemCubeManager:
         """
         🎯 Load MemCube from disk
         """
-    
+  
         load_path = self.storage_root / cube_id
-    
+  
         if not load_path.exists():
             raise FileNotFoundError(f"MemCube '{cube_id}' does not exist at {load_path}")
-    
+  
         print(f"📂 Loading MemCube from disk: {load_path}")
-    
+  
         try:
             # Load MemCube from directory
             mem_cube = GeneralMemCube.init_from_dir(str(load_path))
-        
+      
             # Cache to memory
             self.loaded_cubes[cube_id] = mem_cube
-        
+      
             print(f"✅ MemCube '{cube_id}' loaded successfully")
             return mem_cube
-        
+      
         except Exception as e:
             print(f"❌ Load failed: {e}")
             raise
@@ -821,9 +819,9 @@ class MemCubeManager:
         """
         🎯 List all saved MemCubes
         """
-    
+  
         saved_cubes = []
-    
+  
         for item in self.storage_root.iterdir():
             if item.is_dir():
                 # Check if it's a valid MemCube directory
@@ -834,14 +832,14 @@ class MemCubeManager:
                         "path": str(item),
                         "size": self._get_dir_size(item)
                     })
-    
+  
         return saved_cubes
-    
+  
     def unload_memcube(self, cube_id: str) -> bool:
         """
         🎯 Remove MemCube from memory (don't delete files)
         """
-        
+      
         if cube_id in self.loaded_cubes:
             del self.loaded_cubes[cube_id]
             print(f"♻️ MemCube '{cube_id}' removed from memory")
@@ -849,31 +847,31 @@ class MemCubeManager:
         else:
             print(f"⚠️ MemCube '{cube_id}' not in memory")
             return False
-    
+  
     def delete_memcube(self, cube_id: str) -> bool:
         """
         🎯 Delete MemCube local files
         """
-        
+      
         delete_path = self.storage_root / cube_id
-        
+      
         if not delete_path.exists():
             print(f"⚠️ MemCube '{cube_id}' does not exist at {delete_path}")
             return False
-        
+      
         print(f"🗑️ Deleting MemCube files: {delete_path}")
-        
+      
         try:
             # Delete directory
             shutil.rmtree(delete_path)
-            
+          
             # Remove from memory cache (if still in memory)
             if cube_id in self.loaded_cubes:
                 del self.loaded_cubes[cube_id]
-            
+          
             print(f"✅ MemCube '{cube_id}' files deleted successfully")
             return True
-            
+          
         except Exception as e:
             print(f"❌ Delete failed: {e}")
             return False
@@ -887,9 +885,9 @@ def add_memories_to_cube(mem_cube: GeneralMemCube, cube_name: str):
     """
     🎯 Add memories to MemCube
     """
-    
+  
     print(f"🧠 Adding memories to {cube_name}...")
-    
+  
     # Add some sample memories (with rich metadata)
     memories = [
         {"memory": f"Azhen fell in love with Aqiang", "metadata": {"type": "fact", "source": "conversation", "confidence": 0.9}},
@@ -898,11 +896,11 @@ def add_memories_to_cube(mem_cube: GeneralMemCube, cube_name: str):
         {"memory": f"Aqiang is a programmer", "metadata": {"type": "fact", "source": "conversation", "confidence": 0.9}},
         {"memory": f"Aqiang likes to write code", "metadata": {"type": "fact", "source": "file", "confidence": 0.8}}
     ]
-    
+  
     mem_cube.text_mem.add(memories)
-    
+  
     print(f"✅ Successfully added {len(memories)} memories to {cube_name}")
-    
+  
     # Show current memory count
     all_memories = mem_cube.text_mem.get_all()
     print(f"📊 {cube_name} current total memory count: {len(all_memories)}")
@@ -934,7 +932,7 @@ def advanced_query_memcube(mem_cube: GeneralMemCube, cube_name: str):
   
     # Get all memories
     all_memories = mem_cube.text_mem.get_all()
-    
+  
     # 1. Show complete structure of TextualMemoryItem
     print("  📋 Complete structure of first memory:")
     first_memory = all_memories[0]
@@ -946,28 +944,28 @@ def advanced_query_memcube(mem_cube: GeneralMemCube, cube_name: str):
     print(f"    Source: {first_memory.metadata.source}")
     print(f"    Confidence: {first_memory.metadata.confidence}")
     print()
-    
+  
     # 2. Metadata filtering
     print("  🔍 Metadata filtering:")
-    
+  
     # Filter high confidence memories
     high_confidence = [m for m in all_memories if m.metadata.confidence and m.metadata.confidence >= 0.9]
     print(f"    High confidence memories (>=0.9): {len(high_confidence)} items")
     for i, memory in enumerate(high_confidence, 1):
         print(f"      {i}. {memory.memory} (confidence: {memory.metadata.confidence})")
-    
+  
     # Filter memories from specific source
     conversation_memories = [m for m in all_memories if m.metadata.source == "conversation"]
     print(f"    Conversation source memories: {len(conversation_memories)} items")
     for i, memory in enumerate(conversation_memories, 1):
         print(f"      {i}. {memory.memory} (source: {memory.metadata.source})")
-    
+  
     # Filter file source memories
     file_memories = [m for m in all_memories if m.metadata.source == "file"]
     print(f"    File source memories: {len(file_memories)} items")
     for i, memory in enumerate(file_memories, 1):
         print(f"      {i}. {memory.memory} (source: {memory.metadata.source})")
-    
+  
     # 3. Combined filtering
     print("  🔍 Combined filtering:")
     high_conf_file = [m for m in all_memories 
@@ -975,21 +973,21 @@ def advanced_query_memcube(mem_cube: GeneralMemCube, cube_name: str):
     print(f"    High confidence file memories: {len(high_conf_file)} items")
     for i, memory in enumerate(high_conf_file, 1):
         print(f"      {i}. {memory.memory} (source: {memory.metadata.source}, confidence: {memory.metadata.confidence})")
-    
+  
     # 4. Statistics
     print("  📊 Statistics:")
     sources = {}
     confidences = []
-    
+  
     for memory in all_memories:
         # Count sources
         source = memory.metadata.source
         sources[source] = sources.get(source, 0) + 1
-        
+      
         # Collect confidences
         if memory.metadata.confidence:
             confidences.append(memory.metadata.confidence)
-    
+  
     print(f"    Source distribution: {sources}")
     if confidences:
         avg_confidence = sum(confidences) / len(confidences)
@@ -1032,7 +1030,7 @@ def demonstrate_lifecycle():
     # Step 6: Basic query
     print("\n6️⃣ Basic query")
     basic_query_memcube(reloaded_cube, "reloaded demo_cube_1")
-    
+  
     # Step 7: Advanced query (metadata operations)
     print("\n7️⃣ Advanced query (metadata operations)")
     advanced_query_memcube(reloaded_cube, "reloaded demo_cube_1")
@@ -1040,7 +1038,7 @@ def demonstrate_lifecycle():
     # Step 8: Remove MemCube from memory
     print("\n8️⃣ Removing MemCube from memory")
     manager.unload_memcube("demo_cube_1")
-    
+  
     # Step 9: Delete local files
     print("\n9️⃣ Deleting local files")
     manager.delete_memcube("demo_cube_1")
@@ -1075,29 +1073,27 @@ python memcube_lifecycle_api.py
    # ✅ Good practice: Limit number of simultaneously loaded MemCubes
    memory_manager = MemCubeMemoryManager()
    memory_manager.max_active_cubes = 3
-   
+
    # ❌ Avoid: Loading MemCubes without limit
    # This may cause memory overflow
    ```
-
 2. **Persistence Strategy**
 
    ```python
    # ✅ Regularly save important data
    if important_changes:
        cube_manager.save_memcube(mem_cube, "important_data")
-   
+
    # ✅ Use versioned naming
    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
    cube_manager.save_memcube(mem_cube, f"data_backup_{timestamp}")
    ```
-
 3. **Query Optimization**
 
    ```python
    # ✅ Set reasonable top_k
    results = mem_cube.text_mem.search(query, top_k=5)  # Usually 5-10 is sufficient
-   
+
    # ✅ Use metadata filtering to reduce search scope
    filtered_memories = advanced_ops.filter_by_metadata({"category": "important"})
    ```
@@ -1132,4 +1128,4 @@ for synonym in synonyms:
 memory_manager.memory_health_check()
 memory_manager.unload_cube("unused_cube_id")
 gc.collect()
-``` 
+```
