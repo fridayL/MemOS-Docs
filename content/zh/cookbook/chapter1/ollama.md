@@ -3,6 +3,12 @@ title: Linux Ollama版
 desc: MemCube是MemOS的核心组件，它就像赛博朋克2077中的“记忆芯片”，可以让agent加载不同的“记忆包”来获得不同的知识和能力。在这一章中，我们将通过三个渐进式的配方，帮你掌握MemCube的基础操作。<br />注意，MemOS系统分为两个层级：OS层级和Cube层级，这里先介绍的是更为基础的Cube层级。下面的很多操作，例如add和search操作，OS层级也具有，其区别为：OS管理了多个Cube，可以对多个Cube进行整体的搜索和操作，而Cube仅负责自身的写入和查询。
 ---
 
+## 第一章：入门：你的第一个 MemCube (Linux Ollama版)
+
+MemCube是MemOS的核心组件，它就像赛博朋克2077中的“记忆芯片”，可以让agent加载不同的“记忆包”来获得不同的知识和能力。在这一章中，我们将通过三个渐进式的配方，帮你掌握MemCube的基础操作。
+
+注意，MemOS系统分为两个层级：OS层级和Cube层级，这里先介绍的是更为基础的Cube层级。下面的很多操作，例如add和search操作，OS层级也具有，其区别为：OS管理了多个Cube，可以对多个Cube进行整体的搜索和操作，而Cube仅负责自身的写入和查询。
+
 ### 配方 1.1：安装和配置你的 MemOS 开发环境 (Ollama版)
 
 **🎯 问题场景：** 你是一名AI应用开发者，想要尝试最新最火的MemOS，但不知道如何配置MemOS环境。
@@ -24,7 +30,7 @@ python --version
 
 ```bash
 # 🎯 快速安装，适合生产使用
-pip install MemoryOS
+pip install MemoryOS chonkie qdrant_client markitdown
 ```
 
 **方案B：开发环境安装（适合贡献者）**
@@ -249,7 +255,7 @@ def test_ollama_functionality():
         print("✅ MOS实例和MemCube创建成功！")
         print(f"  📊 用户ID: {memory.user_id}")
         print(f"  📊 会话ID: {memory.session_id}")
-        print(f"  📊 MemCube ID: {mem_cube.cube_id}")
+        print(f"  📊 MemCube ID: {mem_cube.config.cube_id}")
         
         # 测试添加记忆
         print("\n🧠 测试添加记忆...")
@@ -272,10 +278,11 @@ def test_ollama_functionality():
         # 测试MemCube直接操作
         print("\n🔧 测试MemCube直接操作...")
         mem_cube.text_mem.add([{
-            "content": "这是通过MemCube直接添加的记忆",
+            "memory": "这是通过MemCube直接添加的记忆",
             "metadata": {
-                "source": "direct_test",
-                "type": "manual"
+                "source": "conversation",
+                "type": "fact",
+                "confidence": 0.9
             }
         }])
         print("✅ MemCube直接操作成功！")
@@ -340,269 +347,6 @@ if __name__ == "__main__":
 ```bash
 python test_memos_setup_ollama_mode.py
 ```
-
-```python
-# test_memos_setup_ollama_mode.py
-# 🎯 Ollama模式验证脚本 - 使用本地Ollama模型和手动配置
-import os
-import sys
-from dotenv import load_dotenv
-
-def check_ollama_environment():
-    """🎯 检查Ollama环境变量配置"""
-    print("🔍 检查Ollama环境变量配置...")
-    
-    # 加载.env文件
-    load_dotenv()
-    
-    # 检查Ollama配置
-    ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-    ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
-    
-    print(f"📋 Ollama环境变量状态:")
-    
-    if ollama_base_url:
-        print(f"  ✅ OLLAMA_BASE_URL: {ollama_base_url}")
-        print(f"  ✅ OLLAMA_CHAT_MODEL: {ollama_chat_model or '❌ 未配置'}")
-        print(f"  ✅ OLLAMA_EMBED_MODEL: {ollama_embed_model or '❌ 未配置'}")
-        ollama_configured = bool(ollama_base_url and ollama_chat_model and ollama_embed_model)
-        
-        if ollama_configured:
-            print("✅ Ollama配置完整")
-        else:
-            print("❌ Ollama配置不完整")
-        
-        return ollama_configured
-    else:
-        print(f"  ❌ OLLAMA_BASE_URL: 未配置")
-        print(f"  ❌ OLLAMA_CHAT_MODEL: 未配置")
-        print(f"  ❌ OLLAMA_EMBED_MODEL: 未配置")
-        return False
-
-def check_memos_installation():
-    """🎯 检查MemOS安装状态"""
-    print("\n🔍 检查MemOS安装状态...")
-    
-    try:
-        import memos
-        print(f"✅ MemOS版本: {memos.__version__}")
-        
-        # 测试核心组件导入
-        from memos.mem_cube.general import GeneralMemCube
-        from memos.mem_os.main import MOS
-        from memos.configs.mem_os import MOSConfig
-        from memos.configs.mem_cube import GeneralMemCubeConfig
-        
-        print("✅ 核心组件导入成功")
-        return True
-        
-    except ImportError as e:
-        print(f"❌ 导入失败: {e}")
-        return False
-    except Exception as e:
-        print(f"❌ 其他错误: {e}")
-        return False
-
-def test_ollama_functionality():
-    """🎯 测试Ollama模式功能"""
-    print("\n🔍 测试Ollama模式功能...")
-    
-    try:
-        from memos.mem_os.main import MOS
-        from memos.configs.mem_os import MOSConfig
-        from memos.configs.mem_cube import GeneralMemCubeConfig
-        from memos.mem_cube.general import GeneralMemCube
-        
-        # 获取环境变量
-        ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-        ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-        ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
-        
-        print("🚀 创建Ollama配置...")
-        
-        # 创建MOS配置
-        mos_config = MOSConfig(
-            user_id=os.getenv("MOS_USER_ID", "default_user"),
-            chat_model={
-                "backend": "ollama",
-                "config": {
-                    "model_name_or_path": ollama_chat_model,
-                    "api_base": ollama_base_url,
-                    "temperature": 0.7,
-                    "max_tokens": 1024,
-                }
-            },
-            mem_reader={
-                "backend": "simple_struct",
-                "config": {
-                    "llm": {
-                        "backend": "ollama",
-                        "config": {
-                            "model_name_or_path": ollama_chat_model,
-                            "api_base": ollama_base_url,
-                        }
-                    },
-                    "embedder": {
-                        "backend": "ollama",
-                        "config": {
-                            "model_name_or_path": ollama_embed_model,
-                            "api_base": ollama_base_url,
-                        }
-                    },
-                    "chunker": {
-                        "backend": "sentence",
-                        "config": {
-                            "tokenizer_or_token_counter": "gpt2",
-                            "chunk_size": 512,
-                            "chunk_overlap": 128,
-                            "min_sentences_per_chunk": 1,
-                        }
-                    }
-                }
-            },
-            enable_textual_memory=True,
-            top_k=int(os.getenv("MOS_TOP_K", "5"))
-        )
-        
-        # 创建MemCube配置
-        cube_config = GeneralMemCubeConfig(
-            user_id=os.getenv("MOS_USER_ID", "default_user"),
-            cube_id=f"{os.getenv('MOS_USER_ID', 'default_user')}_cube",
-            text_mem={
-                "backend": "general_text",
-                "config": {
-                    "extractor_llm": {
-                        "backend": "ollama",
-                        "config": {
-                            "model_name_or_path": ollama_chat_model,
-                            "api_base": ollama_base_url,
-                        }
-                    },
-                    "embedder": {
-                        "backend": "ollama",
-                        "config": {
-                            "model_name_or_path": ollama_embed_model,
-                            "api_base": ollama_base_url,
-                        }
-                    },
-                    "vector_db": {
-                        "backend": "qdrant",
-                        "config": {
-                            "collection_name": f"{os.getenv('MOS_USER_ID', 'default_user')}_collection",
-                            "vector_dimension": 768,  # nomic-embed-text的维度
-                            "distance_metric": "cosine",
-                        }
-                    }
-                }
-            },
-            act_mem={"backend": "uninitialized"},
-            para_mem={"backend": "uninitialized"}
-        )
-        
-        print("✅ 配置创建成功！")
-        
-        # 创建MOS实例和MemCube
-        print("🚀 创建MOS实例和MemCube...")
-        memory = MOS(mos_config)
-        mem_cube = GeneralMemCube(cube_config)
-        memory.register_mem_cube(mem_cube)
-        
-        print("✅ MOS实例和MemCube创建成功！")
-        print(f"  📊 用户ID: {memory.user_id}")
-        print(f"  📊 会话ID: {memory.session_id}")
-        print(f"  📊 MemCube ID: {mem_cube.cube_id}")
-        
-        # 测试添加记忆
-        print("\n🧠 测试添加记忆...")
-        memory.add(memory_content="这是一个Ollama模式的测试记忆")
-        print("✅ 记忆添加成功！")
-        
-        # 测试聊天功能
-        print("\n💬 测试聊天功能...")
-        response = memory.chat("我刚才添加了什么记忆？")
-        print(f"✅ 聊天响应: {response}")
-        
-        # 测试搜索功能
-        print("\n🔍 测试搜索功能...")
-        search_results = memory.search("测试记忆", top_k=3)
-        if search_results and search_results.get("text_mem"):
-            print(f"✅ 搜索成功，找到 {len(search_results['text_mem'])} 个结果")
-        else:
-            print("⚠️ 搜索未返回结果")
-        
-        # 测试MemCube直接操作
-        print("\n🔧 测试MemCube直接操作...")
-        mem_cube.text_mem.add([{
-            "content": "这是通过MemCube直接添加的记忆",
-            "metadata": {
-                "source": "direct_test",
-                "type": "manual"
-            }
-        }])
-        print("✅ MemCube直接操作成功！")
-        
-        print("✅ Ollama模式功能测试成功！")
-        return True
-        
-    except Exception as e:
-        print(f"❌ Ollama模式功能测试失败: {e}")
-        print("💡 提示：请检查Ollama服务是否运行，模型是否已下载。")
-        return False
-
-def main():
-    """🎯 Ollama模式主验证流程"""
-    print("🚀 开始MemOS Ollama模式环境验证...\n")
-    
-    # 步骤1: 检查Ollama环境变量
-    env_ok = check_ollama_environment()
-    
-    # 步骤2: 检查安装状态
-    install_ok = check_memos_installation()
-    
-    # 步骤3: 测试功能
-    if env_ok and install_ok:
-        func_ok = test_ollama_functionality()
-    else:
-        func_ok = False
-        if not env_ok:
-            print("\n⚠️ 由于Ollama环境变量配置不完整，跳过功能测试")
-        elif not install_ok:
-            print("\n⚠️ 由于MemOS安装失败，跳过功能测试")
-    
-    # 总结
-    print("\n" + "="*50)
-    print("📊 Ollama模式验证结果总结:")
-    print(f"  Ollama环境变量: {'✅ 通过' if env_ok else '❌ 失败'}")
-    print(f"  MemOS安装: {'✅ 通过' if install_ok else '❌ 失败'}")
-    print(f"  功能测试: {'✅ 通过' if func_ok else '❌ 失败'}")
-    
-    if env_ok and install_ok and func_ok:
-        print(f"\n🎉 恭喜！MemOS Ollama模式环境配置完全成功！")
-        print(f"💡 你现在可以开始使用MemOS Ollama模式了。")
-        print(f"💡 使用方式: 手动配置MOSConfig和GeneralMemCubeConfig")
-    elif install_ok and env_ok:
-        print(f"\n⚠️ MemOS已安装，Ollama已配置，但功能测试失败。")
-        print(f"💡 请检查Ollama服务是否运行，模型是否已下载。")
-    elif install_ok:
-        print("\n⚠️ MemOS已安装，但需要配置Ollama环境变量才能正常使用。")
-        print("💡 请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
-    else:
-        print("\n❌ 环境配置存在问题，请检查上述错误信息。")
-    
-    return bool(env_ok and install_ok and func_ok)
-
-if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
-```
-
-运行Ollama模式验证：
-
-```bash
-python test_memos_setup_ollama_mode.py
-```
-
 
 #### 常见问题和解决方案
 
@@ -620,7 +364,6 @@ pip install MemoryOS
 # 🔧 使用虚拟环境隔离
 python -m venv memos_env
 source memos_env/bin/activate  # Linux/macOS
-# 或 memos_env\Scripts\activate  # Windows
 pip install MemoryOS
 ```
 
@@ -846,6 +589,7 @@ def load_document_to_memcube(mem_cube, doc_path):
     print("💾 添加记忆到MemCube...")
     for mem in memories:
         mem_cube.text_mem.add(mem)
+        print(mem)
     
     print(f"✅ 成功添加 {len(memories)} 个记忆片段到MemCube")
     
@@ -887,6 +631,27 @@ python create_memcube_with_memreader_ollama.py
 #### 步骤3：测试搜索和对话功能
 
 **💡 Ollama模式：** 这个脚本使用本地Ollama模型进行搜索和对话。
+
+> 在当前MemOS版本中，未启用Scheduler的情况下，运行chat会出现一些问题，需要手动注释掉一段代码，按照如下步骤操作即可正常运行后续所有示例代码。之后的版本我们会修复这个问题。
+> ctrl+左键 点击下方的chat()函数，然后点击super.chat()进入到core.py中，或在环境安装目录下，找到lib/python3.12/site-packages/memos/mem_os/core.py 搜索def chat定位到对应函数
+> 注释掉函数最后return上方的代码块：
+
+```
+# submit message to scheduler
+# for accessible_mem_cube in accessible_cubes:
+#     mem_cube_id = accessible_mem_cube.cube_id
+#     mem_cube = self.mem_cubes[mem_cube_id]
+#     if self.enable_mem_scheduler and self.mem_scheduler is not None:
+#         message_item = ScheduleMessageItem(
+#             user_id=target_user_id,
+#             mem_cube_id=mem_cube_id,
+#             mem_cube=mem_cube,
+#             label=ANSWER_LABEL,
+#             content=response,
+#             timestamp=datetime.now(),
+#         )
+#         self.mem_scheduler.submit_messages(messages=[message_item])
+```
 
 ```python
 # test_memcube_search_and_chat_ollama.py
@@ -1060,7 +825,7 @@ python test_memcube_search_and_chat_ollama.py
 #### 步骤1：MemCube的完整生命周期管理
 
 ```python
-# memcube_lifecycle_ollama.py
+ # memcube_lifecycle_ollama.py
 # 🎯 MemCube生命周期管理：创建、增加记忆、保存、读取、查询、删除 (Ollama版)
 import os
 import shutil
@@ -1451,27 +1216,29 @@ python memcube_lifecycle_ollama.py
    # ✅ 好的做法：限制同时加载的MemCube数量
    memory_manager = MemCubeMemoryManager()
    memory_manager.max_active_cubes = 3
-
+   
    # ❌ 避免：无限制地加载MemCube
    # 这可能导致内存溢出
    ```
+
 2. **持久化策略**
 
    ```python
    # ✅ 定期保存重要数据
    if important_changes:
        cube_manager.save_memcube(mem_cube, "important_data")
-
+   
    # ✅ 使用版本化命名
    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
    cube_manager.save_memcube(mem_cube, f"data_backup_{timestamp}")
    ```
+
 3. **查询优化**
 
    ```python
    # ✅ 合理设置top_k
    results = mem_cube.text_mem.search(query, top_k=5)  # 通常5-10足够
-
+   
    # ✅ 使用元数据过滤减少搜索范围
    filtered_memories = advanced_ops.filter_by_metadata({"category": "important"})
    ```

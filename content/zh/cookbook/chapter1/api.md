@@ -24,7 +24,7 @@ python --version
 
 ```bash
 # 🎯 快速安装，适合生产使用
-pip install MemoryOS
+pip install MemoryOS chonkie qdrant_client markitdown
 ```
 
 **方案B：开发环境安装（适合贡献者）**
@@ -186,7 +186,6 @@ def main():
     if env_ok and install_ok and func_ok:
         print(f"\n🎉 恭喜！MemOS API模式环境配置完全成功！")
         print(f"💡 你现在可以开始使用MemOS API模式了。")
-        print(f"💡 使用方式: memory = MOS.simple()")
     elif install_ok and env_ok:
         print(f"\n⚠️ MemOS已安装，OpenAI已配置，但功能测试失败。")
         print(f"💡 请检查OpenAI API密钥是否有效，网络连接是否正常。")
@@ -200,7 +199,7 @@ def main():
 
 if __name__ == "__main__":
     success = main()
-    sys.exit(0 if success else 1)
+    sys.exit(0 if success else 1) 
 ```
 
 运行API模式验证：
@@ -406,8 +405,8 @@ def create_memreader_config():
             "chunker": {
                 "backend": "sentence",
                 "config": {
-                    "chunk_size": 128,
-                    "chunk_overlap": 32,
+                    "chunk_size": 64,
+                    "chunk_overlap": 20,
                     "min_sentences_per_chunk": 1
                 }
             },
@@ -444,29 +443,18 @@ def load_document_to_memcube(mem_cube, doc_path):
     )
     
     print(f"📚 MemReader生成了 {len(memories)} 个记忆片段")
-    # 调试信息：显示记忆片段的详细结构
-    for i, memory_list in enumerate(memories):
-        print(f"  记忆片段 {i+1}: {len(memory_list)} 个记忆项")
-        if memory_list:
-            for j, memory_item in enumerate(memory_list[:2]):  # 只显示前2个
-                print(f"    记忆项 {j+1}: {memory_item.memory[:100]}...")
-        else:
-            print("    记忆片段为空")
     
     # 添加记忆到MemCube
     print("💾 添加记忆到MemCube...")
-    total_memories = 0
-    for memory_list in memories:
-        if memory_list:  # 检查内存列表是否为空
-            mem_cube.text_mem.add(memory_list)
-            total_memories += len(memory_list)
+    for mem in memories:
+        mem_cube.text_mem.add(mem)
     
-    print(f"✅ 成功添加 {total_memories} 个记忆片段到MemCube")
+    print(f"✅ 成功添加 {len(memories)} 个记忆片段到MemCube")
     
     # 输出基本信息
     print("\n📊 MemCube基本信息:")
     print(f"  📁 文档来源: {doc_path}")
-    print(f"  📝 记忆片段数量: {total_memories}")
+    print(f"  📝 记忆片段数量: {len(memories)}")
     print(f"  🏷️ 文档类型: company_handbook")
     print(f"  💾 向量数据库: Qdrant (内存模式，释放内存即删除)")
     print(f"  🔍 嵌入模型: text-embedding-ada-002 (OpenAI)")
@@ -498,6 +486,28 @@ python create_memcube_with_memreader_api.py
 ```
 
 #### 步骤3：测试搜索和对话功能
+
+> 在当前MemOS版本中，未启用Scheduler的情况下，运行chat会出现一些问题，需要手动注释掉一段代码，按照如下步骤操作即可正常运行后续所有示例代码。之后的版本我们会修复这个问题。
+> ctrl+左键 点击下方的chat()函数，然后点击super.chat()进入到core.py中，或在环境安装目录下，找到lib/python3.12/site-packages/memos/mem_os/core.py 搜索def chat定位到对应函数
+> 注释掉函数最后return上方的代码块：
+
+```
+# submit message to scheduler
+# for accessible_mem_cube in accessible_cubes:
+#     mem_cube_id = accessible_mem_cube.cube_id
+#     mem_cube = self.mem_cubes[mem_cube_id]
+#     if self.enable_mem_scheduler and self.mem_scheduler is not None:
+#         message_item = ScheduleMessageItem(
+#             user_id=target_user_id,
+#             mem_cube_id=mem_cube_id,
+#             mem_cube=mem_cube,
+#             label=ANSWER_LABEL,
+#             content=response,
+#             timestamp=datetime.now(),
+#         )
+#         self.mem_scheduler.submit_messages(messages=[message_item])
+```
+
 
 ```python
 # test_memcube_search_and_chat_api.py
@@ -671,7 +681,7 @@ python test_memcube_search_and_chat_api.py
 #### 步骤1：MemCube的完整生命周期管理
 
 ```python
-# memcube_lifecycle_api.py
+ # memcube_lifecycle_api.py
 # 🎯 MemCube生命周期管理：创建、增加记忆、保存、读取、查询、删除 (API版)
 import os
 import shutil
@@ -1065,27 +1075,29 @@ python memcube_lifecycle_api.py
    # ✅ 好的做法：限制同时加载的MemCube数量
    memory_manager = MemCubeMemoryManager()
    memory_manager.max_active_cubes = 3
-
+   
    # ❌ 避免：无限制地加载MemCube
    # 这可能导致内存溢出
    ```
+
 2. **持久化策略**
 
    ```python
    # ✅ 定期保存重要数据
    if important_changes:
        cube_manager.save_memcube(mem_cube, "important_data")
-
+   
    # ✅ 使用版本化命名
    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
    cube_manager.save_memcube(mem_cube, f"data_backup_{timestamp}")
    ```
+
 3. **查询优化**
 
    ```python
    # ✅ 合理设置top_k
    results = mem_cube.text_mem.search(query, top_k=5)  # 通常5-10足够
-
+   
    # ✅ 使用元数据过滤减少搜索范围
    filtered_memories = advanced_ops.filter_by_metadata({"category": "important"})
    ```
