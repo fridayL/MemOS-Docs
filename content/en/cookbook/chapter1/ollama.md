@@ -1,6 +1,6 @@
 ---
 title: Linux Ollama Version
-desc: MemCube is the core component of MemOS, like a "memory chip" in Cyberpunk 2077, allowing agents to load different "memory packages" to gain different knowledge and abilities. In this chapter, we will help you master the basic operations of MemCube through three progressive recipes.<br/>Note that the MemOS system has two levels: OS level and Cube level. Here we first introduce the more basic Cube level. Many of the operations below, such as add and search operations, also exist at the OS level. The difference is: OS manages multiple Cubes and can perform overall search and operations on multiple Cubes, while Cube is only responsible for its own writing and querying.
+desc: "MemCube is the core component of MemOS, like a 'memory chip' in Cyberpunk 2077, allowing agents to load different 'memory packages' to gain different knowledge and abilities. In this chapter, we will help you master the basic operations of MemCube through three progressive recipes.<br/>Note that the MemOS system has two levels: OS level and Cube level. Here we first introduce the more basic Cube level. Many of the operations below, such as add and search operations, also exist at the OS level. The difference is: OS manages multiple Cubes and can perform overall search and operations on multiple Cubes, while Cube is only responsible for its own writing and querying."
 ---
 
 ## Chapter 1: Getting Started: Your First MemCube (Linux Ollama Version)
