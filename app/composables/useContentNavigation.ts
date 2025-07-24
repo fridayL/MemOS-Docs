@@ -1,6 +1,6 @@
 import type { ContentNavigationItem } from '@nuxt/content'
 import enSettings from '../../content/en/settings.yml'
-import zhSettings from '../../content/zh/settings.yml'
+import cnSettings from '../../content/cn/settings.yml'
 
 interface ParsedTitle {
   icon?: string
@@ -87,7 +87,7 @@ const parseNavigation = (navItems: RawNav[]): ContentNavigationItem[] => {
 export const useContentNavigation = (locale: Ref<string>) => {
   const navigation = computed(() => {
     try {
-      const settings = locale.value === 'zh' ? zhSettings : enSettings
+      const settings = locale.value === 'cn' ? cnSettings : enSettings
       if (!settings || typeof settings !== 'object') {
         console.error('Invalid settings object:', settings)
         return []

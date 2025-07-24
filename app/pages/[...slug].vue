@@ -11,7 +11,11 @@ const config = useRuntimeConfig()
 const normalizedPath = route.path.replace(/\/$/, '') || '/'
 
 const { data: page } = await useAsyncData(normalizedPath, () => {
-  if (config.public.env === 'dev' && normalizedPath.startsWith('/zh')) {
+  queryCollection('docs').all().then((res) => {
+    console.log('queryCollection', res)
+  })
+
+  if (config.public.env === 'dev' && normalizedPath.startsWith('/cn')) {
     return queryCollection('docs').path(`${normalizedPath}`).first()
   }
 

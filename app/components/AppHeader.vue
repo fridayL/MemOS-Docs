@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { saveCookie } from '~/utils'
+
 const route = useRoute()
 const { t, locale, setLocale } = useI18n()
 const { header } = useAppConfig()
@@ -29,18 +31,22 @@ const localizedMenus = computed(() => {
 
 function handleLocaleSwitch() {
   // For development, switch locale directly
-  if (config.public.env === 'dev') {
-    setLocale(locale.value === 'en' ? 'zh' : 'en')
+  // if (config.public.env === 'dev') {
+    
+  //   return
+  // }
 
-    return
-  }
+  const newLocale = locale.value === 'en' ? 'cn' : 'en'
+  setLocale(newLocale)
+
+  saveCookie('MEMOS_LANG', newLocale)
 
   // For production, redirect to the corresponding domain
-  if (locale.value === 'en') {
-    window.location.href = `${config.public.cnDomain}/${window.location.pathname}`
-  } else {
-    window.location.href = `${config.public.enDomain}/${window.location.pathname}`
-  }
+  // if (locale.value === 'en') {
+  //   window.location.href = `${config.public.cnDomain}/${window.location.pathname}`
+  // } else {
+  //   window.location.href = `${config.public.enDomain}/${window.location.pathname}`
+  // }
 }
 </script>
 

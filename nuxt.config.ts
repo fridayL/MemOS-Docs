@@ -66,7 +66,7 @@ const config: NuxtConfig = {
   i18n: {
     locales: [
       {
-        code: 'zh',
+        code: 'cn',
         iso: 'zh-CN',
         name: '中文'
       },
@@ -76,11 +76,12 @@ const config: NuxtConfig = {
         name: 'English'
       }
     ],
-    defaultLocale: locale as 'en' | 'zh',
+    defaultLocale: 'en',
     // locale prefix added for every locale except default
-    strategy: 'prefix_except_default' as const,
+    strategy: 'prefix_except_default',
     vueI18n: './i18n.config.ts',
-    detectBrowserLanguage: false
+    detectBrowserLanguage: false,
+    pages: undefined
   },
 
   devtools: {
@@ -121,7 +122,8 @@ const config: NuxtConfig = {
   nitro: {
     prerender: {
       routes: [
-        '/'
+        '/',
+        '/cn'
       ],
       crawlLinks: true
     }
