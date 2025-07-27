@@ -26,7 +26,7 @@ const localizedMenus = computed(() => {
     {
       label: t('header.openmem'),
       target: '_blank',
-      to: locale.value === 'zh' ? 'https://memos.openmem.net/cn/openmem' : 'https://memos.openmem.net/zh/openmem'
+      to: locale.value === 'zh' ? 'https://memos.openmem.net/cn/openmem' : 'https://memos.openmem.net/openmem'
     },
     {
       label: t('header.changelog'),
