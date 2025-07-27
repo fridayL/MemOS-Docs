@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import type { ContentNavigationItem } from '@nuxt/content'
+
 const route = useRoute()
 const { t, locale, setLocale } = useI18n()
 const { header } = useAppConfig()
 const config = useRuntimeConfig()
+// docs navigation for mobile
+const navigation = inject<ContentNavigationItem[]>('navigation', [])
 const localizedMenus = computed(() => {
   return [
     {
@@ -22,7 +26,7 @@ const localizedMenus = computed(() => {
     {
       label: t('header.openmem'),
       target: '_blank',
-      to: 'https://memos.openmem.net/openmem'
+      to: locale.value === 'zh' ? 'https://memos.openmem.net/cn/openmem' : 'https://memos.openmem.net/zh/openmem'
     },
     {
       label: t('header.changelog'),
