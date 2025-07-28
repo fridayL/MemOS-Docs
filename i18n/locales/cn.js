@@ -3,7 +3,8 @@ export default {
     home: '首页',
     research: '研究论文',
     changelog: '更新日志',
-    docs: '文档'
+    docs: '文档',
+    openmem: '组织架构'
   },
   community: {
     title: '社区',
