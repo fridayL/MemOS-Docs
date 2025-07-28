@@ -6,9 +6,9 @@ const route = useRoute()
 const { locale } = useI18n()
 const contentNavigation = useContentNavigation(locale)
 
-console.log('contentNavigation', contentNavigation.value)
-const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
-  server: false
+const { data: files } = useLazyAsyncData(`search-${locale.value}`, () => queryCollectionSearchSections('docs'), {
+  server: false,
+  watch: [locale]
 })
 
 // Process files to remove language prefix

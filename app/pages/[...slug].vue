@@ -11,21 +11,14 @@ const config = useRuntimeConfig()
 const normalizedPath = route.path.replace(/\/$/, '') || '/'
 
 const { data: page } = await useAsyncData(normalizedPath, () => {
-  queryCollection('docs').all().then((res) => {
-    console.log('queryCollection', res)
-  })
-
-  // if (config.public.env === 'dev' && normalizedPath.startsWith('/cn')) {
-  //   return queryCollection('docs').path(`${normalizedPath}`).first()
-  // }
-
-  const docsPath = locale.value === 'cn' ? normalizedPath.replace('/cn', '/zh') : `/en${normalizedPath}`
+  const docsPath = locale.value === 'cn' ? normalizedPath : `/en${normalizedPath}`
 
   return queryCollection('docs').path(docsPath).first()
 })
 
 // Watch locale changes and refresh content
 watch(locale, async (_newLocale: string) => {
+  console.log('locale', _newLocale)
   await refreshNuxtData(normalizedPath)
 })
 

@@ -16,7 +16,7 @@ const localizedMenus = computed(() => {
       label: t('header.home')
     },
     {
-      to: getLangPath('/home/overview'),
+      to: getLangPath('/home/overview', locale.value),
       label: t('header.docs'),
       active: !route.path.includes('/changelog')
     },
@@ -32,7 +32,7 @@ const localizedMenus = computed(() => {
     },
     {
       label: t('header.changelog'),
-      to: getLangPath('/changelog'),
+      to: getLangPath('/changelog', locale.value),
       active: route.path.includes('/changelog')
     }
   ]

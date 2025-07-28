@@ -6,8 +6,6 @@ export function saveCookie(name: string, value: string, mainDomain = 'openmem.ne
   document.cookie = window.location.protocol === 'https:' ? `${cookie}; secure` : cookie
 }
 
-export function getLangPath(path: string) {
-  const { locale } = useI18n()
-
-  return locale.value === 'cn' ? `/cn${path}` : path
+export function getLangPath(path: string, locale: string) {
+  return locale === 'cn' ? `/cn${path}` : path
 }
