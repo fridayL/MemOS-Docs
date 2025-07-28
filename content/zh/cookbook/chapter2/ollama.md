@@ -23,16 +23,19 @@ from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemory
 ### 核心概念
 
 #### 1. 记忆类型 (memory_type)
+
 - `WorkingMemory`: 工作记忆，临时存储
 - `LongTermMemory`: 长期记忆，持久存储  
 - `UserMemory`: 用户记忆，个性化存储
 
 #### 2. 记忆状态 (status)
+
 - `activated`: 激活状态
 - `archived`: 归档状态
 - `deleted`: 删除状态
 
 #### 3. 记忆类型 (type)
+
 - `fact`: 事实
 - `event`: 事件
 - `opinion`: 观点
@@ -109,10 +112,11 @@ def create_person_memory_ollama():
     return memory_item
 
 if __name__ == "__main__":
-    create_person_memory_ollama()
+    create_person_memory_ollama() 
 ```
 
 运行命令：
+
 ```bash
 cd test_cookbook/chapter2/Ollama/2
 python create_person_memory_ollama.py
@@ -180,10 +184,11 @@ def create_project_memory_ollama():
     return project_memory
 
 if __name__ == "__main__":
-    create_project_memory_ollama()
+    create_project_memory_ollama() 
 ```
 
 运行命令：
+
 ```bash
 python create_project_memory_ollama.py
 ```
@@ -248,10 +253,11 @@ def create_work_memory_ollama():
     return work_memory
 
 if __name__ == "__main__":
-    create_work_memory_ollama()
+    create_work_memory_ollama() 
 ```
 
 运行命令：
+
 ```bash
 python create_work_memory_ollama.py
 ```
@@ -264,17 +270,17 @@ python create_work_memory_ollama.py
 
 ### 常用字段说明
 
-| 字段 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| `user_id` | str | 用户ID | "user123" |
-| `type` | str | 记忆类型 | "fact", "event" |
-| `source` | str | 来源 | "conversation", "file" |
-| `confidence` | float | 置信度(0-100) | 90.0 |
-| `memory_type` | str | 记忆生命周期类型 | "LongTermMemory" |
-| `key` | str | 记忆键/标题 | "重要信息" |
-| `entities` | list | 实体列表 | ["张三", "项目"] |
-| `tags` | list | 标签列表 | ["重要", "技术"] |
-| `sources` | list | 多源列表 | ["文档", "会议"] |
+| 字段          | 类型  | 说明             | 示例                   |
+| ------------- | ----- | ---------------- | ---------------------- |
+| `user_id`     | str   | 用户ID           | "user123"              |
+| `type`        | str   | 记忆类型         | "fact", "event"        |
+| `source`      | str   | 来源             | "conversation", "file" |
+| `confidence`  | float | 置信度(0-100)    | 90.0                   |
+| `memory_type` | str   | 记忆生命周期类型 | "LongTermMemory"       |
+| `key`         | str   | 记忆键/标题      | "重要信息"             |
+| `entities`    | list  | 实体列表         | ["张三", "项目"]       |
+| `tags`        | list  | 标签列表         | ["重要", "技术"]       |
+| `sources`     | list  | 多源列表         | ["文档", "会议"]       |
 
 ## 配方 2.4：实际应用 - 创建记忆并添加到MemCube
 
@@ -460,10 +466,11 @@ def create_structured_memories_ollama():
     return mem_cube
 
 if __name__ == "__main__":
-    create_structured_memories_ollama()
+    create_structured_memories_ollama() 
 ```
 
 运行命令：
+
 ```bash
 cd test_cookbook/chapter2/Ollama/4
 python memcube_with_structured_memories_ollama.py
@@ -502,20 +509,3 @@ elif source == "web_search":
 tags = ["项目", "技术", "重要"]  # 便于分类和检索
 entities = ["张三", "AI项目"]    # 便于实体识别和关联
 ```
-
-## 总结
-
-通过本章，你学会了：
-
-✅ **基本概念**: 记忆类型、状态、生命周期
-✅ **创建记忆**: 使用TreeNodeTextualMemoryMetadata创建结构化记忆
-✅ **实际应用**: 将记忆添加到MemCube并进行查询
-✅ **最佳实践**: 如何选择合适的配置参数
-
-**🎯 你现在可以：**
-- 创建各种类型的结构化记忆
-- 为记忆设置合适的生命周期类型
-- 使用标签和实体进行记忆分类
-- 将结构化记忆集成到MemCube中
-- 构建基于图数据库的层次化记忆系统
-- 实现记忆之间的关联推理和多跳查询

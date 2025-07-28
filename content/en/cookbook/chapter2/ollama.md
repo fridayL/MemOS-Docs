@@ -1,292 +1,298 @@
 ---
-title: Linux Ollama版
+title: Linux Ollama Version
 ---
 
-## 情景设计
+## Scenario Design
 
-**🎯 问题场景：** 你是一名AI应用开发者，已经学会了MemOS的基础操作，现在想要创建更结构化的记忆系统。你发现基础的`TextualMemoryMetadata`功能有限，无法满足复杂场景的需求，比如需要区分工作记忆和长期记忆，需要追踪记忆的来源，需要为记忆添加标签和实体信息。
+**🎯 Problem Scenario:** You are an AI application developer who has learned the basic operations of MemOS and now wants to create a more structured memory system. You find that the basic `TextualMemoryMetadata` functionality is limited and cannot meet the needs of complex scenarios, such as distinguishing between working memory and long-term memory, tracking memory sources, and adding tags and entity information to memories.
 
-**🔧 解决方案：** 通过本章，你将学会使用`TreeNodeTextualMemoryMetadata`创建结构化记忆，包括记忆生命周期管理、多源追踪、实体标签等功能，让你的AI应用拥有更智能的记忆系统。
+**🔧 Solution:** Through this chapter, you will learn to use `TreeNodeTextualMemoryMetadata` to create structured memory, including memory lifecycle management, multi-source tracking, entity tagging and other features, giving your AI application a more intelligent memory system.
 
-## 配方 2.1：理解 TreeNodeTextualMemoryMetadata 的核心概念
+## Recipe 2.1: Understanding Core Concepts of TreeNodeTextualMemoryMetadata
 
-**🎯 问题场景：** 你想要了解`TreeNodeTextualMemoryMetadata`与基础元数据的区别，以及它的核心功能。
+**🎯 Problem Scenario:** You want to understand the differences between `TreeNodeTextualMemoryMetadata` and basic metadata, as well as its core functionality.
 
-**🔧 解决方案：** 通过这个配方，你将掌握`TreeNodeTextualMemoryMetadata`的核心概念和基本结构。
+**🔧 Solution:** Through this recipe, you will master the core concepts and basic structure of `TreeNodeTextualMemoryMetadata`.
 
-### 基本导入
+### Basic Imports
 
 ```python
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 ```
 
-### 核心概念
+### Core Concepts
 
-#### 1. 记忆类型 (memory_type)
-- `WorkingMemory`: 工作记忆，临时存储
-- `LongTermMemory`: 长期记忆，持久存储  
-- `UserMemory`: 用户记忆，个性化存储
+#### 1. Memory Type (memory_type)
 
-#### 2. 记忆状态 (status)
-- `activated`: 激活状态
-- `archived`: 归档状态
-- `deleted`: 删除状态
+- `WorkingMemory`: Working memory, temporary storage
+- `LongTermMemory`: Long-term memory, persistent storage  
+- `UserMemory`: User memory, personalized storage
 
-#### 3. 记忆类型 (type)
-- `fact`: 事实
-- `event`: 事件
-- `opinion`: 观点
-- `topic`: 主题
-- `reasoning`: 推理
-- `procedure`: 程序
+#### 2. Memory Status (status)
 
-## 配方 2.2：创建基础的结构化记忆
+- `activated`: Activated state
+- `archived`: Archived state
+- `deleted`: Deleted state
 
-**🎯 问题场景：** 你想要创建不同类型的内存，比如人物信息、项目信息、工作任务等，需要为每种记忆设置合适的元数据。
+#### 3. Memory Type (type)
 
-**🔧 解决方案：** 通过这个配方，你将学会创建各种类型的结构化记忆。
+- `fact`: Fact
+- `event`: Event
+- `opinion`: Opinion
+- `topic`: Topic
+- `reasoning`: Reasoning
+- `procedure`: Procedure
 
-### 示例1：创建简单的人物记忆
+## Recipe 2.2: Creating Basic Structured Memory
 
-创建文件 `create_person_memory_ollama.py`：
+**🎯 Problem Scenario:** You want to create different types of memory, such as character information, project information, work tasks, etc., and need to set appropriate metadata for each type of memory.
+
+**🔧 Solution:** Through this recipe, you will learn to create various types of structured memory.
+
+### Example 1: Create Simple Character Memory
+
+Create file `create_person_memory_ollama.py`:
 
 ```python
 # create_person_memory_ollama.py
-# 🎯 创建人物记忆的示例 (Ollama版)
+# 🎯 Example of creating character memory (Ollama version)
 import os
 from dotenv import load_dotenv
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
 def create_person_memory_ollama():
     """
-    🎯 创建人物记忆的示例 (Ollama版)
+    🎯 Example of creating character memory (Ollama version)
     """
     
-    print("🚀 开始创建人物记忆 (Ollama版)...")
+    print("🚀 Starting to create character memory (Ollama version)...")
     
-    # 加载环境变量
+    # Load environment variables
     load_dotenv()
     
-    # 检查Ollama配置
+    # Check Ollama configuration
     ollama_base_url = os.getenv("OLLAMA_BASE_URL")
     ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
     ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
     
     if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
+        raise ValueError("❌ Ollama environment variables not configured. Please configure OLLAMA_BASE_URL, OLLAMA_CHAT_MODEL, OLLAMA_EMBED_MODEL in .env file.")
     
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ Detected Ollama local model mode")
     
-    # 获取用户ID
+    # Get user ID
     user_id = os.getenv("MOS_USER_ID", "default_user")
     
-    # 创建人物记忆的元数据
+    # Create character memory metadata
     metadata = TreeNodeTextualMemoryMetadata(
         user_id=user_id,
         type="fact",
         source="conversation",
         confidence=90.0,
         memory_type="LongTermMemory",
-        key="张三_信息",
-        entities=["张三", "工程师"],
-        tags=["人员", "技术"]
+        key="Zhang_San_Info",
+        entities=["Zhang San", "Engineer"],
+        tags=["Personnel", "Technical"]
     )
 
-    # 创建记忆项
+    # Create memory item
     memory_item = TextualMemoryItem(
-        memory="张三是我们公司的资深工程师，擅长Python和机器学习",
+        memory="Zhang San is a senior engineer in our company, specializing in Python and machine learning",
         metadata=metadata
     )
 
-    print(f"记忆内容: {memory_item.memory}")
-    print(f"记忆键: {memory_item.metadata.key}")
-    print(f"记忆类型: {memory_item.metadata.memory_type}")
-    print(f"标签: {memory_item.metadata.tags}")
-    print(f"🎯 配置模式: OLLAMA")
-    print(f"🤖 聊天模型: {ollama_chat_model}")
-    print(f"🔍 嵌入模型: {ollama_embed_model}")
+    print(f"Memory content: {memory_item.memory}")
+    print(f"Memory key: {memory_item.metadata.key}")
+    print(f"Memory type: {memory_item.metadata.memory_type}")
+    print(f"Tags: {memory_item.metadata.tags}")
+    print(f"🎯 Configuration mode: OLLAMA")
+    print(f"🤖 Chat model: {ollama_chat_model}")
+    print(f"🔍 Embedding model: {ollama_embed_model}")
     
     return memory_item
 
 if __name__ == "__main__":
-    create_person_memory_ollama()
+    create_person_memory_ollama() 
 ```
 
-运行命令：
+Run command:
+
 ```bash
 cd test_cookbook/chapter2/Ollama/2
 python create_person_memory_ollama.py
 ```
 
-### 示例2：创建项目记忆
+### Example 2: Create Project Memory
 
-创建文件 `create_project_memory_ollama.py`：
+Create file `create_project_memory_ollama.py`:
 
 ```python
 # create_project_memory_ollama.py
-# 🎯 创建项目记忆的示例 (Ollama版)
+# 🎯 Example of creating project memory (Ollama version)
 import os
 from dotenv import load_dotenv
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
 def create_project_memory_ollama():
     """
-    🎯 创建项目记忆的示例 (Ollama版)
+    🎯 Example of creating project memory (Ollama version)
     """
     
-    print("🚀 开始创建项目记忆 (Ollama版)...")
+    print("🚀 Starting to create project memory (Ollama version)...")
     
-    # 加载环境变量
+    # Load environment variables
     load_dotenv()
     
-    # 检查Ollama配置
+    # Check Ollama configuration
     ollama_base_url = os.getenv("OLLAMA_BASE_URL")
     ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
     ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
     
     if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
+        raise ValueError("❌ Ollama environment variables not configured. Please configure OLLAMA_BASE_URL, OLLAMA_CHAT_MODEL, OLLAMA_EMBED_MODEL in .env file.")
     
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ Detected Ollama local model mode")
     
-    # 获取用户ID
+    # Get user ID
     user_id = os.getenv("MOS_USER_ID", "default_user")
     
-    # 创建项目记忆的元数据
+    # Create project memory metadata
     project_metadata = TreeNodeTextualMemoryMetadata(
         user_id=user_id,
         type="fact",
         source="file",
         confidence=95.0,
         memory_type="LongTermMemory",
-        key="AI项目_详情",
-        entities=["AI项目", "机器学习"],
-        tags=["项目", "AI", "重要"],
-        sources=["项目文档", "会议记录"]
+        key="AI_Project_Details",
+        entities=["AI Project", "Machine Learning"],
+        tags=["Project", "AI", "Important"],
+        sources=["Project Documentation", "Meeting Records"]
     )
 
-    # 创建记忆项
+    # Create memory item
     project_memory = TextualMemoryItem(
-        memory="AI项目是一个智能客服系统，使用最新的NLP技术，预计6个月完成",
+        memory="AI Project is an intelligent customer service system using the latest NLP technology, expected to be completed in 6 months",
         metadata=project_metadata
     )
 
-    print(f"项目记忆: {project_memory.memory}")
-    print(f"来源: {project_memory.metadata.sources}")
-    print(f"🎯 配置模式: OLLAMA")
-    print(f"🤖 聊天模型: {ollama_chat_model}")
-    print(f"🔍 嵌入模型: {ollama_embed_model}")
+    print(f"Project memory: {project_memory.memory}")
+    print(f"Sources: {project_memory.metadata.sources}")
+    print(f"🎯 Configuration mode: OLLAMA")
+    print(f"🤖 Chat model: {ollama_chat_model}")
+    print(f"🔍 Embedding model: {ollama_embed_model}")
     
     return project_memory
 
 if __name__ == "__main__":
-    create_project_memory_ollama()
+    create_project_memory_ollama() 
 ```
 
-运行命令：
+Run command:
+
 ```bash
 python create_project_memory_ollama.py
 ```
 
-### 示例3：创建工作记忆
+### Example 3: Create Work Memory
 
-创建文件 `create_work_memory_ollama.py`：
+Create file `create_work_memory_ollama.py`:
 
 ```python
 # create_work_memory_ollama.py
-# 🎯 创建工作记忆的示例 (Ollama版)
+# 🎯 Example of creating work memory (Ollama version)
 import os
 from dotenv import load_dotenv
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
 def create_work_memory_ollama():
     """
-    🎯 创建工作记忆的示例 (Ollama版)
+    🎯 Example of creating work memory (Ollama version)
     """
     
-    print("🚀 开始创建工作记忆 (Ollama版)...")
+    print("🚀 Starting to create work memory (Ollama version)...")
     
-    # 加载环境变量
+    # Load environment variables
     load_dotenv()
     
-    # 检查Ollama配置
+    # Check Ollama configuration
     ollama_base_url = os.getenv("OLLAMA_BASE_URL")
     ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
     ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
     
     if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
+        raise ValueError("❌ Ollama environment variables not configured. Please configure OLLAMA_BASE_URL, OLLAMA_CHAT_MODEL, OLLAMA_EMBED_MODEL in .env file.")
     
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ Detected Ollama local model mode")
     
-    # 获取用户ID
+    # Get user ID
     user_id = os.getenv("MOS_USER_ID", "default_user")
     
-    # 创建工作记忆的元数据
+    # Create work memory metadata
     work_metadata = TreeNodeTextualMemoryMetadata(
         user_id=user_id,
         type="procedure",
         source="conversation",
         confidence=80.0,
-        memory_type="WorkingMemory",  # 工作记忆
-        key="今日任务",
-        tags=["任务", "今日"]
+        memory_type="WorkingMemory",  # Working memory
+        key="Today_Tasks",
+        tags=["Tasks", "Today"]
     )
 
-    # 创建记忆项
+    # Create memory item
     work_memory = TextualMemoryItem(
-        memory="今天需要完成代码审查、团队会议、以及准备明天的演示",
+        memory="Today need to complete code review, team meeting, and prepare tomorrow's presentation",
         metadata=work_metadata
     )
 
-    print(f"工作记忆: {work_memory.memory}")
-    print(f"记忆类型: {work_memory.metadata.memory_type}")
-    print(f"🎯 配置模式: OLLAMA")
-    print(f"🤖 聊天模型: {ollama_chat_model}")
-    print(f"🔍 嵌入模型: {ollama_embed_model}")
+    print(f"Work memory: {work_memory.memory}")
+    print(f"Memory type: {work_memory.metadata.memory_type}")
+    print(f"🎯 Configuration mode: OLLAMA")
+    print(f"🤖 Chat model: {ollama_chat_model}")
+    print(f"🔍 Embedding model: {ollama_embed_model}")
     
     return work_memory
 
 if __name__ == "__main__":
-    create_work_memory_ollama()
+    create_work_memory_ollama() 
 ```
 
-运行命令：
+Run command:
+
 ```bash
 python create_work_memory_ollama.py
 ```
 
-## 配方 2.3：常用字段说明和配置
+## Recipe 2.3: Common Field Descriptions and Configuration
 
-**🎯 问题场景：** 你需要了解`TreeNodeTextualMemoryMetadata`的所有可用字段，以及如何正确配置它们。
+**🎯 Problem Scenario:** You need to understand all available fields of `TreeNodeTextualMemoryMetadata` and how to configure them correctly.
 
-**🔧 解决方案：** 通过这个配方，你将掌握所有字段的含义和配置方法。
+**🔧 Solution:** Through this recipe, you will master the meaning and configuration methods of all fields.
 
-### 常用字段说明
+### Common Field Descriptions
 
-| 字段 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| `user_id` | str | 用户ID | "user123" |
-| `type` | str | 记忆类型 | "fact", "event" |
-| `source` | str | 来源 | "conversation", "file" |
-| `confidence` | float | 置信度(0-100) | 90.0 |
-| `memory_type` | str | 记忆生命周期类型 | "LongTermMemory" |
-| `key` | str | 记忆键/标题 | "重要信息" |
-| `entities` | list | 实体列表 | ["张三", "项目"] |
-| `tags` | list | 标签列表 | ["重要", "技术"] |
-| `sources` | list | 多源列表 | ["文档", "会议"] |
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `user_id` | str | User ID | "user123" |
+| `type` | str | Memory type | "fact", "event" |
+| `source` | str | Source | "conversation", "file" |
+| `confidence` | float | Confidence (0-100) | 90.0 |
+| `memory_type` | str | Memory lifecycle type | "LongTermMemory" |
+| `key` | str | Memory key/title | "Important Info" |
+| `entities` | list | Entity list | ["Zhang San", "Project"] |
+| `tags` | list | Tag list | ["Important", "Technical"] |
+| `sources` | list | Multi-source list | ["Document", "Meeting"] |
 
-## 配方 2.4：实际应用 - 创建记忆并添加到MemCube
+## Recipe 2.4: Practical Application - Create Memory and Add to MemCube
 
-**🎯 问题场景：** 你已经学会了创建结构化记忆，现在想要将这些记忆添加到MemCube中，并进行查询和管理。
+**🎯 Problem Scenario:** You have learned to create structured memory and now want to add these memories to MemCube for querying and management.
 
-**🔧 解决方案：** 通过这个配方，你将学会如何将结构化记忆集成到MemCube中，并实现完整的记忆管理流程。
+**🔧 Solution:** Through this recipe, you will learn how to integrate structured memory into MemCube and implement complete memory management workflow.
 
-创建文件 `memcube_with_structured_memories_ollama.py`：
+Create file `memcube_with_structured_memories_ollama.py`:
 
 ```python
 # memcube_with_structured_memories_ollama.py
-# 🎯 将结构化记忆添加到MemCube的完整示例 (Ollama版)
+# 🎯 Complete example of adding structured memory to MemCube (Ollama version)
 import os
 from dotenv import load_dotenv
 from memos.mem_cube.general import GeneralMemCube
@@ -295,29 +301,29 @@ from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemory
 
 def create_memcube_config_ollama():
     """
-    🎯 创建MemCube配置 (Ollama版)
+    🎯 Create MemCube configuration (Ollama version)
     """
     
-    print("🔧 创建MemCube配置 (Ollama版)...")
+    print("🔧 Creating MemCube configuration (Ollama version)...")
     
-    # 加载环境变量
+    # Load environment variables
     load_dotenv()
     
-    # 检查Ollama配置
+    # Check Ollama configuration
     ollama_base_url = os.getenv("OLLAMA_BASE_URL")
     ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
     ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
     
     if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
+        raise ValueError("❌ Ollama environment variables not configured. Please configure OLLAMA_BASE_URL, OLLAMA_CHAT_MODEL, OLLAMA_EMBED_MODEL in .env file.")
     
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ Detected Ollama local model mode")
     
-    # 获取配置
+    # Get configuration
     user_id = os.getenv("MOS_USER_ID", "default_user")
     top_k = int(os.getenv("MOS_TOP_K", "5"))
     
-    # Ollama模式配置
+    # Ollama mode configuration
     cube_config = {
         "user_id": user_id,
         "cube_id": f"{user_id}_structured_memories_cube",
@@ -352,141 +358,142 @@ def create_memcube_config_ollama():
         "para_mem": {"backend": "uninitialized"}
     }
     
-    # 创建MemCube实例
+    # Create MemCube instance
     config_obj = GeneralMemCubeConfig.model_validate(cube_config)
     
     return config_obj
 
 def create_structured_memories_ollama():
     """
-    🎯 将结构化记忆添加到MemCube的完整示例 (Ollama版)
+    🎯 Complete example of adding structured memory to MemCube (Ollama version)
     """
     
-    print("🚀 开始创建结构化记忆MemCube (Ollama版)...")
+    print("🚀 Starting to create structured memory MemCube (Ollama version)...")
     
-    # 创建MemCube配置
+    # Create MemCube configuration
     config = create_memcube_config_ollama()
     
-    # 创建MemCube
+    # Create MemCube
     mem_cube = GeneralMemCube(config)
     
-    print("✅ MemCube创建成功！")
-    print(f"  📊 用户ID: {mem_cube.config.user_id}")
+    print("✅ MemCube created successfully!")
+    print(f"  📊 User ID: {mem_cube.config.user_id}")
     print(f"  📊 MemCube ID: {mem_cube.config.cube_id}")
-    print(f"  📊 文本记忆后端: {mem_cube.config.text_mem.backend}")
+    print(f"  📊 Text memory backend: {mem_cube.config.text_mem.backend}")
     
-    # 获取Ollama配置用于显示
+    # Get Ollama configuration for display
     load_dotenv()
     ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
     ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    print(f"  🔍 嵌入模型: {ollama_embed_model} (Ollama)")
-    print(f"  🤖 聊天模型: {ollama_chat_model} (Ollama)")
-    print(f"  🎯 配置模式: OLLAMA")
+    print(f"  🔍 Embedding model: {ollama_embed_model} (Ollama)")
+    print(f"  🤖 Chat model: {ollama_chat_model} (Ollama)")
+    print(f"  🎯 Configuration mode: OLLAMA")
     
-    # 创建多个记忆项
+    # Create multiple memory items
     memories = []
 
-    # 记忆1：人物信息
+    # Memory 1: Character information
     person_metadata = TreeNodeTextualMemoryMetadata(
         user_id=mem_cube.config.user_id,
         type="fact",
         source="conversation",
         confidence=90.0,
         memory_type="LongTermMemory",
-        key="李四_信息",
-        entities=["李四", "设计师"],
-        tags=["人员", "设计"]
+        key="Li_Si_Info",
+        entities=["Li Si", "Designer"],
+        tags=["Personnel", "Design"]
     )
 
     memories.append({
-        "memory": "李四是我们的UI设计师，有5年经验，擅长用户界面设计",
+        "memory": "Li Si is our UI designer with 5 years of experience, specializing in user interface design",
         "metadata": person_metadata
     })
 
-    # 记忆2：项目信息
+    # Memory 2: Project information
     project_metadata = TreeNodeTextualMemoryMetadata(
         user_id=mem_cube.config.user_id,
         type="fact",
         source="file",
         confidence=95.0,
         memory_type="LongTermMemory",
-        key="移动应用项目",
-        entities=["移动应用", "开发"],
-        tags=["项目", "移动端", "重要"]
+        key="Mobile_App_Project",
+        entities=["Mobile App", "Development"],
+        tags=["Project", "Mobile", "Important"]
     )
 
     memories.append({
-        "memory": "移动应用项目正在进行中，预计3个月完成，团队有8个人",
+        "memory": "Mobile app project is in progress, expected to be completed in 3 months, team has 8 people",
         "metadata": project_metadata
     })
 
-    # 记忆3：工作记忆
+    # Memory 3: Work memory
     work_metadata = TreeNodeTextualMemoryMetadata(
         user_id=mem_cube.config.user_id,
         type="procedure",
         source="conversation",
         confidence=85.0,
         memory_type="WorkingMemory",
-        key="本周任务",
-        tags=["任务", "本周"]
+        key="This_Week_Tasks",
+        tags=["Tasks", "This Week"]
     )
 
     memories.append({
-        "memory": "本周需要完成需求分析、原型设计、以及技术选型",
+        "memory": "This week need to complete requirements analysis, prototype design, and technology selection",
         "metadata": work_metadata
     })
 
-    # 添加到MemCube
+    # Add to MemCube
     mem_cube.text_mem.add(memories)
 
-    print("✅ 成功添加了3个记忆项到MemCube")
+    print("✅ Successfully added 3 memory items to MemCube")
 
-    # 查询记忆
-    print("\n🔍 查询所有记忆:")
+    # Query memories
+    print("\n🔍 Query all memories:")
     all_memories = mem_cube.text_mem.get_all()
     for i, memory in enumerate(all_memories, 1):
         print(f"{i}. {memory.memory}")
-        print(f"   键: {memory.metadata.key}")
-        print(f"   类型: {memory.metadata.memory_type}")
-        print(f"   标签: {memory.metadata.tags}")
+        print(f"   Key: {memory.metadata.key}")
+        print(f"   Type: {memory.metadata.memory_type}")
+        print(f"   Tags: {memory.metadata.tags}")
         print()
 
-    # 搜索特定记忆
-    print("🔍 搜索包含'李四'的记忆:")
-    search_results = mem_cube.text_mem.search("李四", top_k=2)
+    # Search specific memories
+    print("🔍 Search memories containing 'Li Si':")
+    search_results = mem_cube.text_mem.search("Li Si", top_k=2)
     for result in search_results:
         print(f"- {result.memory}")
     
     return mem_cube
 
 if __name__ == "__main__":
-    create_structured_memories_ollama()
+    create_structured_memories_ollama() 
 ```
 
-运行命令：
+Run command:
+
 ```bash
 cd test_cookbook/chapter2/Ollama/4
 python memcube_with_structured_memories_ollama.py
 ```
 
-## 常见问题和解决方案
+## Common Problems and Solutions
 
-**Q1: 如何选择合适的memory_type？**
+**Q1: How to choose appropriate memory_type?**
 
 ```python
-# 🔧 根据记忆的重要性选择
+# 🔧 Choose based on memory importance
 if is_important:
-    memory_type = "LongTermMemory"  # 长期存储
+    memory_type = "LongTermMemory"  # Long-term storage
 elif is_temporary:
-    memory_type = "WorkingMemory"   # 临时存储
+    memory_type = "WorkingMemory"   # Temporary storage
 else:
-    memory_type = "UserMemory"      # 个性化存储
+    memory_type = "UserMemory"      # Personalized storage
 ```
 
-**Q2: 如何设置合适的confidence值？**
+**Q2: How to set appropriate confidence value?**
 
 ```python
-# 🔧 根据信息来源的可靠性设置
+# 🔧 Set based on information source reliability
 if source == "verified_document":
     confidence = 95.0
 elif source == "conversation":
@@ -495,27 +502,10 @@ elif source == "web_search":
     confidence = 70.0
 ```
 
-**Q3: 如何有效使用tags和entities？**
+**Q3: How to effectively use tags and entities?**
 
 ```python
-# 🔧 使用有意义的标签和实体
-tags = ["项目", "技术", "重要"]  # 便于分类和检索
-entities = ["张三", "AI项目"]    # 便于实体识别和关联
-```
-
-## 总结
-
-通过本章，你学会了：
-
-✅ **基本概念**: 记忆类型、状态、生命周期
-✅ **创建记忆**: 使用TreeNodeTextualMemoryMetadata创建结构化记忆
-✅ **实际应用**: 将记忆添加到MemCube并进行查询
-✅ **最佳实践**: 如何选择合适的配置参数
-
-**🎯 你现在可以：**
-- 创建各种类型的结构化记忆
-- 为记忆设置合适的生命周期类型
-- 使用标签和实体进行记忆分类
-- 将结构化记忆集成到MemCube中
-- 构建基于图数据库的层次化记忆系统
-- 实现记忆之间的关联推理和多跳查询
+# 🔧 Use meaningful tags and entities
+tags = ["Project", "Technical", "Important"]  # Easy for categorization and retrieval
+entities = ["Zhang San", "AI Project"]    # Easy for entity recognition and association
+``` 

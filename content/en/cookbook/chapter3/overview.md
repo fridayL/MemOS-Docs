@@ -1,65 +1,65 @@
 ---
-title: 使用 MemOS 构建智能小说分析系统
+title: Building an Intelligent Novel Analysis System with MemOS
 ---
 
-### 🆚 为什么选择MemOS？传统方法 vs MemOS对比
+### 🆚 Why Choose MemOS? Traditional Methods vs MemOS Comparison
 
-在开始编码之前，让我们看看MemOS到底解决了什么问题：
+Before we start coding, let's see what problems MemOS actually solves:
 
 ![Cookbook-Chapter3-Chart](https://statics.memtensor.com.cn/memos/cookbook-chapter3-chart.png)
 
-**实际效果对比举例：**
+**Actual Effect Comparison Example:**
 
-**用户问："萧峰和段誉的关系如何发展？"**
+**User asks: "How does the relationship between Xiao Feng and Duan Yu develop?"**
 
-| 传统方法                    | MemOS方法               |
-| --------------------------- | ----------------------- |
-| 🐌 重新搜索全文中的相关片段 | ⚡ 直接从关系层检索     |
-| 😵 可能遗漏关键情节         | 🎯 完整的关系发展时间线 |
-| 📄 只能基于部分文本回答     | 🧠 基于完整人物画像分析 |
+| Traditional Method | MemOS Method |
+| --- | --- |
+| 🐌 Re-search relevant fragments in full text | ⚡ Direct retrieval from relationship layer |
+| 😵 May miss key plot points | 🎯 Complete relationship development timeline |
+| 📄 Can only answer based on partial text | 🧠 Analysis based on complete character profiles |
 
-### 💡 为什么使用MemOS内置组件？
+### 💡 Why Use MemOS Built-in Components?
 
-想象你要做一道菜，你可以选择：
+Imagine you want to cook a dish, you can choose:
 
-- 🔧 **自己制作所有调料** - 费时费力，质量难保证
-- 🏪 **使用专业调料品牌** - 省时高效，品质稳定
+- 🔧 **Make all seasonings yourself** - Time-consuming and labor-intensive, hard to guarantee quality
+- 🏪 **Use professional seasoning brands** - Time-saving and efficient, stable quality
 
-MemOS就像是专业的"调料品牌"，它已经为我们准备好了：
+MemOS is like a professional "seasoning brand" that has prepared for us:
 
-- 🤖 **智能对话客户端** - 自动处理网络问题、支持多种AI模型
-- 🧠 **向量化服务** - 专门优化的中文文本理解能力
-- ⚙️ **配置管理** - 简单易用的参数设置
+- 🤖 **Intelligent dialogue client** - Automatically handles network issues, supports multiple AI models
+- 🧠 **Vectorization service** - Specially optimized Chinese text understanding capabilities
+- ⚙️ **Configuration management** - Simple and easy-to-use parameter settings
 
-**学习收获：**
-通过本章，你将学会如何像专业开发者一样，优先使用成熟的组件库，而不是从零开始编写复杂的底层代码。
+**Learning Gains:**
+Through this chapter, you will learn how to prioritize using mature component libraries like professional developers, rather than writing complex underlying code from scratch.
 
 ---
 
-### 章节引言
+### Chapter Introduction
 
-本章将带你构建一个基于《天龙八部》小说的智能记忆分析系统，实现从原始文本到结构化记忆的完整转换流程。
+This chapter will guide you to build an intelligent memory analysis system based on the novel "Demigods and Semi-Devils", implementing a complete conversion process from raw text to structured memory.
 
-**核心技术架构**：
+**Core Technical Architecture**:
 
 ![Cookbook-Chapter3-Core](https://statics.memtensor.com.cn/memos/cookbook-chapter3-core.png)
 
-**数据处理流水线**：
+**Data Processing Pipeline**:
 
-1. **文本预处理** → 章节切分 → **结构化输入**
-2. **AI驱动抽取** → 人物建模 → **MemCube生成**
-3. **格式转换** → 图结构构建 → **MemOS记忆库**
+1. **Text Preprocessing** → Chapter Segmentation → **Structured Input**
+2. **AI-Driven Extraction** → Character Modeling → **MemCube Generation**
+3. **Format Conversion** → Graph Structure Construction → **MemOS Memory Repository**
 
-**系统设计理念**：
+**System Design Philosophy**:
 
-- 本章提供了从非结构化文本到智能记忆系统的完整解决方案
-- 每个配方都解决数据流水线中的关键技术问题
-- 支持大规模文本的并行处理和增量更新
-- 构建可查询、可推理的智能记忆网络
+- This chapter provides a complete solution from unstructured text to intelligent memory systems
+- Each recipe solves key technical problems in the data pipeline
+- Supports large-scale text parallel processing and incremental updates
+- Builds queryable and reasoning-capable intelligent memory networks
 
 ---
 
-### 环境配置
+### Environment Configuration
 
 ```python
 import requests
@@ -77,24 +77,24 @@ from dataclasses import dataclass, field
 from enum import Enum
 ```
 
-## 配方3.0：文本预处理与API环境配置
+## Recipe 3.0: Text Preprocessing and API Environment Configuration
 
-### 🎯 目标
+### 🎯 Goal
 
-建立小说文本的结构化处理基础，包括章节分割和AI服务连接。
+Establish structured processing foundation for novel text, including chapter segmentation and AI service connection.
 
-### 📖 章节分割算法
+### 📖 Chapter Segmentation Algorithm
 
-通过正则表达式识别章节标题，将长篇小说切分为可处理的片段：
+Use regular expressions to identify chapter titles and split long novels into processable fragments:
 
 ```python
 def extract_all_chapters(text: str, output_dir: str = "chapters"):
-    # 匹配所有"第X章"标题的位置
+    # Match positions of all "Chapter X" titles
     pattern = r"(第[一二三四五六七八九十百千零〇两\d]+章)"
     matches = list(re.finditer(pattern, text))
 
     if not matches:
-        raise ValueError("未找到任何章节标题")
+        raise ValueError("No chapter titles found")
 
     os.makedirs(output_dir, exist_ok=True)
 
@@ -102,35 +102,35 @@ def extract_all_chapters(text: str, output_dir: str = "chapters"):
         start_idx = matches[i].start()
         end_idx = matches[i+1].start() if i+1 < len(matches) else len(text)
         chapter_title = matches[i].group()
-        chapter_number = i + 1  # 用自然数编号
+        chapter_number = i + 1  # Use natural numbers for numbering
   
         chapter_text = text[start_idx:end_idx].strip()
         filename = os.path.join(output_dir, f"chapter{chapter_number}.txt")
         with open(filename, "w", encoding="utf-8") as f:
             f.write(chapter_text)
-        print(f"✅ 已保存：{filename}（{chapter_title}）")
+        print(f"✅ Saved: {filename} ({chapter_title})")
 
-# 读取整本小说
+# Read the entire novel
 with open("天龙八部.txt", "r", encoding="utf-8") as f:
     full_text = f.read()
 
-# 提取并保存所有章节
+# Extract and save all chapters
 extract_all_chapters(full_text)
 ```
 
-### 🔧 API客户端配置
+### 🔧 API Client Configuration
 
-建立稳定的AI服务连接，支持不同任务类型的模型调用：
+Establish stable AI service connections, supporting model calls for different task types:
 
 ```python
-# JSON修复功能配置
+# JSON repair functionality configuration
 try:
     from json_repair import repair_json
     HAS_JSONREPAIR = True
-    print("✓ jsonrepair库已加载，JSON修复功能已启用")
+    print("✓ jsonrepair library loaded, JSON repair functionality enabled")
 except ImportError:
     HAS_JSONREPAIR = False
-    print("⚠ jsonrepair库未安装，将使用基础修复策略")
+    print("⚠ jsonrepair library not installed, will use basic repair strategy")
     def repair_json(text):
         return text
 
@@ -138,42 +138,42 @@ class TaskType(Enum):
     EVENT_EXTRACTION = "event_extraction"
 
 class MemOSLLMClient:
-    """对话客户端 - 使用MemOS让AI调用变得简单可靠"""
+    """Dialogue client - using MemOS makes AI calls simple and reliable"""
   
     def __init__(self, api_key: str, api_base: str = "https://api.openai.com/v1", model: str = "gpt-4o"):
-        # 🔧 第一步：导入MemOS的智能组件
+        # 🔧 Step 1: Import MemOS intelligent components
         from memos.llms.factory import LLMFactory
         from memos.configs.llm import LLMConfigFactory
   
-        # 🎯 第二步：告诉MemOS我们要用什么AI模型
+        # 🎯 Step 2: Tell MemOS which AI model we want to use
         llm_config_factory = LLMConfigFactory(
-            backend="openai",  # 使用OpenAI（也支持其他厂商）
+            backend="openai",  # Use OpenAI (also supports other vendors)
             config={
-                "model_name_or_path": model,  # 你选择的AI模型
-                "api_key": api_key,          # 你的API密钥
-                "api_base": api_base,        # API服务地址
-                "temperature": 0.8,          # 创造性程度
-                "max_tokens": 8192,          # 最大回复长度
-                "top_p": 0.9,               # 回复质量控制
+                "model_name_or_path": model,  # Your chosen AI model
+                "api_key": api_key,          # Your API key
+                "api_base": api_base,        # API service address
+                "temperature": 0.8,          # Creativity level
+                "max_tokens": 8192,          # Maximum response length
+                "top_p": 0.9,               # Response quality control
             }
         )
   
-        # 🚀 第三步：让MemOS帮我们创建一个对话客户端
-        # MemOS会自动处理网络重试、连接池等复杂问题
+        # 🚀 Step 3: Let MemOS help us create a dialogue client
+        # MemOS will automatically handle complex issues like network retries and connection pools
         self.llm = LLMFactory.from_config(llm_config_factory)
-        print(f"✅ 对话客户端已就绪！使用模型: {model}")
+        print(f"✅ Dialogue client ready! Using model: {model}")
   
     def call_api(self, messages: List[Dict], task_type: TaskType, timeout: int = 1800) -> Dict:
-        """和AI对话的方法 - 就这么简单！"""
+        """Method to chat with AI - it's that simple!"""
         try:
             response = self.llm.generate(messages)
             return {
-                "status": "success",      # 成功了！
-                "content": response,      # AI的回答
-                "model_used": self.llm.config.model_name_or_path  # 用的哪个模型
+                "status": "success",      # Success!
+                "content": response,      # AI's answer
+                "model_used": self.llm.config.model_name_or_path  # Which model was used
             }
         except Exception as e:
-            # 😅 如果出错了，MemOS会告诉我们具体什么问题
+            # 😅 If there's an error, MemOS will tell us exactly what the problem is
             return {
                 "status": "error", 
                 "error": str(e),
@@ -181,29 +181,29 @@ class MemOSLLMClient:
             }
 ```
 
-### 🚀 批量处理初始化
+### 🚀 Batch Processing Initialization
 
-建立章节遍历机制，为后续并行处理做准备：
+Establish chapter traversal mechanism, preparing for subsequent parallel processing:
 
 ```python
-# 🎯 配置你的AI助手（使用MemOS让一切变简单）
-API_KEY = "YOUR_API_KEY"  # 🔑 填入你的OpenAI API密钥
-API_BASE = "https://api.openai.com/v1"  # 🌐 API服务地址（通常不用改）
-MODEL_NAME = "gpt-4o"  # 🤖 选择你喜欢的AI模型
+# 🎯 Configure your AI assistant (using MemOS makes everything simple)
+API_KEY = "YOUR_API_KEY"  # 🔑 Fill in your OpenAI API key
+API_BASE = "https://api.openai.com/v1"  # 🌐 API service address (usually no need to change)
+MODEL_NAME = "gpt-4o"  # 🤖 Choose your preferred AI model
 
-# 🚀 创建你的专属AI助手
+# 🚀 Create your dedicated AI assistant
 api_client = MemOSLLMClient(
     api_key=API_KEY,
     api_base=API_BASE,
     model=MODEL_NAME
 )
-# 现在你就有了一个聪明、稳定、易用的AI助手！
+# Now you have a smart, stable, easy-to-use AI assistant!
 
-memcubes = {}  # 全局人物记忆库
-alias_to_name = {}  # 别名到标准名映射
+memcubes = {}  # Global character memory repository
+alias_to_name = {}  # Alias to standard name mapping
 chapter_folder = "chapters"
 
-# 按章节顺序处理
+# Process in chapter order
 chapter_files = sorted(
     [os.path.join(chapter_folder, f) for f in os.listdir(chapter_folder) 
      if f.startswith("chapter") and f.endswith(".txt")],
@@ -212,63 +212,63 @@ chapter_files = sorted(
 
 for chapter_file in chapter_files:
     chapter_id = chapter_file.replace(".txt", "")
-    print(f"\n📖 正在处理：{chapter_id}")
+    print(f"\n📖 Processing: {chapter_id}")
   
     with open(chapter_file, "r", encoding="utf-8") as f:
         content = f.read()
-    # 后续处理逻辑...
+    # Subsequent processing logic...
 ```
 
 ---
 
-## 配方3.1：AI驱动的人物识别与别名统一
+## Recipe 3.1: AI-Driven Character Recognition and Alias Unification
 
-### 🎯 目标
+### 🎯 Goal
 
-使用AI自动识别小说中的人物，建立别名映射关系，初始化人物记忆容器。
+Use AI to automatically identify characters in novels, establish alias mapping relationships, and initialize character memory containers.
 
-### 🧠 智能人物识别
+### 🧠 Intelligent Character Recognition
 
-通过精心设计的prompt实现准确的人物抽取和别名归并：
+Implement accurate character extraction and alias merging through carefully designed prompts:
 
 ```python
 @staticmethod
 def extract_character_names_prompt(paragraph: str, alias_to_name: dict = None):
     system_msg = (
-        "你是一个小说人物识别专家，请从以下小说片段中提取所有明确提及的人物。\n"
-        "对于每个人物，请标注该人物的标准姓名（如"乔峰"）以及其在该片段中出现的所有称呼、别名、代称（如"丐帮帮主"、"乔帮主"、"那大汉"）。\n\n"
-        "请以如下格式返回 JSON：\n"
+        "You are a novel character recognition expert. Please extract all explicitly mentioned characters from the following novel excerpt.\n"
+        "For each character, please mark the character's standard name (such as \"Qiao Feng\") and all titles, aliases, and references that appear in this excerpt (such as \"Beggar Gang Leader\", \"Leader Qiao\", \"that big man\").\n\n"
+        "Please return in the following JSON format:\n"
         "[\n"
         "  {\n"
-        "    \"name\": \"乔峰\",\n"
-        "    \"aliases\": [\"丐帮帮主\", \"乔帮主\", \"那大汉\"]\n"
+        "    \"name\": \"Qiao Feng\",\n"
+        "    \"aliases\": [\"Beggar Gang Leader\", \"Leader Qiao\", \"that big man\"]\n"
         "  }\n"
         "]\n\n"
-        "⚠️ 注意：\n"
-        "1. 只包含人物，不包括地点或组织。\n"
-        "2. 同一人物的多个称呼应统一归并在同一个条目中。\n"
-        "3. 所有字段使用标准 JSON 格式。不要包含 markdown 符号或注释。\n"
-        "4. 如果无法确定某个称呼是否为新人物，可以暂时保留为独立项。"
+        "⚠️ Note:\n"
+        "1. Only include characters, not locations or organizations.\n"
+        "2. Multiple titles of the same character should be unified in the same entry.\n"
+        "3. Use standard JSON format for all fields. Do not include markdown symbols or comments.\n"
+        "4. If you cannot determine whether a title refers to a new character, you may temporarily keep it as a separate entry."
     )
 
     if alias_to_name:
-        system_msg += "\n\n以下是已知别名对应的标准人物姓名，请尽量将新识别到的称呼归入已有人物中：\n"
+        system_msg += "\n\nThe following are known aliases corresponding to standard character names. Please try to categorize newly recognized titles under existing characters:\n"
         alias_map_str = json.dumps(alias_to_name, ensure_ascii=False, indent=2)
         system_msg += alias_map_str
 
     return [
         {"role": "system", "content": system_msg},
-        {"role": "user", "content": f"小说片段如下：\n{paragraph}"}
+        {"role": "user", "content": f"Novel excerpt as follows:\n{paragraph}"}
     ]
 ```
 
-### 💾 MemCube初始化与别名管理
+### 💾 MemCube Initialization and Alias Management
 
-为每个识别出的人物创建结构化记忆容器：
+Create structured memory containers for each identified character:
 
 ```python
 def init_memcube(character_name: str, chunk_id: str):
-    """初始化人物记忆立方体 - 包含所有核心字段"""
+    """Initialize character memory cube - contains all core fields"""
     return {
         "name": character_name,
         "first_appearance": chunk_id,
@@ -281,7 +281,7 @@ def init_memcube(character_name: str, chunk_id: str):
         "relations": []
     }
 
-# 执行人物识别和初始化
+# Execute character recognition and initialization
 name_prompt = Prompt.extract_character_names_prompt(content, alias_to_name)
 name_result = api_client.call_api(name_prompt, TaskType.EVENT_EXTRACTION, timeout=1800)
 
@@ -290,37 +290,37 @@ try:
 except:
     extracted = []
 
-# 更新人物库和别名映射
+# Update character repository and alias mapping
 for item in extracted:
     std_name = item["name"]
     aliases = item.get("aliases", [])
   
-    # 初始化或更新 MemCube
+    # Initialize or update MemCube
     if std_name not in memcubes:
-        print(f"🆕 新人物识别：{std_name}")
+        print(f"🆕 New character identified: {std_name}")
         memcubes[std_name] = init_memcube(std_name, chapter_id)
         memcubes[std_name]["aliases"] = []
 
-    # 合并别名列表
+    # Merge alias lists
     all_aliases = list(set(memcubes[std_name].get("aliases", []) + aliases))
     memcubes[std_name]["aliases"] = all_aliases
 
-    # 构建全局别名映射
+    # Build global alias mapping
     for alias in [std_name] + aliases:
         alias_to_name[alias] = std_name
 ```
 
 ---
 
-## 配方3.2：结构化记忆内容抽取
+## Recipe 3.2: Structured Memory Content Extraction
 
-### 🎯 目标
+### 🎯 Goal
 
-使用AI从小说文本中抽取结构化的人物信息，包括事件、语录、性格、情绪和关系网络。
+Use AI to extract structured character information from novel text, including events, quotes, personality, emotions, and relationship networks.
 
-### 🎭 多维度信息抽取Prompt
+### 🎭 Multi-dimensional Information Extraction Prompt
 
-设计精确的prompt模板，确保AI返回标准化的JSON数据：
+Design precise prompt templates to ensure AI returns standardized JSON data:
 
 ```python
 @staticmethod
@@ -329,20 +329,20 @@ def update_character_prompt(character_name: str, unfinished_events: list, paragr
         {
             "role": "system",
             "content": (
-                "你是小说人物建模专家，将分析某人物的未完成事件与最新小说片段。\n"
-                "你的任务是更新以下字段：\n"
-                "- events：事件列表（更新状态、添加新事件，包含子字段 event_id、action、motivation、impact、involved_entities、time、location、event、if_completed）\n"
-                "- 每个事件必须包含唯一的 \"event_id\"，例如 \"event_001\"、\"event_002\" 等。\n"
-                "- utterances：说过的话（含时间或事件编号）\n"
-                "- speech_style：说话风格（如 古典、直接、讽刺等）\n"
-                "- personality_traits：性格（如 冷静、冲动）\n"
-                "- emotion_state：当前情绪状态\n"
-                "- relations：与他人的关系列表\n\n"
-                "请特别注意以下要求：\n"
-                "1. 请认真判断现有未完成事件是否已经在新片段中结束。\n"
-                "2. 如果某事件已有结局或结果，请务必将其 `if_completed` 字段标记为 true。\n"
-                "3. 如果小说片段中出现与该人物相关的新事件，请添加新的事件条目。\n"
-                "最终请输出以下 JSON 结构：\n"
+                "You are a novel character modeling expert who will analyze a character's unfinished events and the latest novel excerpt.\n"
+                "Your task is to update the following fields:\n"
+                "- events: Event list (update status, add new events, including subfields event_id, action, motivation, impact, involved_entities, time, location, event, if_completed)\n"
+                "- Each event must include a unique \"event_id\", such as \"event_001\", \"event_002\", etc.\n"
+                "- utterances: Things said (with time or event number)\n"
+                "- speech_style: Speaking style (such as classical, direct, sarcastic, etc.)\n"
+                "- personality_traits: Personality (such as calm, impulsive)\n"
+                "- emotion_state: Current emotional state\n"
+                "- relations: List of relationships with others\n\n"
+                "Please pay special attention to the following requirements:\n"
+                "1. Please carefully judge whether existing unfinished events have ended in the new excerpt.\n"
+                "2. If an event has an ending or result, please mark its `if_completed` field as true.\n"
+                "3. If new events related to this character appear in the novel excerpt, please add new event entries.\n"
+                "Finally, please output the following JSON structure:\n"
                 "{\n"
                 "  \"events\": [...],\n"
                 "  \"utterances\": [...],\n"
@@ -351,54 +351,54 @@ def update_character_prompt(character_name: str, unfinished_events: list, paragr
                 "  \"emotion_state\": \"...\",\n"
                 "  \"relations\": [...]\n"
                 "}\n\n"
-                "⚠️ 请注意：\n"
-                "1. 所有字段名必须使用双引号包裹（JSON 标准格式）。\n"
-                "2. 不要添加注释符号、额外说明或 markdown 符号。\n"
-                "3. 仅返回完整 JSON 对象，不能是数组或其他格式。\n"
-                "4. 如没有内容可填，请使用空数组 [] 或空字符串 \"\"。\n"
+                "⚠️ Please note:\n"
+                "1. All field names must be wrapped in double quotes (JSON standard format).\n"
+                "2. Do not add comment symbols, additional explanations, or markdown symbols.\n"
+                "3. Only return complete JSON object, cannot be array or other formats.\n"
+                "4. If there is no content to fill, please use empty array [] or empty string \"\".\n"
             )
         },
         {
             "role": "user",
             "content": (
-                f"人物姓名：{character_name}\n"
-                f"当前未完结事件如下（JSON）：\n{json.dumps(unfinished_events, ensure_ascii=False, indent=2)}\n\n"
-                f"小说片段如下：\n{paragraph}\n\n"
-                "请按上述格式返回该人物的更新信息。"
+                f"Character name: {character_name}\n"
+                f"Current unfinished events as follows (JSON):\n{json.dumps(unfinished_events, ensure_ascii=False, indent=2)}\n\n"
+                f"Novel excerpt as follows:\n{paragraph}\n\n"
+                "Please return the character's updated information in the above format."
             )
         }
     ]
 ```
 
-### 🔄 智能数据合并算法
+### 🔄 Intelligent Data Merging Algorithm
 
-实现事件状态追踪和增量更新机制：
+Implement event state tracking and incremental update mechanisms:
 
 ```python
 def get_unfinished_events(memcube: dict):
-    """获取未完成的事件列表 - 用于上下文连续性"""
+    """Get list of unfinished events - for context continuity"""
     return [event for event in memcube.get("events", []) if not event.get("if_completed", False)]
 
 def merge_events(old_events: list, new_events: list):
-    """智能事件合并 - 处理状态更新和新增事件"""
+    """Intelligent event merging - handle status updates and new events"""
     event_dict = {e["event_id"]: e for e in old_events}
 
     for new_event in new_events:
         eid = new_event["event_id"]
         if eid in event_dict:
-            # 合并策略：新字段优先，保留历史信息
+            # Merge strategy: new fields take priority, preserve historical information
             merged = event_dict[eid].copy()
             for key, value in new_event.items():
                 if value not in [None, "", []]:
                     merged[key] = value
             event_dict[eid] = merged
         else:
-            event_dict[eid] = new_event  # 新事件直接加入
+            event_dict[eid] = new_event  # New events directly added
 
     return list(event_dict.values())
 
 def merge_unique_list(old: list, new: list):
-    """列表去重合并 - 保持原有顺序"""
+    """List deduplication merging - maintain original order"""
     combined = old + new
     seen = set()
     result = []
@@ -413,12 +413,12 @@ def merge_unique_list(old: list, new: list):
     return result
 ```
 
-### ⚡ 并行处理引擎
+### ⚡ Parallel Processing Engine
 
-使用线程池实现高效的批量人物更新：
+Use thread pools to implement efficient batch character updates:
 
 ```python
-# 并行更新所有人物状态
+# Parallel update of all character states
 with ThreadPoolExecutor(max_workers=8) as executor:
     futures = {
         executor.submit(update_memcube_for_character, name, memcube, content, chapter_id): name
@@ -430,10 +430,10 @@ with ThreadPoolExecutor(max_workers=8) as executor:
         try:
             name, updated, error = future.result()
             if error or not updated:
-                print(f"⚠️ 更新失败：{name} in {chapter_id} -> {error}")
+                print(f"⚠️ Update failed: {name} in {chapter_id} -> {error}")
                 continue
 
-            # 智能合并更新结果
+            # Intelligently merge update results
             memcube = memcubes[name]
             memcube["events"] = merge_events(memcube["events"], updated.get("events", []))
             memcube["utterances"].extend(updated.get("utterances", []))
@@ -447,189 +447,189 @@ with ThreadPoolExecutor(max_workers=8) as executor:
             memcube["relations"].extend(updated.get("relations", []))
 
         except Exception as e:
-            print(f"⚠️ 并行执行异常：{name} -> {e}")
+            print(f"⚠️ Parallel execution exception: {name} -> {e}")
 ```
 
 ---
 
-## 配方3.3：基于记忆的智能推理系统
+## Recipe 3.3: Memory-Based Intelligent Reasoning System
 
-### 🎯 目标
+### 🎯 Goal
 
-基于构建的MemCube实现小说情节推理、合理性评估、情绪分析等高级功能。
+Implement advanced functions such as novel plot reasoning, rationality assessment, and emotional analysis based on the constructed MemCube.
 
-### 🔮 情节推演引擎
+### 🔮 Plot Deduction Engine
 
-利用人物的完整记忆信息进行故事发展预测：
+Use complete character memory information for story development prediction:
 
 ```python
 @staticmethod
 def speculate_event_outcome(character_name: str, memcube: dict, user_input: str):
-    """基于人物记忆的情节推演 - 生成小说风格的叙述"""
+    """Plot deduction based on character memory - generate novel-style narration"""
     return [
         {
             "role": "system",
             "content": (
-                "你是一位小说剧本推演专家。\n"
-                "你将获得所有人物的完整 JSON 信息（包括事件链、性格、情绪、关系等）以及一条用户提出的假设性情节。\n"
-                "你的任务是基于这些人物的背景、未完成事件、关系网、性格与动机，合理地推演故事可能的发展。\n"
-                "请生成完整的小说段落风格的叙述（不是列表、不是 JSON），描写故事如何展开。\n"
-                "注意语言风格应与原小说保持一致（如古典武侠风）。"
+                "You are a novel script deduction expert.\n"
+                "You will receive complete JSON information of all characters (including event chains, personality, emotions, relationships, etc.) and a hypothetical plot proposed by the user.\n"
+                "Your task is to reasonably deduce possible story developments based on these characters' backgrounds, unfinished events, relationship networks, personality and motivations.\n"
+                "Please generate complete novel paragraph-style narration (not list, not JSON), describing how the story unfolds.\n"
+                "Note that the language style should be consistent with the original novel (such as classical martial arts style)."
             )
         },
         {
             "role": "user",
             "content": (
-                f"人物姓名：{character_name}\n\n"
-                f"人物信息如下（JSON 格式）：\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
-                f"用户的假设性情节如下：\n{user_input}\n\n"
-                "请基于上述信息推演故事的发展，返回小说式语言的叙述，不要包含任何解释性语言或 JSON。"
+                f"Character name: {character_name}\n\n"
+                f"Character information as follows (JSON format):\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
+                f"User's hypothetical plot as follows:\n{user_input}\n\n"
+                "Please deduce the story development based on the above information, return novel-style language narration, do not include any explanatory language or JSON."
             )
         }
     ]
 
 @staticmethod
 def evaluate_plot_reasonableness(character_name: str, memcube: dict, user_input: str):
-    """剧情合理性分析 - 基于人物逻辑判断情节可信度"""
+    """Plot rationality analysis - judge plot credibility based on character logic"""
     return [
         {
             "role": "system",
             "content": (
-                "你是一个小说人物行为合理性分析专家。\n"
-                "你将获得所有人物的完整 JSON 信息（包括事件链、性格、情绪、关系等）以及用户提出的一条假设性剧情。\n"
-                "你的任务是：\n"
-                "1. 判断该剧情是否符合该人物的行为逻辑、性格特征、情绪状态以及当前背景。\n"
-                "2. 如不合理，请指出具体不合理的地方，并说明原因。\n"
-                "3. 如合理，请说明其合理性，并简要描述该剧情如何顺理成章地发生。\n\n"
-                "返回格式：\n"
-                "- 合理性评估：合理 / 不合理 / 有条件合理\n"
-                "- 分析说明：详细解释是否符合人物动机、关系与背景\n"
-                "- 建议：如有必要，提出修改建议或更合理的替代表达\n\n"
-                "请用简洁中文回答，不要生成小说正文或 JSON 结构。"
+                "You are a novel character behavior rationality analysis expert.\n"
+                "You will receive complete JSON information of all characters (including event chains, personality, emotions, relationships, etc.) and a hypothetical plot proposed by the user.\n"
+                "Your task is:\n"
+                "1. Judge whether this plot conforms to the character's behavioral logic, personality traits, emotional state, and current background.\n"
+                "2. If unreasonable, please point out specific unreasonable aspects and explain the reasons.\n"
+                "3. If reasonable, please explain its rationality and briefly describe how this plot naturally occurs.\n\n"
+                "Return format:\n"
+                "- Rationality assessment: Reasonable / Unreasonable / Conditionally reasonable\n"
+                "- Analysis explanation: Detailed explanation of whether it conforms to character motivation, relationships and background\n"
+                "- Suggestions: If necessary, provide modification suggestions or more reasonable alternative expressions\n\n"
+                "Please answer in concise Chinese, do not generate novel text or JSON structure."
             )
         },
         {
             "role": "user",
             "content": (
-                f"人物姓名：{character_name}\n\n"
-                f"所有人物的完整信息如下（JSON 格式）：\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
-                f"用户提出的剧情设想如下：\n{user_input}\n\n"
-                "请你判断这个剧情是否符合该人物当前的状态与逻辑，并说明理由。"
+                f"Character name: {character_name}\n\n"
+                f"Complete information of all characters as follows (JSON format):\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
+                f"User's plot conception as follows:\n{user_input}\n\n"
+                "Please judge whether this plot conforms to the character's current state and logic, and explain the reasons."
             )
         }
     ]
 ```
 
-### 🎭 多维度分析框架
+### 🎭 Multi-dimensional Analysis Framework
 
-提供情绪轨迹、冲突进展、立场判断等专业分析工具：
+Provide professional analysis tools such as emotional trajectory, conflict progression, and stance judgment:
 
 ```python
 @staticmethod
 def emotion_trajectory_prompt(character_name: str, memcube: dict, user_input: str):
-    """情绪轨迹分析 - 预测人物情绪变化"""
+    """Emotional trajectory analysis - predict character emotional changes"""
     return [
         {
             "role": "system",
             "content": (
-                "你是一个小说人物情绪轨迹分析专家。\n"
-                "你将获得某个人物的完整信息（包括事件、性格、情绪、关系等）和用户设想的一段剧情。\n"
-                "请判断在该剧情中，该人物的情绪是否会发生变化。\n\n"
-                "你的任务是：\n"
-                "1. 判断该剧情设想中是否包含情绪变化。\n"
-                "2. 如果有，请指出情绪类型，并解释该变化是如何被激发的。\n"
-                "3. 如果没有，请说明为何情绪保持稳定。\n\n"
-                "返回格式：\n"
-                "- 情绪变化：有 / 无\n"
-                "- 当前情绪：xxx\n"
-                "- 变化原因：xxx\n"
-                "请使用简洁中文作答。"
+                "You are a novel character emotional trajectory analysis expert.\n"
+                "You will receive complete information of a character (including events, personality, emotions, relationships, etc.) and a plot segment conceived by the user.\n"
+                "Please judge whether the character's emotions will change in this plot.\n\n"
+                "Your task is:\n"
+                "1. Judge whether the plot conception includes emotional changes.\n"
+                "2. If yes, please point out the emotion type and explain how this change is triggered.\n"
+                "3. If no, please explain why emotions remain stable.\n\n"
+                "Return format:\n"
+                "- Emotional change: Yes / No\n"
+                "- Current emotion: xxx\n"
+                "- Change reason: xxx\n"
+                "Please answer in concise Chinese."
             )
         },
         {
             "role": "user",
             "content": (
-                f"人物姓名：{character_name}\n\n"
-                f"该人物的完整信息如下（JSON）：\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
-                f"用户设想剧情如下：\n{user_input}"
+                f"Character name: {character_name}\n\n"
+                f"Complete information of this character as follows (JSON):\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
+                f"User conceived plot as follows:\n{user_input}"
             )
         }
     ]
 
 @staticmethod
 def conflict_progression_prompt(character_name: str, memcube: dict, user_input: str):
-    """冲突演化分析 - 追踪人物间矛盾发展"""
+    """Conflict evolution analysis - track the development of conflicts between characters"""
     return [
         {
             "role": "system",
             "content": (
-                "你是一个小说人物之间矛盾关系演化的分析专家。\n"
-                "你将获得某人物的完整资料（JSON 格式）以及用户提出的一条设想剧情。\n"
-                "请判断在这条剧情中，是否涉及与他人之间的矛盾进展。\n\n"
-                "你的任务是：\n"
-                "1. 判断该设想剧情中是否涉及已有或潜在冲突对象。\n"
-                "2. 如果有，请判断该关系是否发生变化（如激化、缓和或解决）。\n"
-                "3. 简述冲突变化的原因。\n\n"
-                "返回格式：\n"
-                "- 对手：xxx\n"
-                "- 当前阶段：xxx（如：潜在 → 升级 → 缓和 → 解决）\n"
-                "- 变化原因：xxx\n"
-                "请使用简洁中文作答。"
+                "You are an expert in analyzing the evolution of conflicting relationships between novel characters.\n"
+                "You will receive complete data of a character (JSON format) and a plot conceived by the user.\n"
+                "Please judge whether this plot involves conflict progression with others.\n\n"
+                "Your task is:\n"
+                "1. Judge whether the conceived plot involves existing or potential conflict targets.\n"
+                "2. If yes, please judge whether the relationship changes (such as escalation, easing, or resolution).\n"
+                "3. Briefly describe the reason for the conflict change.\n\n"
+                "Return format:\n"
+                "- Opponent: xxx\n"
+                "- Current stage: xxx (such as: potential → escalation → easing → resolution)\n"
+                "- Change reason: xxx\n"
+                "Please answer in concise Chinese."
             )
         },
         {
             "role": "user",
             "content": (
-                f"人物姓名：{character_name}\n\n"
-                f"该人物的完整信息如下（JSON）：\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
-                f"用户设想剧情如下：\n{user_input}"
+                f"Character name: {character_name}\n\n"
+                f"Complete information of this character as follows (JSON):\n{json.dumps(memcube, ensure_ascii=False, indent=2)}\n\n"
+                f"User conceived plot as follows:\n{user_input}"
             )
         }
     ]
 ```
 
-### 💡 实际应用示例
+### 💡 Practical Application Example
 
 ```python
-# 加载已构建的人物记忆库
+# Load the constructed character memory repository
 with open("memcubes1.json", "r", encoding="utf-8") as f:
     memcubes = json.load(f)
 
-character_name = "段誉"
-user_input = "如果段誉没有出现在剑湖宫比武大会，事情会怎样？"
+character_name = "Duan Yu"
+user_input = "What would happen if Duan Yu did not appear at the Sword Lake Palace martial arts competition?"
 
-# 执行情节推演
+# Execute plot deduction
 prompt = Prompt.speculate_event_outcome(character_name, memcubes[character_name], user_input)
 response = api_client.call_api(prompt, TaskType.EVENT_EXTRACTION)
-print(response.get("content", "❌ 没有返回"))
+print(response.get("content", "❌ No return"))
 ```
 
 ---
 
-## 配方3.4：Embedding模型优化配置
+## Recipe 3.4: Embedding Model Optimization Configuration
 
-### 🔄 中文文本检索的Embedding模型切换
+### 🔄 Embedding Model Switching for Chinese Text Retrieval
 
-**切换原因说明：**
+**Reason for Switching:**
 
-原始代码使用nomic-embed模型进行文本向量化，但该模型主要针对英文文本优化，在处理中文小说内容时存在以下问题：
+The original code uses the nomic-embed model for text vectorization, but this model is primarily optimized for English text and has the following issues when processing Chinese novel content:
 
-1. **中文语义理解能力有限**：nomic-embed-text模型主要基于英文语料训练，对中文语言的语义理解和文本关系捕获能力较弱
-2. **检索精度不足**：在《天龙八部》等中文小说的人物、事件、关系检索中，语义相似度计算不够准确
-3. **文化背景缺失**：无法很好地理解中文文学作品中的武侠、历史、文化等特定语境
+1. **Limited Chinese semantic understanding**: The nomic-embed-text model is mainly trained on English corpora, with weak semantic understanding and text relationship capture capabilities for Chinese language
+2. **Insufficient retrieval accuracy**: In Chinese novels like "Demigods and Semi-Devils", semantic similarity calculations for character, event, and relationship retrieval are not accurate enough
+3. **Missing cultural background**: Cannot well understand specific contexts such as martial arts, history, and culture in Chinese literary works
 
-**推荐替换方案：**
+**Recommended Replacement Solutions:**
 
-根据[Mem0官方文档](https://docs.mem0.ai/components/embedders/models/openai)和[中文embedding模型评测](https://github.com/wangyuxinwhy/uniem)，推荐以下配置：
+According to [Mem0 official documentation](https://docs.mem0.ai/components/embedders/models/openai) and [Chinese embedding model evaluation](https://github.com/wangyuxinwhy/uniem), the following configurations are recommended:
 
-#### 方案一：OpenAI Embedding（推荐）
+#### Option 1: OpenAI Embedding (Recommended)
 
 ```python
 config = {
     "embedder": {
         "provider": "openai",
         "config": {
-            "model": "text-embedding-3-large",  # 支持多语言，中文效果优秀
+            "model": "text-embedding-3-large",  # Supports multiple languages, excellent Chinese performance
             "embedding_dims": 3072,
             "api_key": "YOUR_OPENAI_API_KEY"
         }
@@ -637,33 +637,33 @@ config = {
 }
 ```
 
-**优势：**
+**Advantages:**
 
-- 支持中英双语，在中文文本检索任务上表现优异
-- 向量维度更高(3072)，语义表示更丰富
-- 在MTEB-zh评测中表现良好
+- Supports Chinese and English bilingual, excellent performance in Chinese text retrieval tasks
+- Higher vector dimensions (3072), richer semantic representation
+- Good performance in MTEB-zh evaluation
 
-#### 方案二：M3E模型（开源替代）
+#### Option 2: M3E Model (Open Source Alternative)
 
 ```python
 config = {
     "embedder": {
         "provider": "huggingface",  
         "config": {
-            "model": "moka-ai/m3e-base",  # 专为中文优化的开源模型
+            "model": "moka-ai/m3e-base",  # Open source model specifically optimized for Chinese
             "embedding_dims": 768
         }
     }
 }
 ```
 
-**优势：**
+**Advantages:**
 
-- 专门针对中文训练，在中文文本分类和检索上优于OpenAI ada-002
-- 支持异质文本检索，适合小说人物关系和事件检索
-- 完全开源，无API调用费用
+- Specifically trained for Chinese, superior to OpenAI ada-002 in Chinese text classification and retrieval
+- Supports heterogeneous text retrieval, suitable for novel character relationships and event retrieval
+- Completely open source, no API call fees
 
-#### 方案三：本地部署
+#### Option 3: Local Deployment
 
 ```python
 config = {
@@ -677,36 +677,36 @@ config = {
 }
 ```
 
-**性能对比数据：**
+**Performance Comparison Data:**
 
-根据[MTEB-zh评测](https://github.com/wangyuxinwhy/uniem)结果：
+According to [MTEB-zh evaluation](https://github.com/wangyuxinwhy/uniem) results:
 
-| 模型                          | 中文文本分类准确率 | 中文检索 ndcg@10 | 优势       |
-| ----------------------------- | ------------------ | ---------------- | ---------- |
-| nomic-embed                   | 未测试             | 未测试           | 英文优化   |
-| OpenAI text-embedding-3-large | 0.6231             | 0.7786+          | 多语言支持 |
-| M3E-base                      | 0.6157             | 0.8004           | 中文专优   |
+| Model | Chinese Text Classification Accuracy | Chinese Retrieval ndcg@10 | Advantage |
+| --- | --- | --- | --- |
+| nomic-embed | Not tested | Not tested | English optimization |
+| OpenAI text-embedding-3-large | 0.6231 | 0.7786+ | Multilingual support |
+| M3E-base | 0.6157 | 0.8004 | Chinese specialization |
 
 ---
 
-## 配方3.5：Memory图结构转换器
+## Recipe 3.5: Memory Graph Structure Transformer
 
-### 🎯 目标
+### 🎯 Goal
 
-将MemCube数据转换为MemOS兼容的Memory节点格式，构建可查询的知识图谱。
+Convert MemCube data to MemOS-compatible Memory node format, building a queryable knowledge graph.
 
-### 🏗️ Memory节点生成
+### 🏗️ Memory Node Generation
 
-将人物事件和关系转换为标准化的Memory对象：
+Convert character events and relationships to standardized Memory objects:
 
 ```python
 def create_memory_node(content: str, entities: list, key: str, memory_type: str = "fact") -> dict:
-    """创建标准化的Memory节点"""
+    """Create standardized Memory node"""
     node_id = str(uuid.uuid4())
     now = datetime.now().isoformat()
   
-    # 模拟embedding（实际应用中应使用真实的embedding服务）
-    embedding = [0.1] * 768  # 示例维度
+    # Simulate embedding (in real applications, should use actual embedding service)
+    embedding = [0.1] * 768  # Example dimension
   
     return {
         "id": node_id,
@@ -718,7 +718,7 @@ def create_memory_node(content: str, entities: list, key: str, memory_type: str 
             "type": "fact",
             "confidence": 0.99,
             "entities": entities,
-            "tags": ["事件"] if "事件" in key else ["关系"],
+            "tags": ["Event"] if "Event" in key else ["Relationship"],
             "updated_at": now,
             "memory_type": memory_type,
             "key": key,
@@ -731,9 +731,9 @@ def create_memory_node(content: str, entities: list, key: str, memory_type: str 
     }
 ```
 
-### 🔄 批量转换处理
+### 🔄 Batch Conversion Processing
 
-实现高效的MemCube到Memory的转换流水线：
+Implement efficient MemCube to Memory conversion pipeline:
 
 ```python
 INPUT_FILE = "memcube_all.json"
@@ -748,18 +748,18 @@ edges = []
 for character, data in memcube_data.items():
     previous_event_id = None
 
-    # === 事件序列转换 ===
+    # === Event sequence conversion ===
     for event in data.get("events", []):
-        memory_text = f"{character}在{event.get('time')}于{event.get('location')}，因为{event.get('motivation')}，进行了{event.get('action')}，结果是{event.get('impact')}。"
+        memory_text = f"{character} at {event.get('time')} in {event.get('location')}, because of {event.get('motivation')}, performed {event.get('action')}, the result was {event.get('impact')}."
         entities = [character] + event.get("involved_entities", [])
         node = create_memory_node(
             content=memory_text,
             entities=entities,
-            key=f"{character}的事件：{event.get('action')}"
+            key=f"{character}'s event: {event.get('action')}"
         )
         nodes.append(node)
 
-        # 建立事件时序关系
+        # Establish event temporal relationships
         if previous_event_id:
             edges.append({
                 "source": previous_event_id,
@@ -768,7 +768,7 @@ for character, data in memcube_data.items():
             })
         previous_event_id = node["id"]
 
-    # === 关系网络聚合 ===
+    # === Relationship network aggregation ===
     relations_texts = []
     seen = set()
     for relation in data.get("relations", []):
@@ -780,40 +780,40 @@ for character, data in memcube_data.items():
         if dedup_key in seen:
             continue
         seen.add(dedup_key)
-        relations_texts.append(f"与{name}是{relation_text}")
+        relations_texts.append(f"has {relation_text} relationship with {name}")
 
     if relations_texts:
-        memory_text = f"{character}" + "，".join(relations_texts) + "。"
+        memory_text = f"{character} " + ", ".join(relations_texts) + "."
         entities = [character] 
         node = create_memory_node(
             content=memory_text,
             entities=entities,
-            key=f"{character}的关系汇总",
+            key=f"{character}'s relationship summary",
         )
         nodes.append(node)
 
-# 保存转换结果
+# Save conversion results
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     json.dump({
         "nodes": nodes,
         "edges": edges
     }, f, ensure_ascii=False, indent=2)
 
-print(f"✅ 完成转换，共生成 {len(nodes)} 个 memory 节点，{len(edges)} 条边")
-print(f"📁 输出文件: {OUTPUT_FILE}")
+print(f"✅ Conversion completed, generated {len(nodes)} memory nodes, {len(edges)} edges")
+print(f"📁 Output file: {OUTPUT_FILE}")
 ```
 
 ---
 
-## 配方3.5：MemOS集成与查询验证
+## Recipe 3.5: MemOS Integration and Query Validation
 
-### 🎯 目标
+### 🎯 Goal
 
-将转换后的Memory数据集成到MemOS系统，实现基于语义的智能检索。
+Integrate converted Memory data into MemOS system, implementing semantic-based intelligent retrieval.
 
-### 🔗 MemOS连接器
+### 🔗 MemOS Connector
 
-建立与MemOS服务的稳定连接：
+Establish stable connection with MemOS service:
 
 ```python
 import memos
@@ -825,161 +825,161 @@ from memos.mem_reader.simple_struct import SimpleStructMemReader
 from memos.memories.textual.tree import TreeTextMemory
 from memos.configs.mem_os import MOSConfig
 
-# 加载MemOS配置
+# Load MemOS configuration
 config = TreeTextMemoryConfig.from_json_file("/root/Test/memos_config.json")
 tree_memory = TreeTextMemory(config)
 
-# 加载记忆数据
+# Load memory data
 tree_memory.load("/root/Test")
 
-# 执行语义搜索
-results = tree_memory.search("段誉初遇神仙姐姐", top_k=5)
+# Execute semantic search
+results = tree_memory.search("Duan Yu's first encounter with the fairy sister", top_k=5)
 
 for result in results:
     relativity = result.metadata.relativity if hasattr(result.metadata, 'relativity') else 0.0
-    print(f"相关度: {relativity:.3f}")
-    print(f"内容: {result.memory}")
+    print(f"Relevance: {relativity:.3f}")
+    print(f"Content: {result.memory}")
     print("---")
 ```
 
-### 🔍 智能检索验证
+### 🔍 Intelligent Retrieval Validation
 
-通过多维度查询验证系统性能：
+Validate system performance through multi-dimensional queries:
 
 ```python
-# 多类型查询测试
+# Multi-type query testing
 test_queries = [
-    "段誉初遇神仙姐姐",
-    "乔峰的身世之谜",
-    "虚竹的奇遇经历",
-    "丁春秋与无崖子的恩怨"
+    "Duan Yu's first encounter with the fairy sister",
+    "Qiao Feng's identity mystery",
+    "Xu Zhu's adventure experiences",
+    "The grudge between Ding Chunqiu and Wu Yazi"
 ]
 
 for query in test_queries:
-    print(f"\n🔍 查询: {query}")
+    print(f"\n🔍 Query: {query}")
     results = tree_memory.search(query, top_k=3)
   
     for i, result in enumerate(results, 1):
         relativity = result.metadata.relativity if hasattr(result.metadata, 'relativity') else 0.0
-        print(f"  {i}. 相关度: {relativity:.3f}")
-        print(f"     内容: {result.memory[:100]}...")
+        print(f"  {i}. Relevance: {relativity:.3f}")
+        print(f"     Content: {result.memory[:100]}...")
 ```
 
 ---
 
-## 🎯 基于MemOS的创意扩展
+## 🎯 Creative Extensions Based on MemOS
 
-恭喜！你已经掌握了MemOS的核心技术。现在让我们看看可以创造出什么令人兴奋的应用：
+Congratulations! You have mastered the core technologies of MemOS. Now let's see what exciting applications we can create:
 
-### 🕰️ 创意1：智能世界时间线系统
+### 🕰️ Creative 1: Intelligent World Timeline System
 
-基于MemOS构建动态的武侠世界时间轴，让AI理解事件的因果关系：
+Build a dynamic martial arts world timeline based on MemOS, letting AI understand causal relationships between events:
 
 ```python
-# 示例：智能时间线管理
+# Example: Intelligent timeline management
 timeline_memory = {
-    "1094年": {
-        "events": ["萧峰身世之谜揭开", "聚贤庄大战"],
-        "consequences": ["江湖震动", "丐帮分裂"],
-        "affected_characters": ["萧峰", "阿朱", "段正淳"]
+    "1094": {
+        "events": ["Xiao Feng's identity mystery revealed", "Battle at Juxian Manor"],
+        "consequences": ["Martial world shaken", "Beggar Gang split"],
+        "affected_characters": ["Xiao Feng", "A'Zhu", "Duan Zhengchun"]
     },
-    "1095年": {
-        "events": ["雁门关事件真相", "阿朱之死"],
-        "consequences": ["萧峰心境转变", "宋辽关系紧张"]
+    "1095": {
+        "events": ["Truth of Yanmen Pass incident", "A'Zhu's death"],
+        "consequences": ["Xiao Feng's mindset transformation", "Song-Liao tension"]
     }
 }
 
-# AI可以回答：如果萧峰没有去雁门关，后续会如何发展？
+# AI can answer: What would happen if Xiao Feng didn't go to Yanmen Pass?
 ```
 
-### 🧠 创意2：动态Working Memory世界背景
+### 🧠 Creative 2: Dynamic Working Memory World Background
 
-利用MemCube的working memory功能，让世界背景随着剧情发展实时更新：
+Use MemCube's working memory functionality to update world background in real-time as the plot develops:
 
 ```python
-# 示例：动态世界状态管理
+# Example: Dynamic world state management
 from memos.memories.textual.base import TextualMemoryItem
 
-# 创建世界状态记忆项
+# Create world state memory items
 world_state_memories = [
     TextualMemoryItem(
-        memory="宋辽政治紧张程度达到0.8级别，边境冲突频发",
+        memory="Song-Liao political tension reaches 0.8 level, border conflicts frequent",
         metadata={"type": "world_state", "category": "politics"}
     ),
     TextualMemoryItem(
-        memory="当前江湖流传的绝世武功：九阳神功、易筋经",
+        memory="Current legendary martial arts in jianghu: Nine Yang Divine Skill, Muscle-Tendon Changing Classic",
         metadata={"type": "world_state", "category": "martial_arts"}
     ),
     TextualMemoryItem(
-        memory="少林与武当保持中立，丐帮内部出现分裂",
+        memory="Shaolin and Wudang maintain neutrality, Beggar Gang has internal split",
         metadata={"type": "world_state", "category": "sect_relations"}
     )
 ]
 
-# 使用MemCube的文本记忆管理世界状态
+# Use MemCube's text memory to manage world state
 mem_cube.text_mem.replace_working_memory(world_state_memories)
 
-# 当萧峰做出重要决定时，自动更新工作记忆
+# When Xiao Feng makes important decisions, automatically update working memory
 current_working_memory = mem_cube.text_mem.get_working_memory()
 ```
 
-### 🎮 创意3：MemOS驱动的文字MUD游戏
+### 🎮 Creative 3: MemOS-Driven Text MUD Game
 
-**终极创意**：基于MemOS + MemCube + GPT-4o构建一个真正智能的文字冒险游戏！
+**Ultimate Creative**: Build a truly intelligent text adventure game based on MemOS + MemCube + GPT-4o!
 
 ```python
-# 游戏核心架构示例
+# Game core architecture example
 class WuxiaMUD:
     def __init__(self, mos_config):
         from memos.mem_os.main import MOS
         
-        self.world_memory = MOS(mos_config)  # 世界记忆系统
-        self.character_cubes = {}            # 每个NPC的MemCube
-        self.timeline_memories = []          # 时间线记忆列表
+        self.world_memory = MOS(mos_config)  # World memory system
+        self.character_cubes = {}            # Each NPC's MemCube
+        self.timeline_memories = []          # Timeline memory list
         
-        # 创建游戏主用户
+        # Create game master user
         self.world_memory.create_user("game_master")
       
     def start_adventure(self, player_choice):
         """
-        玩家选择：
-        - 角色：萧峰/段誉/虚竹/自创角色
-        - 时间点：童年/青年/中年
-        - 地点：中原/大理/辽国
+        Player choice:
+        - Character: Xiao Feng/Duan Yu/Xu Zhu/Custom character
+        - Time point: Childhood/Youth/Middle age
+        - Location: Central Plains/Dali/Liao Kingdom
         """
-        return f"欢迎来到{player_choice.location}..."
+        return f"Welcome to {player_choice.location}..."
   
     def process_action(self, player_input):
         """
-        处理玩家的自然语言输入：
-        "我要去少林寺学武功"
-        "我想和萧峰结拜"
-        "我要阻止雁门关惨案"
+        Process player's natural language input:
+        "I want to go to Shaolin Temple to learn martial arts"
+        "I want to become sworn brothers with Xiao Feng"
+        "I want to prevent the Yanmen Pass tragedy"
         """
-                # 1. 理解玩家意图（使用MemOS的LLM功能）
+                # 1. Understand player intent (using MemOS's LLM functionality)
         intent_analysis = self.world_memory.chat(
-            query=f"分析玩家意图: {player_input}",
+            query=f"Analyze player intent: {player_input}",
             user_id="game_master"
         )
         
-        # 2. 检索相关记忆
+        # 2. Retrieve relevant memories
         context = self.world_memory.search(
             query=player_input, 
             user_id="game_master"
         )
       
-                # 3. 计算行动后果（基于检索到的上下文）
+                # 3. Calculate action consequences (based on retrieved context)
         consequences = self.predict_consequences(player_input, context)
         
-        # 4. 更新世界状态（添加新的记忆）
+        # 4. Update world state (add new memories)
         self.update_world_state(player_input, consequences)
         
-        # 5. 生成剧情发展
+        # 5. Generate plot development
         return self.generate_story(player_input, context, consequences)
     
     def predict_consequences(self, player_input, context):
-        """预测玩家行动的后果"""
-        query = f"基于以下背景：{context}，预测玩家行动'{player_input}'的可能后果"
+        """Predict consequences of player actions"""
+        query = f"Based on the following background: {context}, predict possible consequences of player action '{player_input}'"
         result = self.world_memory.chat(
             query=query,
             user_id="game_master"
@@ -987,27 +987,27 @@ class WuxiaMUD:
         return result
     
     def update_world_state(self, player_input, consequences):
-        """更新世界状态到MemOS记忆中"""
-        memory_content = f"玩家行动: {player_input}, 后果: {consequences}"
+        """Update world state to MemOS memory"""
+        memory_content = f"Player action: {player_input}, consequences: {consequences}"
         self.world_memory.add(
             memory_content=memory_content,
             user_id="game_master"
         )
     
     def generate_story(self, player_input, context, consequences):
-        """生成故事发展"""
-        query = f"基于背景{context}和后果{consequences}，为玩家行动'{player_input}'生成有趣的故事发展"
+        """Generate story development"""
+        query = f"Based on background {context} and consequences {consequences}, generate interesting story development for player action '{player_input}'"
                  return self.world_memory.chat(
              query=query,
              user_id="game_master"
          )
 
-# 完整的使用示例
+# Complete usage example
 def create_wuxia_game():
-    """创建完整的武侠MUD游戏示例"""
+    """Create complete martial arts MUD game example"""
     from memos.configs.mem_os import MOSConfig
     
-    # 创建MemOS配置
+    # Create MemOS configuration
     mos_config = MOSConfig(
         user_id="game_system",
         chat_model={
@@ -1034,48 +1034,48 @@ def create_wuxia_game():
         enable_textual_memory=True
     )
     
-    # 创建游戏实例
+    # Create game instance
     game = WuxiaMUD(mos_config)
     
-    # 示例对话
-    response = game.process_action("我想在洛阳客栈寻找萧峰")
+    # Example dialogue
+    response = game.process_action("I want to find Xiao Feng in Luoyang inn")
     print(response)
     
     return game
 ```
 
-**游戏玩法举例：**
+**Game Gameplay Example:**
 
 ```
-玩家：我是一个初出茅庐的少年，想去拜访萧峰
-AI：  那时萧峰正在洛阳一带调查身世之谜，你在客栈偶遇了他...
-      萧峰看你年少，问道："小兄弟，这么晚了还在外面游荡？"
+Player: I am a young man new to jianghu, wanting to visit Xiao Feng
+AI:    At that time, Xiao Feng was investigating his identity mystery in the Luoyang area, you encountered him in an inn...
+       Xiao Feng looked at you, a young man, and asked: "Little brother, what are you doing out so late?"
 
-玩家：我告诉他我想学武功，请他收我为徒
-AI：  萧峰哈哈大笑："我自己的身世都是一团迷雾，哪有资格做人师父？
-      不过既然相遇便是缘分，我可以教你几招防身..."
-      [你的武功等级 +1，与萧峰的关系 +5]
+Player: I tell him I want to learn martial arts and ask him to take me as disciple
+AI:    Xiao Feng laughed heartily: "My own identity is a mystery, how can I be qualified to be a teacher?
+       But since we met, it's fate. I can teach you a few moves for self-defense..."
+       [Your martial arts level +1, relationship with Xiao Feng +5]
 
-玩家：我想告诉萧峰他的身世真相
-AI：  这是一个危险的选择！提前揭露身世可能改变整个故事走向...
-      确定要这么做吗？这将开启全新的剧情分支。
+Player: I want to tell Xiao Feng the truth about his identity
+AI:    This is a dangerous choice! Revealing identity prematurely might change the entire story direction...
+       Are you sure you want to do this? This will open a completely new plot branch.
 ```
 
-### 🌟 你的想象力就是边界！
+### 🌟 Your Imagination is the Limit!
 
-基于MemOS，你可以创造：
+Based on MemOS, you can create:
 
-- 📚 **智能小说生成器** - AI根据你的设定自动创作
-- 🎭 **虚拟角色陪伴** - 和萧峰、段誉进行真实对话
-- 🎨 **交互式剧情创作** - 多人协作的动态故事世界
-- 🎯 **教育游戏平台** - 在游戏中学习历史和文学
-- 🔮 **预测性娱乐** - AI预测你的选择会如何影响剧情
+- 📚 **Intelligent novel generator** - AI automatically creates stories based on your settings
+- 🎭 **Virtual character companionship** - Have real conversations with Xiao Feng and Duan Yu
+- 🎨 **Interactive plot creation** - Multi-person collaborative dynamic story world
+- 🎯 **Educational game platform** - Learn history and literature through games
+- 🔮 **Predictive entertainment** - AI predicts how your choices will affect the plot
 
-**关键在于**：MemOS让AI拥有了真正的"记忆"，可以：
+**The key is**: MemOS gives AI true "memory", enabling it to:
 
-- 🧠 记住所有历史事件和人物关系
-- 🔄 根据玩家行动动态更新世界状态
-- 🎯 生成符合逻辑的剧情发展
-- 🌟 创造无限可能的故事分支
+- 🧠 Remember all historical events and character relationships
+- 🔄 Dynamically update world state based on player actions
+- 🎯 Generate logically consistent plot developments
+- 🌟 Create unlimited possible story branches
 
-**现在，释放你的创造力，用MemOS打造属于你的智能世界吧！** 🚀
+**Now, unleash your creativity and build your intelligent world with MemOS!** 🚀 

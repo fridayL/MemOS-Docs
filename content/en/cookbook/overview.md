@@ -1,192 +1,192 @@
 ---
-title: MemOS 场景案例
+title: MemOS Scenario Examples
 ---
 
-## 引言
+## Introduction
 
-### Cookbook 的哲学：以解决问题为导向
+### Cookbook Philosophy: Problem-Oriented Approach
 
-欢迎来到 MemOS Cookbook！这不是一本传统的技术文档，而是一本专注于**解决实际问题**的实战指南。
+Welcome to the MemOS Cookbook! This is not a traditional technical documentation, but a hands-on guide focused on **solving real problems**.
 
-**为什么需要这本Cookbook？**
+**Why do we need this Cookbook?**
 
-在AI应用开发中，我们经常遇到这样的挑战：
+In AI application development, we often encounter these challenges:
 
-- 🤔 "如何让我的AI应用记住用户的偏好？"
-- 🔍 "怎样从大量文档中快速检索相关信息？"
-- 💡 "如何构建一个具有长期记忆的智能助手？"
+- 🤔 "How can I make my AI application remember user preferences?"
+- 🔍 "How can I quickly retrieve relevant information from a large number of documents?"
+- 💡 "How can I build an intelligent assistant with long-term memory?"
 
-传统的文档告诉你**是什么**，API参考告诉你**怎么调用**，而这本Cookbook则专注于告诉你**如何解决具体问题**。
+Traditional documentation tells you **what it is**, API references tell you **how to call it**, while this Cookbook focuses on telling you **how to solve specific problems**.
 
-**本Cookbook的核心理念：**
+**Core Philosophy of this Cookbook:**
 
-1. **问题驱动**：每个配方都从一个真实的使用场景出发
-2. **实战导向**：提供可以直接运行的完整代码示例
-3. **渐进式学习**：从简单到复杂，循序渐进
-4. **最佳实践**：融入生产环境的经验和建议
-
----
-
-## 📚 完整章节导航
-
-### [第一章：入门：你的第一个 MemCube](/cookbook/chapter1/api)
-
-**核心技能**：环境配置、MemCube 基础操作、数据导入与管理
-
-- **API 版**
-  - **配方 1.1**: 配置 MemOS 开发环境 (API版)
-  - **配方 1.2**: 从文档构建简单的 MemCube (API版)
-  - **配方 1.3**: MemCube 基础操作 (API版)
-- **Ollama 版**
-  - **配方 1.1**: 配置 MemOS 开发环境 (Ollama版)
-  - **配方 1.2**: 从文档构建简单的 MemCube (Ollama版)
-  - **配方 1.3**: MemCube 基础操作 (Ollama版)
-
-### [第二章：结构化记忆：TreeNodeTextualMemoryMetadata](/cookbook/chapter2/api)
-
-**核心技能**：结构化记忆、元数据管理、多源追踪
-
-- **API 版**
-  - **配方 2.1**: 理解 `TreeNodeTextualMemoryMetadata` 核心概念
-  - **配方 2.2**: 创建基础的结构化记忆 (API版)
-  - **配方 2.3**: 常用字段说明和配置
-- **Ollama 版**
-  - **配方 2.1**: 理解 `TreeNodeTextualMemoryMetadata` 核心概念
-  - **配方 2.2**: 创建基础的结构化记忆 (Ollama版)
-  - **配方 2.3**: 常用字段说明和配置
-
-### [第三章：使用 MemOS 构建智能小说分析系统](/cookbook/chapter3/overview)
-
-**核心技能**：文本预处理、AI驱动记忆抽取、智能推理系统、创意应用开发
-
-- **配方 3.0**: 文本预处理与API环境配置
-- **配方 3.1**: AI驱动的人物识别与别名统一
-- **配方 3.2**: 结构化记忆内容抽取
-- **配方 3.3**: 基于记忆的智能推理系统
-- **配方 3.4**: Embedding模型优化配置
-- **配方 3.5**: Memory图结构转换器
-- **配方 3.6**: MemOS集成与查询验证
-- **创意展示**:
-  - 智能世界时间线系统
-  - 动态Working Memory世界背景
-  - MemOS驱动的文字MUD游戏
-
-### 🚀 即将推出 (Coming Soon)
-
-- **第四章：使用 MemOS 构建生产级知识问答系统**
+1. **Problem-Driven**: Each recipe starts from a real use case scenario
+2. **Practice-Oriented**: Provides complete code examples that can be run directly
+3. **Progressive Learning**: From simple to complex, step by step
+4. **Best Practices**: Incorporates experience and recommendations from production environments
 
 ---
 
-## 🎯 学习路径建议
+## 📚 Complete Chapter Navigation
 
-### 🟢 入门路径（总计 4-6 小时）
+### [Chapter 1: Getting Started: Your First MemCube](/cookbook/chapter1/api)
 
-```
-第一章 (API版或Ollama版) → 第二章 (对应版本)
-```
+**Core Skills**: Environment configuration, MemCube basic operations, data import and management
 
-**适合**：刚接触 MemOS 的开发者
-**目标**：掌握基础操作和结构化记忆
+- **API Version**
+  - **Recipe 1.1**: Configure MemOS Development Environment (API Version)
+  - **Recipe 1.2**: Build a Simple MemCube from Documents (API Version)
+  - **Recipe 1.3**: MemCube Basic Operations (API Version)
+- **Ollama Version**
+  - **Recipe 1.1**: Configure MemOS Development Environment (Ollama Version)
+  - **Recipe 1.2**: Build a Simple MemCube from Documents (Ollama Version)
+  - **Recipe 1.3**: MemCube Basic Operations (Ollama Version)
 
-### 🟡 进阶路径（总计 8-12 小时）
+### [Chapter 2: Structured Memory: TreeNodeTextualMemoryMetadata](/cookbook/chapter2/api)
 
-```
-第一章 → 第二章 → 第三章 (智能小说分析系统)
-```
+**Core Skills**: Structured memory, metadata management, multi-source tracking
 
-**适合**：有一定AI开发经验的开发者
-**目标**：掌握复杂文本处理、AI驱动的记忆抽取和智能推理系统
+- **API Version**
+  - **Recipe 2.1**: Understanding Core Concepts of `TreeNodeTextualMemoryMetadata`
+  - **Recipe 2.2**: Creating Basic Structured Memory (API Version)
+  - **Recipe 2.3**: Common Field Descriptions and Configuration
+- **Ollama Version**
+  - **Recipe 2.1**: Understanding Core Concepts of `TreeNodeTextualMemoryMetadata`
+  - **Recipe 2.2**: Creating Basic Structured Memory (Ollama Version)
+  - **Recipe 2.3**: Common Field Descriptions and Configuration
 
-### 🔴 高级路径（总计 12-20 小时）
+### [Chapter 3: Building an Intelligent Novel Analysis System with MemOS](/cookbook/chapter3/overview)
 
-```
-完整学习所有章节 + 创意扩展实践
-```
+**Core Skills**: Text preprocessing, AI-driven memory extraction, intelligent reasoning systems, creative application development
 
-**适合**：希望构建生产级应用的开发者
-**目标**：掌握MemOS的高级特性和创新应用模式
+- **Recipe 3.0**: Text Preprocessing and API Environment Configuration
+- **Recipe 3.1**: AI-Driven Character Recognition and Alias Unification
+- **Recipe 3.2**: Structured Memory Content Extraction
+- **Recipe 3.3**: Memory-Based Intelligent Reasoning System
+- **Recipe 3.4**: Embedding Model Optimization Configuration
+- **Recipe 3.5**: Memory Graph Structure Transformer
+- **Recipe 3.6**: MemOS Integration and Query Validation
+- **Creative Showcase**:
+  - Intelligent World Timeline System
+  - Dynamic Working Memory World Background
+  - MemOS-Driven Text MUD Game
+
+### 🚀 Coming Soon
+
+- **Chapter 4: Building Production-Grade Knowledge Q&A System with MemOS**
 
 ---
 
-## 如何有效使用本 Cookbook
+## 🎯 Recommended Learning Paths
 
-**📖 阅读建议：**
+### 🟢 Beginner Path (Total 4-6 hours)
 
-- **初学者**：建议按章节顺序阅读，每个配方都动手实践
-- **有经验的开发者**：可以直接跳转到感兴趣的配方
-- **问题解决者**：通过上述目录快速定位相关配方
-- **选择路径学习者**：根据上述学习路径进行系统学习
+```
+Chapter 1 (API or Ollama version) → Chapter 2 (corresponding version)
+```
 
-**🛠️ 实践建议：**
+**For**: Developers new to MemOS
+**Goal**: Master basic operations and structured memory
 
-1. **准备环境**：确保已安装Python 3.10+和相关依赖
-2. **动手实践**：每个配方都包含完整的可运行代码
-3. **实验变体**：尝试修改参数，观察不同的效果
-4. **解决问题**：遇到问题时查看常见问题部分或寻求社区帮助
+### 🟡 Intermediate Path (Total 8-12 hours)
 
-**🔧 代码约定：**
+```
+Chapter 1 → Chapter 2 → Chapter 3 (Intelligent Novel Analysis System)
+```
+
+**For**: Developers with some AI development experience
+**Goal**: Master complex text processing, AI-driven memory extraction and intelligent reasoning systems
+
+### 🔴 Advanced Path (Total 12-20 hours)
+
+```
+Complete learning of all chapters + creative extension practice
+```
+
+**For**: Developers who want to build production-grade applications
+**Goal**: Master advanced features and innovative application patterns of MemOS
+
+---
+
+## How to Use This Cookbook Effectively
+
+**📖 Reading Suggestions:**
+
+- **Beginners**: Recommended to read in chapter order, practice each recipe hands-on
+- **Experienced developers**: Can jump directly to recipes of interest
+- **Problem solvers**: Use the directory above to quickly locate relevant recipes
+- **Path learners**: Follow the learning paths above for systematic learning
+
+**🛠️ Practice Suggestions:**
+
+1. **Prepare environment**: Ensure Python 3.10+ and related dependencies are installed
+2. **Hands-on practice**: Each recipe contains complete runnable code
+3. **Experiment with variations**: Try modifying parameters to observe different effects
+4. **Problem solving**: Check FAQ sections or seek community help when encountering issues
+
+**🔧 Code Conventions:**
 
 ```python
-# 💡 提示：重要概念或最佳实践
-# ⚠️ 注意：需要特别注意的事项
-# 🎯 目标：当前步骤的目的
+# 💡 Tip: Important concepts or best practices
+# ⚠️ Note: Items requiring special attention
+# 🎯 Goal: Purpose of current step
 ```
 
 ---
 
-## 🔧 环境准备
+## 🔧 Environment Preparation
 
-### 系统要求
+### System Requirements
 
 - Python 3.10+
-- 8GB+ RAM (推荐16GB)
-- 50GB+ 可用磁盘空间
+- 8GB+ RAM (16GB recommended)
+- 50GB+ available disk space
 
-### 依赖安装
+### Dependency Installation
 
 ```bash
 pip install MemoryOS
-# 可选：Neo4j, Ollama, OpenAI API
+# Optional: Neo4j, Ollama, OpenAI API
 ```
 
-### 验证安装
+### Installation Verification
 
 ```python
 import memos
-print(f"MemOS版本: {memos.__version__}")
+print(f"MemOS Version: {memos.__version__}")
 ```
 
 ---
 
-### 与教程、API 参考等其他文档的关系
+### Relationship with Other Documentation (Tutorials, API References, etc.)
 
-**文档生态系统：**
+**Documentation Ecosystem:**
 
-- **🏁 快速开始教程**：帮你5分钟上手MemOS基础功能
-- **📚 本Cookbook**：深入的实战配方，解决具体问题
-- **📖 API参考**：详细的函数和类的技术规范
-- **🏗️ 架构文档**：系统设计和扩展指南
+- **🏁 Quick Start Tutorial**: Helps you get started with MemOS basic features in 5 minutes
+- **📚 This Cookbook**: In-depth practical recipes to solve specific problems
+- **📖 API Reference**: Detailed technical specifications of functions and classes
+- **🏗️ Architecture Documentation**: System design and extension guides
 
-**何时使用哪种文档：**
+**When to use which documentation:**
 
-| 场景         | 推荐文档             | 说明                     |
-| ------------ | -------------------- | ------------------------ |
-| 刚接触MemOS  | 快速开始教程         | 了解基本概念和核心功能   |
-| 解决具体问题 | **本Cookbook** | 找到对应的配方和解决方案 |
-| 查找函数用法 | API参考              | 查看参数和返回值详情     |
-| 系统设计     | 架构文档             | 理解内部机制和扩展方式   |
-
----
-
-## 📞 获取帮助
-
-- **GitHub Issues**: 在 [MemOS Issues](https://github.com/MemTensor/MemOS/issues) 提交技术问题和bug报告
-- **GitHub Discussions**: 在 [MemOS Discussions](https://github.com/MemTensor/MemOS/discussions) 进行使用经验交流和提问
-- **Discord社区**: 加入 [MemOS Discord服务器](https://discord.gg/Txbx3gebZR) 实时交流
-- **官方文档**: 查看 [MemOS官方文档](https://memos-docs.openmem.net/home/overview/) 了解详细使用指南
-- **API参考**: 查看 [MemOS API文档](https://memos-docs.openmem.net/docs/api/info/) 获取接口详情
-- **微信群**: 扫描 [二维码](https://statics.memtensor.com.cn/memos/qr-code.png) 加入微信技术交流群
+| Scenario | Recommended Documentation | Description |
+| --- | --- | --- |
+| New to MemOS | Quick Start Tutorial | Learn basic concepts and core features |
+| Solving specific problems | **This Cookbook** | Find corresponding recipes and solutions |
+| Looking up function usage | API Reference | View parameter and return value details |
+| System design | Architecture Documentation | Understand internal mechanisms and extension methods |
 
 ---
 
-*让我们开始这个激动人心的MemOS学习之旅！*
+## 📞 Getting Help
+
+- **GitHub Issues**: Submit technical issues and bug reports at [MemOS Issues](https://github.com/MemTensor/MemOS/issues)
+- **GitHub Discussions**: Exchange experiences and ask questions at [MemOS Discussions](https://github.com/MemTensor/MemOS/discussions)
+- **Discord Community**: Join [MemOS Discord Server](https://discord.gg/Txbx3gebZR) for real-time communication
+- **Official Documentation**: Check [MemOS Official Documentation](https://memos-docs.openmem.net/home/overview/) for detailed usage guides
+- **API Reference**: Check [MemOS API Documentation](https://memos-docs.openmem.net/docs/api/info/) for interface details
+- **WeChat Group**: Scan [QR Code](https://statics.memtensor.com.cn/memos/qr-code.png) to join WeChat technical exchange group
+
+---
+
+*Let's start this exciting MemOS learning journey!* 
