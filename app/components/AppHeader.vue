@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { saveCookie } from '~/utils'
-
 const route = useRoute()
 const { t, locale, setLocale } = useI18n()
 const { header } = useAppConfig()
-const config = useRuntimeConfig()
+const homePath = computed(() => {
+  return locale.value === 'cn' ? 'https://memos.openmem.net/cn' : 'https://memos.openmem.net'
+})
 const localizedMenus = computed(() => {
   return [
     {
-      to: 'https://memos.openmem.net',
+      to: locale.value === 'cn' ? 'https://memos.openmem.net/cn' : 'https://memos.openmem.net',
       label: t('header.home')
     },
     {
-      to: '/home/overview',
+      to: getLangPath('/home/overview'),
       label: t('header.docs'),
       active: !route.path.includes('/changelog')
     },
@@ -23,41 +23,26 @@ const localizedMenus = computed(() => {
     },
     {
       label: t('header.changelog'),
-      to: '/changelog',
+      to: getLangPath('/changelog'),
       active: route.path.includes('/changelog')
     }
   ]
 })
 
 function handleLocaleSwitch() {
-  // For development, switch locale directly
-  // if (config.public.env === 'dev') {
-    
-  //   return
-  // }
-
   const newLocale = locale.value === 'en' ? 'cn' : 'en'
   setLocale(newLocale)
-
-  // saveCookie('MEMOS_LANG', newLocale)
-
-  // For production, redirect to the corresponding domain
-  // if (locale.value === 'en') {
-  //   window.location.href = `${config.public.cnDomain}/${window.location.pathname}`
-  // } else {
-  //   window.location.href = `${config.public.enDomain}/${window.location.pathname}`
-  // }
 }
 </script>
 
 <template>
   <UHeader
-    :to="header?.to || '/'"
+    :to="homePath"
   >
     <template
       #left
     >
-      <NuxtLink :to="header?.to || '/'">
+      <NuxtLink :to="homePath">
         <LogoPro class="w-auto h-6 shrink-0" />
       </NuxtLink>
     </template>
