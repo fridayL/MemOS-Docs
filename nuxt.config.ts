@@ -147,7 +147,14 @@ const config: NuxtConfig = {
     }
   },
 
-  routeRules,
+  routeRules: {
+    '/': {
+      redirect: '/home/overview'
+    },
+    '/cn': {
+      redirect: '/cn/home/overview'
+    }
+  },
 
   eslint: {
     config: {
