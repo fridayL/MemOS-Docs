@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ContentNavigationItem } from '@nuxt/content'
+import { getHomePath } from '~/utils'
 
 const route = useRoute()
 const { t, locale, setLocale } = useI18n()
@@ -12,7 +13,7 @@ const navigation = inject<ContentNavigationItem[]>('navigation', [])
 const localizedMenus = computed(() => {
   return [
     {
-      to: locale.value === 'cn' ? 'https://memos.openmem.net/cn' : 'https://memos.openmem.net',
+      to: getHomePath('/', locale.value),
       label: t('header.home')
     },
     {
@@ -28,7 +29,7 @@ const localizedMenus = computed(() => {
     {
       label: t('header.openmem'),
       target: '_blank',
-      to: locale.value === 'cn' ? 'https://memos.openmem.net/cn/openmem' : 'https://memos.openmem.net/openmem'
+      to: getHomePath('/openmem', locale.value)
     },
     {
       label: t('header.changelog'),
@@ -39,8 +40,7 @@ const localizedMenus = computed(() => {
 })
 
 function handleLocaleSwitch() {
-  const newLocale = locale.value === 'en' ? 'cn' : 'en'
-  setLocale(newLocale)
+  setLocale(locale.value === 'en' ? 'cn' : 'en')
 }
 </script>
 
