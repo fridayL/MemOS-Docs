@@ -1,4 +1,36 @@
 versions:
+  - name: v0.2.2
+    date: 2025-07-29
+    changedInfo:
+      New Features:
+        - type: Plaintext Memory
+          changedInfo:
+            - Implemented internet search integration and Nebula database support
+            - Enhanced context understanding for memory extraction
+            - Launched internet search interface integrated with memreader for processing web content
+        - type: Memory Scheduling
+          changedInfo:
+            - Conducted code refactoring and functional improvements
+            - Restructured monitor, dispatcher, and retriever components
+            - Added schemas and utils major code categories
+            - Improved network logging functionality
+            - Enhanced scheduler robustness with exception handling decorators
+            - Implemented locks for shared resources
+        - type: KV Cache
+          changedInfo:
+            - Conducted KV Cache evaluation including LMCache research and performance testing
+            - Completed stress testing for MemOS vllm (v0.2.1) in specific environments
+            - Enhanced ttft testing data for Qwen2.5-72B-Instruct model with preloaded KV Cache
+            - Completed research and design for high ROI inference service system with domestic hardware
+        - type: MemCube Construction
+          changedInfo:
+            - Updated documentation
+            - Released first three chapters of Cookbook in Chinese and English
+        - type: Memory Operation Model
+          changedInfo:
+            - Completed model training and evaluation release
+            - Released 4b, 1.7b, and 0.6b models supporting memory extraction and integration
+
   - name: v0.2.1
     date: 2025-07-21
     changedInfo:
