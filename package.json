@@ -8,8 +8,8 @@
     "dev": "nuxt dev",
     "sync-api": "node scripts/fetch-api.mjs",
     "sync-releases": "node scripts/fetch-releases.mjs",
-    "generate": "nuxt generate",
-    "publish": "npm run sync-api && npm run sync-releases && node scripts/publish.mjs",
+    "generate": "node scripts/generate.mjs",
+    "publish": "npm run sync-api && npm run sync-releases && node scripts/generate.mjs",
     "preview": "nuxt preview",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
@@ -40,8 +40,7 @@
   },
   "resolutions": {
     "unimport": "4.1.1",
-    "oxc-parser": "0.70.0",
-    "@vitejs/plugin-vue": "5.2.4"
+    "oxc-parser": "0.70.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
