@@ -1,5 +1,5 @@
 ---
-title: Linux Ollama版
+title: Linux API版
 ---
 
 ## 情景设计
@@ -23,16 +23,19 @@ from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemory
 ### 核心概念
 
 #### 1. 记忆类型 (memory_type)
+
 - `WorkingMemory`: 工作记忆，临时存储
 - `LongTermMemory`: 长期记忆，持久存储  
 - `UserMemory`: 用户记忆，个性化存储
 
 #### 2. 记忆状态 (status)
+
 - `activated`: 激活状态
 - `archived`: 归档状态
 - `deleted`: 删除状态
 
 #### 3. 记忆类型 (type)
+
 - `fact`: 事实
 - `event`: 事件
 - `opinion`: 观点
@@ -48,34 +51,31 @@ from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemory
 
 ### 示例1：创建简单的人物记忆
 
-创建文件 `create_person_memory_ollama.py`：
+创建文件 `create_person_memory_api.py`：
 
 ```python
-# create_person_memory_ollama.py
-# 🎯 创建人物记忆的示例 (Ollama版)
+# create_person_memory_api.py
+# 🎯 创建人物记忆的示例 (API版)
 import os
 from dotenv import load_dotenv
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
-def create_person_memory_ollama():
+def create_person_memory_api():
     """
-    🎯 创建人物记忆的示例 (Ollama版)
+    🎯 创建人物记忆的示例 (API版)
     """
     
-    print("🚀 开始创建人物记忆 (Ollama版)...")
+    print("🚀 开始创建人物记忆 (API版)...")
     
     # 加载环境变量
     load_dotenv()
     
-    # 检查Ollama配置
-    ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-    ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
+    # 检查API配置
+    openai_key = os.getenv("OPENAI_API_KEY")
+    if not openai_key:
+        raise ValueError("❌ 未配置OPENAI_API_KEY。请在.env文件中配置OpenAI API密钥。")
     
-    if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
-    
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ 检测到OpenAI API模式")
     
     # 获取用户ID
     user_id = os.getenv("MOS_USER_ID", "default_user")
@@ -102,52 +102,48 @@ def create_person_memory_ollama():
     print(f"记忆键: {memory_item.metadata.key}")
     print(f"记忆类型: {memory_item.metadata.memory_type}")
     print(f"标签: {memory_item.metadata.tags}")
-    print(f"🎯 配置模式: OLLAMA")
-    print(f"🤖 聊天模型: {ollama_chat_model}")
-    print(f"🔍 嵌入模型: {ollama_embed_model}")
+    print(f"🎯 配置模式: OPENAI API")
     
     return memory_item
 
 if __name__ == "__main__":
-    create_person_memory_ollama()
+    create_person_memory_api()
 ```
 
 运行命令：
+
 ```bash
-cd test_cookbook/chapter2/Ollama/2
-python create_person_memory_ollama.py
+cd test_cookbook/chapter2/API/2
+python create_person_memory_api.py
 ```
 
 ### 示例2：创建项目记忆
 
-创建文件 `create_project_memory_ollama.py`：
+创建文件 `create_project_memory_api.py`：
 
 ```python
-# create_project_memory_ollama.py
-# 🎯 创建项目记忆的示例 (Ollama版)
+# create_project_memory_api.py
+# 🎯 创建项目记忆的示例 (API版)
 import os
 from dotenv import load_dotenv
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
-def create_project_memory_ollama():
+def create_project_memory_api():
     """
-    🎯 创建项目记忆的示例 (Ollama版)
+    🎯 创建项目记忆的示例 (API版)
     """
     
-    print("🚀 开始创建项目记忆 (Ollama版)...")
+    print("🚀 开始创建项目记忆 (API版)...")
     
     # 加载环境变量
     load_dotenv()
     
-    # 检查Ollama配置
-    ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-    ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
+    # 检查API配置
+    openai_key = os.getenv("OPENAI_API_KEY")
+    if not openai_key:
+        raise ValueError("❌ 未配置OPENAI_API_KEY。请在.env文件中配置OpenAI API密钥。")
     
-    if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
-    
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ 检测到OpenAI API模式")
     
     # 获取用户ID
     user_id = os.getenv("MOS_USER_ID", "default_user")
@@ -173,51 +169,47 @@ def create_project_memory_ollama():
 
     print(f"项目记忆: {project_memory.memory}")
     print(f"来源: {project_memory.metadata.sources}")
-    print(f"🎯 配置模式: OLLAMA")
-    print(f"🤖 聊天模型: {ollama_chat_model}")
-    print(f"🔍 嵌入模型: {ollama_embed_model}")
+    print(f"🎯 配置模式: OPENAI API")
     
     return project_memory
 
 if __name__ == "__main__":
-    create_project_memory_ollama()
+    create_project_memory_api() 
 ```
 
 运行命令：
+
 ```bash
-python create_project_memory_ollama.py
+python create_project_memory_api.py
 ```
 
 ### 示例3：创建工作记忆
 
-创建文件 `create_work_memory_ollama.py`：
+创建文件 `create_work_memory_api.py`：
 
 ```python
-# create_work_memory_ollama.py
-# 🎯 创建工作记忆的示例 (Ollama版)
+# create_work_memory_api.py
+# 🎯 创建工作记忆的示例 (API版)
 import os
 from dotenv import load_dotenv
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
-def create_work_memory_ollama():
+def create_work_memory_api():
     """
-    🎯 创建工作记忆的示例 (Ollama版)
+    🎯 创建工作记忆的示例 (API版)
     """
     
-    print("🚀 开始创建工作记忆 (Ollama版)...")
+    print("🚀 开始创建工作记忆 (API版)...")
     
     # 加载环境变量
     load_dotenv()
     
-    # 检查Ollama配置
-    ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-    ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
+    # 检查API配置
+    openai_key = os.getenv("OPENAI_API_KEY")
+    if not openai_key:
+        raise ValueError("❌ 未配置OPENAI_API_KEY。请在.env文件中配置OpenAI API密钥。")
     
-    if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
-    
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ 检测到OpenAI API模式")
     
     # 获取用户ID
     user_id = os.getenv("MOS_USER_ID", "default_user")
@@ -241,19 +233,18 @@ def create_work_memory_ollama():
 
     print(f"工作记忆: {work_memory.memory}")
     print(f"记忆类型: {work_memory.metadata.memory_type}")
-    print(f"🎯 配置模式: OLLAMA")
-    print(f"🤖 聊天模型: {ollama_chat_model}")
-    print(f"🔍 嵌入模型: {ollama_embed_model}")
+    print(f"🎯 配置模式: OPENAI API")
     
     return work_memory
 
 if __name__ == "__main__":
-    create_work_memory_ollama()
+    create_work_memory_api() 
 ```
 
 运行命令：
+
 ```bash
-python create_work_memory_ollama.py
+python create_work_memory_api.py
 ```
 
 ## 配方 2.3：常用字段说明和配置
@@ -264,17 +255,17 @@ python create_work_memory_ollama.py
 
 ### 常用字段说明
 
-| 字段 | 类型 | 说明 | 示例 |
-|------|------|------|------|
-| `user_id` | str | 用户ID | "user123" |
-| `type` | str | 记忆类型 | "fact", "event" |
-| `source` | str | 来源 | "conversation", "file" |
-| `confidence` | float | 置信度(0-100) | 90.0 |
-| `memory_type` | str | 记忆生命周期类型 | "LongTermMemory" |
-| `key` | str | 记忆键/标题 | "重要信息" |
-| `entities` | list | 实体列表 | ["张三", "项目"] |
-| `tags` | list | 标签列表 | ["重要", "技术"] |
-| `sources` | list | 多源列表 | ["文档", "会议"] |
+| 字段          | 类型  | 说明             | 示例                   |
+| ------------- | ----- | ---------------- | ---------------------- |
+| `user_id`     | str   | 用户ID           | "user123"              |
+| `type`        | str   | 记忆类型         | "fact", "event"        |
+| `source`      | str   | 来源             | "conversation", "file" |
+| `confidence`  | float | 置信度(0-100)    | 90.0                   |
+| `memory_type` | str   | 记忆生命周期类型 | "LongTermMemory"       |
+| `key`         | str   | 记忆键/标题      | "重要信息"             |
+| `entities`    | list  | 实体列表         | ["张三", "项目"]       |
+| `tags`        | list  | 标签列表         | ["重要", "技术"]       |
+| `sources`     | list  | 多源列表         | ["文档", "会议"]       |
 
 ## 配方 2.4：实际应用 - 创建记忆并添加到MemCube
 
@@ -282,90 +273,91 @@ python create_work_memory_ollama.py
 
 **🔧 解决方案：** 通过这个配方，你将学会如何将结构化记忆集成到MemCube中，并实现完整的记忆管理流程。
 
-创建文件 `memcube_with_structured_memories_ollama.py`：
+创建文件 `memcube_with_structured_memories_api.py`：
 
 ```python
-# memcube_with_structured_memories_ollama.py
-# 🎯 将结构化记忆添加到MemCube的完整示例 (Ollama版)
+# memcube_with_structured_memories_api.py
+# 🎯 将结构化记忆添加到MemCube的完整示例 (API版)
 import os
 from dotenv import load_dotenv
 from memos.mem_cube.general import GeneralMemCube
 from memos.configs.mem_cube import GeneralMemCubeConfig
 from memos.memories.textual.item import TextualMemoryItem, TreeNodeTextualMemoryMetadata
 
-def create_memcube_config_ollama():
+def create_memcube_config_api():
     """
-    🎯 创建MemCube配置 (Ollama版)
+    🎯 创建MemCube配置 (API版)
     """
     
-    print("🔧 创建MemCube配置 (Ollama版)...")
+    print("🔧 创建MemCube配置 (API版)...")
     
     # 加载环境变量
     load_dotenv()
     
-    # 检查Ollama配置
-    ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-    ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
+    # 检查API配置
+    openai_key = os.getenv("OPENAI_API_KEY")
+    openai_base = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
     
-    if not ollama_base_url or not ollama_chat_model or not ollama_embed_model:
-        raise ValueError("❌ 未配置Ollama环境变量。请在.env文件中配置OLLAMA_BASE_URL、OLLAMA_CHAT_MODEL、OLLAMA_EMBED_MODEL。")
+    if not openai_key:
+        raise ValueError("❌ 未配置OPENAI_API_KEY。请在.env文件中配置OpenAI API密钥。")
     
-    print("✅ 检测到Ollama本地模型模式")
+    print("✅ 检测到OpenAI API模式")
     
     # 获取配置
     user_id = os.getenv("MOS_USER_ID", "default_user")
     top_k = int(os.getenv("MOS_TOP_K", "5"))
     
-    # Ollama模式配置
-    cube_config = {
-        "user_id": user_id,
-        "cube_id": f"{user_id}_structured_memories_cube",
-        "text_mem": {
+    # OpenAI模式配置
+    config = GeneralMemCubeConfig(
+        user_id=user_id,
+        cube_id=f"{user_id}_structured_memories_cube",
+        text_mem={
             "backend": "general_text",
             "config": {
                 "extractor_llm": {
-                    "backend": "ollama",
+                    "backend": "openai",
                     "config": {
-                        "model_name_or_path": ollama_chat_model,
-                        "api_base": ollama_base_url
+                        "model_name_or_path": "gpt-3.5-turbo",
+                        "api_key": openai_key,
+                        "api_base": openai_base,
+                        "temperature": 0.1,
+                        "max_tokens": 1024,
                     }
                 },
                 "embedder": {
-                    "backend": "ollama",
+                    "backend": "universal_api",
                     "config": {
-                        "model_name_or_path": ollama_embed_model,
-                        "api_base": ollama_base_url
+                        "provider": "openai",
+                        "api_key": openai_key,
+                        "model_name_or_path": "text-embedding-ada-002",
+                        "base_url": openai_base,
                     }
                 },
                 "vector_db": {
                     "backend": "qdrant",
                     "config": {
                         "collection_name": f"{user_id}_structured_memories",
-                        "vector_dimension": 768,
+                        "vector_dimension": 1536,
                         "distance_metric": "cosine"
                     }
                 }
             }
         },
-        "act_mem": {"backend": "uninitialized"},
-        "para_mem": {"backend": "uninitialized"}
-    }
+        act_mem={"backend": "uninitialized"},
+        para_mem={"backend": "uninitialized"}
+    )
     
-    # 创建MemCube实例
-    config_obj = GeneralMemCubeConfig.model_validate(cube_config)
-    
-    return config_obj
+    return config
 
-def create_structured_memories_ollama():
+def create_structured_memories_api():
     """
-    🎯 将结构化记忆添加到MemCube的完整示例 (Ollama版)
+    🎯 将结构化记忆添加到MemCube的完整示例 (API版)
     """
     
-    print("🚀 开始创建结构化记忆MemCube (Ollama版)...")
+    print("🚀 开始创建结构化记忆MemCube (API版)...")
     
     # 创建MemCube配置
-    config = create_memcube_config_ollama()
+    config = create_memcube_config_api()
     
     # 创建MemCube
     mem_cube = GeneralMemCube(config)
@@ -374,14 +366,8 @@ def create_structured_memories_ollama():
     print(f"  📊 用户ID: {mem_cube.config.user_id}")
     print(f"  📊 MemCube ID: {mem_cube.config.cube_id}")
     print(f"  📊 文本记忆后端: {mem_cube.config.text_mem.backend}")
-    
-    # 获取Ollama配置用于显示
-    load_dotenv()
-    ollama_embed_model = os.getenv("OLLAMA_EMBED_MODEL")
-    ollama_chat_model = os.getenv("OLLAMA_CHAT_MODEL")
-    print(f"  🔍 嵌入模型: {ollama_embed_model} (Ollama)")
-    print(f"  🤖 聊天模型: {ollama_chat_model} (Ollama)")
-    print(f"  🎯 配置模式: OLLAMA")
+    print(f"  🔍 嵌入模型: text-embedding-ada-002 (OpenAI)")
+    print(f"  🎯 配置模式: OPENAI API")
     
     # 创建多个记忆项
     memories = []
@@ -460,13 +446,14 @@ def create_structured_memories_ollama():
     return mem_cube
 
 if __name__ == "__main__":
-    create_structured_memories_ollama()
+    create_structured_memories_api() 
 ```
 
 运行命令：
+
 ```bash
-cd test_cookbook/chapter2/Ollama/4
-python memcube_with_structured_memories_ollama.py
+cd test_cookbook/chapter2/API/4
+python memcube_with_structured_memories_api.py
 ```
 
 ## 常见问题和解决方案
@@ -502,20 +489,3 @@ elif source == "web_search":
 tags = ["项目", "技术", "重要"]  # 便于分类和检索
 entities = ["张三", "AI项目"]    # 便于实体识别和关联
 ```
-
-## 总结
-
-通过本章，你学会了：
-
-✅ **基本概念**: 记忆类型、状态、生命周期
-✅ **创建记忆**: 使用TreeNodeTextualMemoryMetadata创建结构化记忆
-✅ **实际应用**: 将记忆添加到MemCube并进行查询
-✅ **最佳实践**: 如何选择合适的配置参数
-
-**🎯 你现在可以：**
-- 创建各种类型的结构化记忆
-- 为记忆设置合适的生命周期类型
-- 使用标签和实体进行记忆分类
-- 将结构化记忆集成到MemCube中
-- 构建基于图数据库的层次化记忆系统
-- 实现记忆之间的关联推理和多跳查询

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import releasesData from '../../content/releases.json'
 import enChangelogData from '../../content/en/changelog.yml'
-import zhChangelogData from '../../content/zh/changelog.yml'
+import cnChangelogData from '../../content/cn/changelog.yml'
 
 const { t, locale } = useI18n()
 
@@ -40,7 +40,7 @@ interface ChangelogData {
 
 // Get changelog data based on current language
 const changelogData = computed(() => {
-  return locale.value === 'zh' ? zhChangelogData : enChangelogData
+  return locale.value === 'cn' ? cnChangelogData : enChangelogData
 })
 
 const activeTab = ref('0')

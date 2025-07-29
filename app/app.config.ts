@@ -28,24 +28,6 @@ export default defineAppConfig({
       'to': 'https://github.com/MemTensor/MemOS',
       'target': '_blank',
       'aria-label': 'GitHub'
-    }],
-    memus: [{
-      to: 'https://memos.openmem.net',
-      label: 'header.home'
-    }, {
-      to: '/home/overview',
-      label: 'header.docs'
-    }, {
-      label: 'header.research',
-      target: '_blank',
-      to: 'https://memos.openmem.net/paper_memos_v2'
-    }, {
-      label: 'header.openmem',
-      target: '_blank',
-      to: 'https://memos.openmem.net/openmem'
-    }, {
-      label: 'header.changelog',
-      to: '/changelog'
     }]
   },
   footer: {

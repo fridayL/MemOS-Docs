@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import type { ContentNavigationItem } from '@nuxt/content'
+import { getHomePath } from '~/utils'
 
 const route = useRoute()
 const { t, locale, setLocale } = useI18n()
 const { header } = useAppConfig()
-const config = useRuntimeConfig()
+const homePath = computed(() => {
+  return getHomePath('/', locale.value)
+})
 // docs navigation for mobile
 const navigation = inject<ContentNavigationItem[]>('navigation', [])
 const localizedMenus = computed(() => {
   return [
     {
-      to: 'https://memos.openmem.net',
+      to: getHomePath('/', locale.value),
       label: t('header.home')
     },
     {
-      to: '/home/overview',
+      to: getLangPath('/home/overview', locale.value),
       label: t('header.docs'),
       active: !route.path.includes('/changelog')
     },
@@ -26,41 +29,29 @@ const localizedMenus = computed(() => {
     {
       label: t('header.openmem'),
       target: '_blank',
-      to: locale.value === 'zh' ? 'https://memos.openmem.net/cn/openmem' : 'https://memos.openmem.net/openmem'
+      to: getHomePath('/openmem', locale.value)
     },
     {
       label: t('header.changelog'),
-      to: '/changelog',
+      to: getLangPath('/changelog', locale.value),
       active: route.path.includes('/changelog')
     }
   ]
 })
 
 function handleLocaleSwitch() {
-  // For development, switch locale directly
-  if (config.public.env === 'dev') {
-    setLocale(locale.value === 'en' ? 'zh' : 'en')
-
-    return
-  }
-
-  // For production, redirect to the corresponding domain
-  if (locale.value === 'en') {
-    window.location.href = `${config.public.cnDomain}/${window.location.pathname}`
-  } else {
-    window.location.href = `${config.public.enDomain}/${window.location.pathname}`
-  }
+  setLocale(locale.value === 'en' ? 'cn' : 'en')
 }
 </script>
 
 <template>
   <UHeader
-    :to="header?.to || '/'"
+    :to="homePath"
   >
     <template
       #left
     >
-      <NuxtLink :to="header?.to || '/'">
+      <NuxtLink :to="homePath">
         <LogoPro class="w-auto h-6 shrink-0" />
       </NuxtLink>
     </template>

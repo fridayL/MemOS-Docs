@@ -13,7 +13,7 @@ MemOS-Docs/
 │   └── assets/           # Static assets like CSS
 ├── content/              # Documentation content
 │   ├── en/              # English documentation
-│   ├── zh/              # Chinese documentation
+│   ├── cn/              # Chinese documentation
 │   └── api.json         # OpenAPI Documentation
 ├── public/              # Public static assets
 │   └── assets/         # Images and other media
@@ -58,9 +58,8 @@ Build the documentation site:
 # Build with default settings (en locale, dev environment)
 pnpm run publish
 
-# Build for specific locale and environment
-pnpm run publish --locale=en --env=prod  # English, production
-pnpm run publish --locale=zh --env=prod  # Chinese, production
+# Build for specific environment
+pnpm run publish --env=prod 
 ```
 
 ## Environment Configuration
@@ -78,7 +77,7 @@ Configure environment-specific settings in `envConfig/config.[env].ts`.
 Documentation is written in Markdown format and organized by language:
 
 - English docs: `content/en/`
-- Chinese docs: `content/zh/`
+- Chinese docs: `content/cn/`
 
 Navigation structure is defined in `content/[lang]/settings.yml`.
 

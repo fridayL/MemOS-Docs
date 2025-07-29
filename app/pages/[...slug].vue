@@ -11,11 +11,9 @@ const config = useRuntimeConfig()
 const normalizedPath = route.path.replace(/\/$/, '') || '/'
 
 const { data: page } = await useAsyncData(normalizedPath, () => {
-  if (config.public.env === 'dev' && normalizedPath.startsWith('/zh')) {
-    return queryCollection('docs').path(`${normalizedPath}`).first()
-  }
+  const docsPath = locale.value === 'cn' ? normalizedPath : `/en${normalizedPath}`
 
-  return queryCollection('docs').path(`/${locale.value}${normalizedPath}`).first()
+  return queryCollection('docs').path(docsPath).first()
 })
 
 // Watch locale changes and refresh content

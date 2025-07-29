@@ -6,15 +6,16 @@ const route = useRoute()
 const { locale } = useI18n()
 const contentNavigation = useContentNavigation(locale)
 
-const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
-  server: false
+const { data: files } = useLazyAsyncData(`search`, () => queryCollectionSearchSections('docs'), {
+  server: false,
+  watch: [locale]
 })
 
-// Process files to remove language prefix
+// Process files to remove en language prefix
 const processedFiles = computed(() => {
   if (!files.value) return []
 
-  return files.value.filter(file => file.id.startsWith(`/${locale.value}`)).map(file => ({
+  return files.value.filter(file => file.id.startsWith('/en')).map(file => ({
     ...file,
     id: file.id.replace(`/${locale.value}`, '')
   }))
