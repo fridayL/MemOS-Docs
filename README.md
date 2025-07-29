@@ -13,7 +13,7 @@ MemOS-Docs/
 │   └── assets/           # Static assets like CSS
 ├── content/              # Documentation content
 │   ├── en/              # English documentation
-│   ├── zh/              # Chinese documentation
+│   ├── cn/              # Chinese documentation
 │   └── api.json         # OpenAPI Documentation
 ├── public/              # Public static assets
 │   └── assets/         # Images and other media
@@ -78,7 +78,7 @@ Configure environment-specific settings in `envConfig/config.[env].ts`.
 Documentation is written in Markdown format and organized by language:
 
 - English docs: `content/en/`
-- Chinese docs: `content/zh/`
+- Chinese docs: `content/cn/`
 
 Navigation structure is defined in `content/[lang]/settings.yml`.
 

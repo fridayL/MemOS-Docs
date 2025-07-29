@@ -31,7 +31,7 @@ function extractRoutesFromNav(nav, prefix = '', routes = new Set()) {
 }
 
 export function getCnRoutes() {
-  const cnSettings = yaml.load(fs.readFileSync('content/zh/settings.yml', 'utf8'))
+  const cnSettings = yaml.load(fs.readFileSync('content/cn/settings.yml', 'utf8'))
 
   return Array.from(extractRoutesFromNav(cnSettings.nav, '/cn'))
 }
