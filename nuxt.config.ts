@@ -5,7 +5,7 @@ import { getCnRoutes } from './scripts/extract-routes.mjs'
 
 const cnRoutes = getCnRoutes()
 // Get locale from command line arguments or environment variable
-const env = process.env.NUXT_ENV_CONFIG || 'dev'
+const env = process.env.NUXT_ENV_CONFIG || 'prod'
 
 const armsScript = process.env.NODE_ENV === 'production'
   ? [{ innerHTML: `var _czc = _czc || [];
@@ -21,7 +21,6 @@ const armsScript = process.env.NODE_ENV === 'production'
 const envConfig = await import(`./envConfig/config.${env}.ts`).then(m => m.default).catch(() => {
   return {
     env: 'prod',
-    cnDomain: 'https://memos-docs-cn.openmem.net',
     enDomain: 'https://memos-docs.openmem.net'
   }
 })

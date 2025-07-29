@@ -58,9 +58,8 @@ Build the documentation site:
 # Build with default settings (en locale, dev environment)
 pnpm run publish
 
-# Build for specific locale and environment
-pnpm run publish --locale=en --env=prod  # English, production
-pnpm run publish --locale=zh --env=prod  # Chinese, production
+# Build for specific environment
+pnpm run publish --env=prod 
 ```
 
 ## Environment Configuration
