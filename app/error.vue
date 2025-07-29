@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
+const { locale } = useI18n()
+
 const props = defineProps<{
   error: NuxtError
 }>()
 
 // Immediately redirect to /home/overview if it's a 404 error
 if (props.error?.statusCode === 404) {
-  navigateTo('/home/overview')
+  navigateTo(getLangPath('/home/overview', locale.value))
 }
 
 useHead({
