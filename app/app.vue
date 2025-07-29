@@ -6,7 +6,6 @@ const route = useRoute()
 const { locale } = useI18n()
 const contentNavigation = useContentNavigation(locale)
 
-console.log('locale')
 const { data: files } = useLazyAsyncData(`search`, () => queryCollectionSearchSections('docs'), {
   server: false,
   watch: [locale]
