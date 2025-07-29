@@ -1,12 +1,12 @@
 import yaml from '@rollup/plugin-yaml'
-import type { NuxtConfig, RouteRules } from '@nuxt/schema'
+import type { NuxtConfig } from '@nuxt/schema'
 import pkg from './package.json'
 import { getCnRoutes } from './scripts/extract-routes.mjs'
 
 const cnRoutes = getCnRoutes()
 // Get locale from command line arguments or environment variable
 const env = process.env.NUXT_ENV_CONFIG || 'prod'
-let routeRules: RouteRules = {};
+let routeRules: Record<string, any> = {};
 
 if (env === 'prod') {
   routeRules = {
