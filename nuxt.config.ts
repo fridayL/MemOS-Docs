@@ -6,18 +6,6 @@ import { getCnRoutes } from './scripts/extract-routes.mjs'
 const cnRoutes = getCnRoutes()
 // Get locale from command line arguments or environment variable
 const env = process.env.NUXT_ENV_CONFIG || 'prod'
-let routeRules: Record<string, any> = {};
-
-if (env === 'prod') {
-  routeRules = {
-    '/': {
-      redirect: '/home/overview'
-    },
-    '/cn': {
-      redirect: '/cn/home/overview'
-    }
-  }
-}
 
 const armsScript = process.env.NODE_ENV === 'production'
   ? [{ innerHTML: `var _czc = _czc || [];
