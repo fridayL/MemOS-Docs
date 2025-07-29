@@ -6,7 +6,7 @@ const route = useRoute()
 const { t, locale, setLocale } = useI18n()
 const { header } = useAppConfig()
 const homePath = computed(() => {
-  return locale.value === 'cn' ? 'https://memos.openmem.net/cn' : 'https://memos.openmem.net'
+  return getHomePath('/', locale.value)
 })
 // docs navigation for mobile
 const navigation = inject<ContentNavigationItem[]>('navigation', [])
