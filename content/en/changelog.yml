@@ -21,7 +21,6 @@ versions:
       Improvements:
         - type: Documentation
           changedInfo:
-            - Completed documentation updates
             - Added English version for first three chapters of Cookbook
         - type: Memory Scheduling
           changedInfo:
@@ -33,28 +32,28 @@ versions:
             - Implemented locking for shared resources
         - type: Development Environment
           changedInfo:
-            - Updated Docker configuration (#143)
-            - Updated dim environment configuration (#186)
+            - Updated Docker configuration
+            - Updated dim environment configuration
         - type: API Enhancements
           changedInfo:
-            - Added playground context support (#151)
-            - Enhanced product API functionality (#166)
-            - Rewrote query module (#149)
-            - Implemented chat history feature (#187)
+            - Added playground context support
+            - Enhanced product API functionality
+            - Rewrote query module
+            - Implemented chat history feature
       Bug Fixes:
         - type: Data Parsing
           changedInfo:
-            - Fixed date parsing error (#132)
-            - Fixed memos_w_scheduler example code issues (#147)
-            - Fixed fine-grained search bug in Nebula graph database (#181)
-            - Fixed metadata filter retrieval logic (#184)
+            - Fixed date parsing error
+            - Fixed memos_w_scheduler example code issues
+            - Fixed fine-grained search bug in Nebula graph database
+            - Fixed metadata filter retrieval logic
         - type: System Integration
           changedInfo:
-            - Aligned MOSProduct._build_system_prompt signature with MOSCore (#169)
+            - Aligned MOSProduct._build_system_prompt signature with MOSCore
         - type: Explicit Memory
           changedInfo:
-            - Fixed general text memory processing logic (#140)
-            - Fixed memreader component issues (#132)
+            - Fixed general text memory processing logic
+            - Fixed memreader component issues
             -
   - name: v0.2.1
     date: 2025-07-21
