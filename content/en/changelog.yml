@@ -3,33 +3,58 @@ versions:
     date: 2025-07-29
     changedInfo:
       New Features:
-        - type: Plaintext Memory
+        - type: Explicit Memory
           changedInfo:
             - Implemented internet search integration and Nebula database support
             - Enhanced context understanding for memory extraction
-            - Launched internet search interface integrated with memreader for processing web content
-        - type: Memory Scheduling
-          changedInfo:
-            - Conducted code refactoring and functional improvements
-            - Restructured monitor, dispatcher, and retriever components
-            - Added schemas and utils major code categories
-            - Improved network logging functionality
-            - Enhanced scheduler robustness with exception handling decorators
-            - Implemented locks for shared resources
+            - Launched internet search interface and integrated memreader for processing web messages
         - type: KV Cache
           changedInfo:
-            - Conducted KV Cache evaluation including LMCache research and performance testing
-            - Completed stress testing for MemOS vllm (v0.2.1) in specific environments
-            - Enhanced ttft testing data for Qwen2.5-72B-Instruct model with preloaded KV Cache
-            - Completed research and design for high ROI inference service system with domestic hardware
+            - Conducted KV Cache evaluation, including detailed research on LMCache and performance testing
+            - Completed stress testing of MemOS vllm (v0.2.1) in specific environments and models
+            - Refined ttft test data for preloaded KV Cache on Qwen2.5-72B-Instruct model and updated the report
+            - Completed first-phase research and design of a high-ROI inference service system using domestic hardware
         - type: MemCube Construction
           changedInfo:
             - Updated documentation
-            - Released first three chapters of Cookbook in Chinese and English
+            - Released Chinese and English versions of the first three chapters of the Cookbook
         - type: Memory Operation Model
           changedInfo:
-            - Completed model training and evaluation release
+            - Completed model training evaluation and release
             - Released 4b, 1.7b, and 0.6b models supporting memory extraction and integration
+      Improvements:
+        - type: Memory Scheduling
+          changedInfo:
+            - Conducted code refactoring and functional enhancements
+            - Refactored functional modules including monitor, dispatcher, and retriever
+            - Added major code categories: schemas and utils
+            - Improved network logging functionality
+            - Enhanced scheduler robustness with new exception-catching decorators
+            - Implemented locking for shared resources
+        - type: Development Environment
+          changedInfo:
+            - Updated Docker configuration (#143)
+            - Updated dim environment configuration (#186)
+        - type: API Enhancements
+          changedInfo:
+            - Added playground context support (#151)
+            - Enhanced product API functionality (#166)
+            - Rewrote query module (#149)
+            - Added chat history feature (#187)
+      Bug Fixes:
+        - type: Data Parsing
+          changedInfo:
+            - Fixed date parsing error (#132)
+            - Fixed bugs in memos_w_scheduler example code (#147)
+            - Fixed fine-grained search bug in Nebula graph database (#181)
+            - Fixed metadata filter retrieval logic (#184)
+        - type: System Integration
+          changedInfo:
+            - Aligned MOSProduct._build_system_prompt signature with MOSCore (#169)
+        - type: Explicit Memory
+          changedInfo:
+            - Fixed general text memory processing logic (#140)
+            - Fixed memreader component issues (#132)
 
   - name: v0.2.1
     date: 2025-07-21
