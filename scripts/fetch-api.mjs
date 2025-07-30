@@ -13,6 +13,10 @@ function processApiSpec(data) {
     if (properties.mem_reader) {
       delete properties.mem_reader.description
     }
+
+    if (properties.user_manager) {
+      delete properties.user_manager.description
+    }
   }
 
   return processedData
