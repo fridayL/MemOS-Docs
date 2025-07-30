@@ -62,7 +62,7 @@ const toContentNav = (node: RawNav, locale: string): ContentNavigationItem | nul
   }
 
   const stem = (childrenOrPath as string).replace(/\.md$/, '')
-  const isApiReference = title === 'API Reference' || rawTitle.includes('API Reference')
+  const isApiReference = stem.includes('api/info')
 
   return {
     title,
