@@ -14,15 +14,15 @@ versions:
             - 完成 MemOS vllm（0.2.1 版）在特定环境和模型下的压力测试
             - 细化 Qwen2.5-72B-Instruct 模型上预载 KV Cache 的 ttft 测试数据并补充进报告
             - 结合国产硬件应用，完成高 ROI 推理服务系统的第一版调研与设计
-        - type: MemCube 构建
-          changedInfo:
-            - 完成文档更新
-            - 发布 Cookbook 前三个章节的中英文版
         - type: 记忆操作模型
           changedInfo:
             - 完成模型训练评估并发布
             - 发布 4b、1.7b、0.6b 模型，支持记忆抽取和整合
       Improvements:
+        - type: 文档更新
+          changedInfo:
+            - 完成文档更新
+            - 新增 Cookbook 前三个章节的英文版
         - type: 记忆调度
           changedInfo:
             - 开展代码重构与功能完善工作
