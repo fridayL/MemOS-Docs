@@ -19,9 +19,8 @@ versions:
             - 完成模型训练评估并发布
             - 发布 4b、1.7b、0.6b 模型，支持记忆抽取和整合
       Improvements:
-        - type: 文档更新
+        - type: 文档
           changedInfo:
-            - 完成文档更新
             - 新增 Cookbook 前三个章节的英文版
         - type: 记忆调度
           changedInfo:
@@ -33,28 +32,28 @@ versions:
             - 对部分共享资源加锁
         - type: 开发环境
           changedInfo:
-            - 更新Docker配置 (#143)
-            - 更新dim环境配置 (#186)
+            - 更新Docker配置
+            - 更新dim环境配置
         - type: API增强
           changedInfo:
-            - 增加playground上下文支持 (#151)
-            - 增强产品API功能 (#166)
-            - 重写查询模块 (#149)
-            - 添加chat历史功能 (#187)
+            - 增加playground上下文支持
+            - 增强产品API功能
+            - 重写查询模块
+            - 添加chat历史功能
       Bug Fixes:
         - type: 数据解析
           changedInfo:
-            - 修复日期解析错误 (#132)
-            - 修复memos_w_scheduler示例代码问题 (#147)
-            - 修复Nebula图数据库的精细搜索bug (#181)
-            - 修复metadata过滤器的获取逻辑 (#184)
+            - 修复日期解析错误
+            - 修复memos_w_scheduler示例代码问题
+            - 修复Nebula图数据库的精细搜索bug
+            - 修复metadata过滤器的获取逻辑
         - type: 系统集成
           changedInfo:
-            - 对齐MOSProduct._build_system_prompt签名与MOSCore (#169)
+            - 对齐MOSProduct._build_system_prompt签名与MOSCore
         - type: 明文记忆
           changedInfo:
-            - 修复通用文本记忆处理逻辑 (#140)
-            - 修复memreader组件问题 (#132)
+            - 修复通用文本记忆处理逻辑
+            - 修复memreader组件问题
 
   - name: v0.2.1
     date: 2025-07-21
