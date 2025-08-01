@@ -42,7 +42,7 @@ This chapter will guide you to build an intelligent memory analysis system based
 
 **Core Technical Architecture**:
 
-![Cookbook-Chapter3-Core](https://statics.memtensor.com.cn/memos/cookbook-chapter3-core.png)
+![Cookbook-Chapter3-Core](https://statics.memtensor.com.cn/memos/cookbook-chapter3-core-en.png)
 
 **Data Processing Pipeline**:
 
