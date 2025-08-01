@@ -35,7 +35,11 @@ useHead({
 })
 
 function showContentNavigation() {
-  return route.path !== '/' && !route.path.includes('/docs/api/info') && !route.path.includes('changelog')
+  return route.path !== '/' && !isApiPage() && !route.path.includes('changelog')
+}
+
+function isApiPage() {
+  return route.path.startsWith('/docs/api') || route.path.startsWith('/cn/docs/api/')
 }
 
 provide('navigation', contentNavigation)
@@ -45,7 +49,7 @@ provide('navigation', contentNavigation)
   <UApp>
     <NuxtLoadingIndicator />
 
-    <AppHeader v-if="!route.path.includes('/docs/api/info')" />
+    <AppHeader v-if="!isApiPage()" />
 
     <!-- Document pages -->
     <template v-if="showContentNavigation()">

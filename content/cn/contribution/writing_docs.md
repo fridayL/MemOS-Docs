@@ -59,7 +59,7 @@ links:
 
 本项目使用 Nuxt Content 的 MDC（Markdown Components）语法，支持在 Markdown 中使用 Vue 组件。这些组件有助于创建风格一致、结构良好、体验优秀的文档内容。
 
-### 图片引用
+### Image
 
 为文档添加图片时，可以使用多种方式进行引用：
 
@@ -79,7 +79,7 @@ links:
 ![MemOS Architecture](https://statics.memtensor.com.cn/memos/memos-architecture.png)
 ```
 
-### 步骤指引
+### Steps
 
 使用 `steps` 组件将文档标题自动编号，生成逐步引导的教程。
 
