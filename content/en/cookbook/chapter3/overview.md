@@ -1078,4 +1078,29 @@ Based on MemOS, you can create:
 - 🎯 Generate logically consistent plot developments
 - 🌟 Create unlimited possible story branches
 
+---
+
+## 🎮 Try It Now: Interactive Text Game Demo
+
+Want to experience a text-based game built with MemOS firsthand? We provide a complete demo project that showcases how to apply the techniques introduced in this chapter to actual interactive text generation.
+
+### 📦 Demo Features
+
+- **🎯 Based on "Demi-Gods and Semi-Devils"**: Uses the same novel content processed in this chapter as knowledge base
+- **🔍 Intelligent Intent Recognition**: Automatically identifies the type of operation users want to perform
+- **💬 Multiple Interaction Modes**: Supports story continuation, character analysis, hypothetical scenarios, character dialogues, and more
+- **🧠 MemOS-Powered**: Demonstrates real MemCube retrieval and context generation
+
+### 🚀 Try It Now
+
+**👉 [MemCube Interactive Text Game Demo - Hugging Face](https://huggingface.co/datasets/MemCube/interactive-text-game-demo)**
+
+This demo project includes:
+- ✅ **Complete Source Code**: Shows actual usage of MemOS components
+- ✅ **Setup Guide**: Step-by-step instructions for deployment and running
+- ✅ **Technical Documentation**: Detailed explanation of implementation principles and design ideas
+- ✅ **Customizable**: Can be replaced with your own text content
+
+By actually operating this demo, you will gain a deeper understanding of how the MemOS technologies introduced in this chapter work in real applications!
+
 **Now, unleash your creativity and build your intelligent world with MemOS!** 🚀 
