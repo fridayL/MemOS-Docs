@@ -15,9 +15,9 @@ const { data: files } = useLazyAsyncData(`search`, () => queryCollectionSearchSe
 const processedFiles = computed(() => {
   if (!files.value) return []
 
-  return files.value.filter(file => file.id.startsWith('/en')).map(file => ({
+  return files.value.filter(file => file.id.startsWith(`/${locale.value}`)).map(file => ({
     ...file,
-    id: file.id.replace(`/${locale.value}`, '')
+    id: locale.value === 'en' ? file.id.replace(`/${locale.value}`, '') : file.id
   }))
 })
 
