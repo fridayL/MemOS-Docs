@@ -923,13 +923,13 @@ mem_cube.text_mem.replace_working_memory(world_state_memories)
 current_working_memory = mem_cube.text_mem.get_working_memory()
 ```
 
-### 🎮 Creative 3: MemOS-Driven Text MUD Game
+### 🎮 Creative 3: MemOS-Driven Interactive Text Game
 
-**Ultimate Creative**: Build a truly intelligent text adventure game based on MemOS + MemCube + GPT-4o!
+**Ultimate Creative**: Build a truly intelligent single-player text adventure game based on MemOS + MemCube + GPT-4o!
 
 ```python
 # Game core architecture example
-class WuxiaMUD:
+class WuxiaTextGame:
     def __init__(self, mos_config):
         from memos.mem_os.main import MOS
         
@@ -1004,7 +1004,7 @@ class WuxiaMUD:
 
 # Complete usage example
 def create_wuxia_game():
-    """Create complete martial arts MUD game example"""
+    """Create complete martial arts text game example"""
     from memos.configs.mem_os import MOSConfig
     
     # Create MemOS configuration
@@ -1035,7 +1035,7 @@ def create_wuxia_game():
     )
     
     # Create game instance
-    game = WuxiaMUD(mos_config)
+    game = WuxiaTextGame(mos_config)
     
     # Example dialogue
     response = game.process_action("I want to find Xiao Feng in Luoyang inn")

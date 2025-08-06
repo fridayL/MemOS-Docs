@@ -923,13 +923,13 @@ mem_cube.text_mem.replace_working_memory(world_state_memories)
 current_working_memory = mem_cube.text_mem.get_working_memory()
 ```
 
-### 🎮 创意3：MemOS驱动的文字MUD游戏
+### 🎮 创意3：MemOS驱动的互动文字游戏
 
-**终极创意**：基于MemOS + MemCube + GPT-4o构建一个真正智能的文字冒险游戏！
+**终极创意**：基于MemOS + MemCube + GPT-4o构建一个真正智能的单人文字冒险游戏！
 
 ```python
 # 游戏核心架构示例
-class WuxiaMUD:
+class WuxiaTextGame:
     def __init__(self, mos_config):
         from memos.mem_os.main import MOS
         
@@ -1004,7 +1004,7 @@ class WuxiaMUD:
 
 # 完整的使用示例
 def create_wuxia_game():
-    """创建完整的武侠MUD游戏示例"""
+    """创建完整的武侠文字游戏示例"""
     from memos.configs.mem_os import MOSConfig
     
     # 创建MemOS配置
@@ -1035,7 +1035,7 @@ def create_wuxia_game():
     )
     
     # 创建游戏实例
-    game = WuxiaMUD(mos_config)
+    game = WuxiaTextGame(mos_config)
     
     # 示例对话
     response = game.process_action("我想在洛阳客栈寻找萧峰")
@@ -1067,7 +1067,7 @@ AI：  这是一个危险的选择！提前揭露身世可能改变整个故事�
 
 - 📚 **智能小说生成器** - AI根据你的设定自动创作
 - 🎭 **虚拟角色陪伴** - 和萧峰、段誉进行真实对话
-- 🎨 **交互式剧情创作** - 多人协作的动态故事世界
+- 🎨 **交互式剧情创作** - 动态生成的故事世界
 - 🎯 **教育游戏平台** - 在游戏中学习历史和文学
 - 🔮 **预测性娱乐** - AI预测你的选择会如何影响剧情
 
