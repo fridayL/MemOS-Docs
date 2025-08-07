@@ -1,4 +1,27 @@
 versions:
+  - name: v0.2.3
+    date: 2025-08-07
+    changedInfo:
+      New Features:
+        - type: MemCube构建
+          changedInfo:
+            - 新增一个基于小说MemCube的文字游戏demo
+        - type: 扩展评估集
+          changedInfo:
+            - 新增LongMemEval评估结果与评估脚本；
+      Improvements:
+        - type: 明文记忆功能
+          changedInfo:
+            - 互联网检索接入博查；
+            - 增加对Nebula数据库的支持；
+            - 增加对树形明文记忆search接口的上下文理解功能；
+      Bug Fixes:
+        - type: KV Cache拼接
+          changedInfo:
+            - 修复concat_cache方法；
+        - type: 明文记忆
+          changedInfo:
+            - 修复nebula搜索相关问题；
   - name: v0.2.2
     date: 2025-07-29
     changedInfo:
