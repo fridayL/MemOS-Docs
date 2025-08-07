@@ -9,6 +9,9 @@ versions:
         - type: 扩展评估集
           changedInfo:
             - 新增LongMemEval评估结果与评估脚本；
+        - type: Playground
+          changedInfo:
+            - 开放Playground功能，并优化算法效果；
       Improvements:
         - type: 明文记忆功能
           changedInfo:

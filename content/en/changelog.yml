@@ -9,6 +9,9 @@ versions:
         - type: Extended Evaluation Set
           changedInfo:
             - Added LongMemEval evaluation results and scripts.
+        - type: Playground
+          changedInfo:
+            - Expanded Playground features and algorithm performance.
       Improvements:
         - type: Plaintext Memory
           changedInfo:
