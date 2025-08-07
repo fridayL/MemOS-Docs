@@ -1,16 +1,23 @@
 <script setup lang="ts">
+import type { ContentNavigationItem } from '@nuxt/content'
+import { getHomePath } from '~/utils'
+
 const route = useRoute()
 const { t, locale, setLocale } = useI18n()
 const { header } = useAppConfig()
-
+const homePath = computed(() => {
+  return getHomePath('/', locale.value)
+})
+// docs navigation for mobile
+const navigation = inject<ContentNavigationItem[]>('navigation', [])
 const localizedMenus = computed(() => {
   return [
     {
-      to: 'https://memos.openmem.net',
+      to: getHomePath('/', locale.value),
       label: t('header.home')
     },
     {
-      to: '/home/overview',
+      to: getLangPath('/home/overview', locale.value),
       label: t('header.docs'),
       active: !route.path.includes('/changelog')
     },
@@ -20,27 +27,31 @@ const localizedMenus = computed(() => {
       to: 'https://memos.openmem.net/paper_memos_v2'
     },
     {
+      label: t('header.openmem'),
+      target: '_blank',
+      to: getHomePath('/openmem', locale.value)
+    },
+    {
       label: t('header.changelog'),
-      to: '/changelog',
+      to: getLangPath('/changelog', locale.value),
       active: route.path.includes('/changelog')
     }
   ]
 })
 
-const handleLocaleSwitch = () => {
-  const targetLocale = locale.value === 'zh' ? 'en' : 'zh'
-  setLocale(targetLocale)
+function handleLocaleSwitch() {
+  setLocale(locale.value === 'en' ? 'cn' : 'en')
 }
 </script>
 
 <template>
   <UHeader
-    :to="header?.to || '/'"
+    :to="homePath"
   >
     <template
       #left
     >
-      <NuxtLink :to="header?.to || '/'">
+      <NuxtLink :to="homePath">
         <LogoPro class="w-auto h-6 shrink-0" />
       </NuxtLink>
     </template>

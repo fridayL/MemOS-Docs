@@ -1,11 +1,11 @@
 import en from './locales/en.js'
-import zh from './locales/zh.js'
+import cn from './locales/cn.js'
 
 export default defineI18nConfig(() => ({
   legacy: false,
   fallbackLocale: 'en',
   messages: {
     en,
-    zh
+    cn
   }
 }))

@@ -1,10 +1,11 @@
 import yaml from '@rollup/plugin-yaml'
 import type { NuxtConfig } from '@nuxt/schema'
 import pkg from './package.json'
+import { getCnRoutes } from './scripts/extract-routes.mjs'
 
+const cnRoutes = getCnRoutes()
 // Get locale from command line arguments or environment variable
-const env = process.env.NUXT_ENV_CONFIG || 'dev'
-const locale = process.env.NUXT_PUBLIC_LOCALE || 'en'
+const env = process.env.NUXT_ENV_CONFIG || 'prod'
 
 const armsScript = process.env.NODE_ENV === 'production'
   ? [{ innerHTML: `var _czc = _czc || [];
@@ -20,7 +21,6 @@ const armsScript = process.env.NODE_ENV === 'production'
 const envConfig = await import(`./envConfig/config.${env}.ts`).then(m => m.default).catch(() => {
   return {
     env: 'prod',
-    cnDomain: 'https://memos-docs-cn.openmem.net',
     enDomain: 'https://memos-docs.openmem.net'
   }
 })
@@ -66,7 +66,7 @@ const config: NuxtConfig = {
   i18n: {
     locales: [
       {
-        code: 'zh',
+        code: 'cn',
         iso: 'zh-CN',
         name: '中文'
       },
@@ -76,11 +76,17 @@ const config: NuxtConfig = {
         name: 'English'
       }
     ],
-    defaultLocale: locale as 'en' | 'zh',
+    defaultLocale: 'en',
     // locale prefix added for every locale except default
-    strategy: 'prefix_except_default' as const,
+    strategy: 'prefix_except_default',
     vueI18n: './i18n.config.ts',
-    detectBrowserLanguage: false
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'MEMOS_LANG',
+      cookieDomain: 'openmem.net',
+      fallbackLocale: 'en'
+    },
+    pages: undefined
   },
 
   devtools: {
@@ -106,7 +112,7 @@ const config: NuxtConfig = {
     build: {
       markdown: {
         highlight: {
-          langs: ['bash', 'ts', 'typescript', 'diff', 'vue', 'json', 'yml', 'css', 'mdc', 'python', 'py']
+          langs: ['bash', 'ts', 'typescript', 'diff', 'vue', 'json', 'yml', 'css', 'mdc', 'python', 'py', 'mermaid']
         }
       }
     }
@@ -121,9 +127,20 @@ const config: NuxtConfig = {
   nitro: {
     prerender: {
       routes: [
-        '/'
+        '/',
+        '/cn',
+        ...cnRoutes
       ],
       crawlLinks: true
+    }
+  },
+
+  routeRules: {
+    '/': {
+      redirect: '/home/overview'
+    },
+    '/cn': {
+      redirect: '/cn/home/overview'
     }
   },
 

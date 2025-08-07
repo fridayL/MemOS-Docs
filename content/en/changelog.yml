@@ -1,4 +1,60 @@
 versions:
+  - name: v0.2.2
+    date: 2025-07-29
+    changedInfo:
+      New Features:
+        - type: Explicit Memory
+          changedInfo:
+            - Implemented internet search integration with Nebula database support
+            - Enhanced contextual understanding for memory extraction
+            - Deployed internet search interface integrated with memreader for web message processing
+        - type: KV Cache
+          changedInfo:
+            - Conducted KV Cache evaluation including LMCache comprehensive research and performance testing
+            - Completed stress testing for MemOS vllm (v0.2.1) in specific environments and models
+            - Refined ttft test data for preloaded KV Cache on Qwen2.5-72B-Instruct model and updated report
+            - Completed initial research and design for high-ROI inference service system using domestic hardware
+        - type: Memory Operation Model
+          changedInfo:
+            - Completed model training evaluation and release
+            - Released 4b, 1.7b and 0.6b models supporting memory extraction and integration
+      Improvements:
+        - type: Documentation
+          changedInfo:
+            - Added English version for first three chapters of Cookbook
+        - type: Memory Scheduling
+          changedInfo:
+            - Performed code refactoring and functionality improvements
+            - Refactored functional modules including monitor, dispatcher and retriever
+            - Added major code categories: schemas and utils
+            - Enhanced network logging functionality
+            - Improved scheduler robustness with new exception-catching decorators
+            - Implemented locking for shared resources
+        - type: Development Environment
+          changedInfo:
+            - Updated Docker configuration
+            - Updated dim environment configuration
+        - type: API Enhancements
+          changedInfo:
+            - Added playground context support
+            - Enhanced product API functionality
+            - Rewrote query module
+            - Implemented chat history feature
+      Bug Fixes:
+        - type: Data Parsing
+          changedInfo:
+            - Fixed date parsing error
+            - Fixed memos_w_scheduler example code issues
+            - Fixed fine-grained search bug in Nebula graph database
+            - Fixed metadata filter retrieval logic
+        - type: System Integration
+          changedInfo:
+            - Aligned MOSProduct._build_system_prompt signature with MOSCore
+        - type: Explicit Memory
+          changedInfo:
+            - Fixed general text memory processing logic
+            - Fixed memreader component issues
+            -
   - name: v0.2.1
     date: 2025-07-21
     changedInfo:

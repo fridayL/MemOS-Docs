@@ -3,7 +3,8 @@ export default {
     home: 'Home',
     research: 'Research',
     changelog: 'Changelog',
-    docs: 'Docs'
+    docs: 'Docs',
+    openmem: 'OpenMem'
   },
   community: {
     title: 'Community',
