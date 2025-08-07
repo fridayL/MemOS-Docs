@@ -33,6 +33,7 @@ nav:
       - "(ri:file-text-line) 通用明文记忆": modules/memories/general_textual_memory.md
       - "(ri:tree-line) 树形明文记忆": modules/memories/tree_textual_memory.md
       - "(ri:database-line) Neo4j 图数据库": modules/memories/neo4j_graph_db.md
+      - "(ri:database-line) Nebula 图数据库": modules/memories/nebula_graph_db.md
     - "(ri:cpu-line) 参数记忆": modules/memories/parametric_memory.md
 
   - "(ri:history-line) 场景案例":
@@ -44,6 +45,7 @@ nav:
       - "(ri:cloud-line) API": cookbook/chapter2/api.md
       - "(ri:node-tree) OLLAMA": cookbook/chapter2/ollama.md
     - "(ri:search-2-line) 第三章 智能小说分析系统": cookbook/chapter3/overview.md
+    - "(ri:graduation-cap-line) 第四章 使用 MemOS 构建生产级知识问答系统": cookbook/chapter4/overview.md
 
   - "(ri:star-line) 最佳实践":
     - "(ri:speed-line) 性能调优": best_practice/performance_tuning.md

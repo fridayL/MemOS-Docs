@@ -923,13 +923,13 @@ mem_cube.text_mem.replace_working_memory(world_state_memories)
 current_working_memory = mem_cube.text_mem.get_working_memory()
 ```
 
-### 🎮 创意3：MemOS驱动的文字MUD游戏
+### 🎮 创意3：MemOS驱动的互动文字游戏
 
-**终极创意**：基于MemOS + MemCube + GPT-4o构建一个真正智能的文字冒险游戏！
+**终极创意**：基于MemOS + MemCube + GPT-4o构建一个真正智能的单人文字冒险游戏！
 
 ```python
 # 游戏核心架构示例
-class WuxiaMUD:
+class WuxiaTextGame:
     def __init__(self, mos_config):
         from memos.mem_os.main import MOS
         
@@ -1004,7 +1004,7 @@ class WuxiaMUD:
 
 # 完整的使用示例
 def create_wuxia_game():
-    """创建完整的武侠MUD游戏示例"""
+    """创建完整的武侠文字游戏示例"""
     from memos.configs.mem_os import MOSConfig
     
     # 创建MemOS配置
@@ -1035,7 +1035,7 @@ def create_wuxia_game():
     )
     
     # 创建游戏实例
-    game = WuxiaMUD(mos_config)
+    game = WuxiaTextGame(mos_config)
     
     # 示例对话
     response = game.process_action("我想在洛阳客栈寻找萧峰")
@@ -1067,7 +1067,7 @@ AI：  这是一个危险的选择！提前揭露身世可能改变整个故事�
 
 - 📚 **智能小说生成器** - AI根据你的设定自动创作
 - 🎭 **虚拟角色陪伴** - 和萧峰、段誉进行真实对话
-- 🎨 **交互式剧情创作** - 多人协作的动态故事世界
+- 🎨 **交互式剧情创作** - 动态生成的故事世界
 - 🎯 **教育游戏平台** - 在游戏中学习历史和文学
 - 🔮 **预测性娱乐** - AI预测你的选择会如何影响剧情
 
@@ -1077,5 +1077,30 @@ AI：  这是一个危险的选择！提前揭露身世可能改变整个故事�
 - 🔄 根据玩家行动动态更新世界状态
 - 🎯 生成符合逻辑的剧情发展
 - 🌟 创造无限可能的故事分支
+
+---
+
+## 🎮 立即体验：互动文字游戏演示
+
+想要亲手体验基于MemOS构建的文字游戏吗？我们提供了一个完整的演示项目，展示了如何将本章介绍的技术应用到实际的交互式文本生成中。
+
+### 📦 演示特点
+
+- **🎯 基于《天龙八部》**: 使用本章处理的相同小说内容作为知识库
+- **🔍 智能意图识别**: 自动识别用户想要进行的操作类型
+- **💬 多种交互模式**: 支持故事续写、角色分析、假设情节、人物对话等
+- **🧠 MemOS驱动**: 展示真实的MemCube检索和上下文生成
+
+### 🚀 立即尝试
+
+**👉 [MemCube Interactive Text Game Demo - Hugging Face](https://huggingface.co/datasets/MemCube/interactive-text-game-demo)**
+
+该演示项目包含：
+- ✅ **完整源代码**: 展示MemOS各组件的实际使用方法
+- ✅ **运行指南**: 一步步教你如何部署和运行
+- ✅ **技术说明**: 详细解释实现原理和设计思路
+- ✅ **可定制**: 可以替换为你自己的文本内容
+
+通过实际操作这个demo，你将更深入地理解本章介绍的MemOS技术如何在实际应用中发挥作用！
 
 **现在，释放你的创造力，用MemOS打造属于你的智能世界吧！** 🚀

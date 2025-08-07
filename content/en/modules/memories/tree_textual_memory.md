@@ -162,6 +162,66 @@ for i, node in enumerate(results):
     print(f"{i}: {node.memory}")
 ```
 
+### Retrieve Memories from the Internet (Optional)
+
+You can also fetch real-time web content using search engines such as Google, Bing, or Bocha, and automatically extract them into structured memory nodes. MemOS provides a unified interface for this purpose.
+
+The following example demonstrates how to retrieve web content related to **“Alibaba 2024 ESG report”** and convert it into structured memories:
+
+```python
+# Create the embedder
+embedder = EmbedderFactory.from_config(
+    EmbedderConfigFactory.model_validate({
+        "backend": "ollama",
+        "config": {"model_name_or_path": "nomic-embed-text:latest"},
+    })
+)
+
+# Configure the retriever (using BochaAI as an example)
+retriever_config = InternetRetrieverConfigFactory.model_validate({
+    "backend": "bocha",
+    "config": {
+        "api_key": "sk-xxx",  # Replace with your BochaAI API Key
+        "max_results": 5,
+        "reader": {  # Reader config for automatic chunking
+            "backend": "simple_struct",
+            "config": ...,  # Your mem-reader config
+        },
+    }
+})
+
+# Instantiate the retriever
+retriever = InternetRetrieverFactory.from_config(retriever_config, embedder)
+
+# Perform internet search
+results = retriever.retrieve_from_internet("Alibaba 2024 ESG report")
+
+# Add results to the memory graph
+for m in results:
+    tree_memory.add(m)
+```
+
+Alternatively, you can configure the `internet_retriever` field directly in the `TreeTextMemoryConfig`. For example:
+
+```json
+{
+  "internet_retriever": {
+    "backend": "bocha",
+    "config": {
+      "api_key": "sk-xxx",
+      "max_results": 5,
+      "reader": {
+        "backend": "simple_struct",
+        "config": ...
+      }
+    }
+  }
+}
+```
+
+With this setup, when you call `tree_memory.search(query)`, the system will automatically trigger an internet search (via BochaAI, Google, or Bing), and merge the results with local memory nodes in a unified ranked list — no need to manually call `retriever.retrieve_from_internet`.
+
+
 ### Replace Working Memory
 
 Replace your current `WorkingMemory` nodes with new ones:

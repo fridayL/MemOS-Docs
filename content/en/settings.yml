@@ -33,6 +33,7 @@ nav:
       - "(ri:file-text-line) General Textual Memory": modules/memories/general_textual_memory.md
       - "(ri:tree-line) Tree Textual Memory": modules/memories/tree_textual_memory.md
       - "(ri:database-line) Neo4j Graph Database": modules/memories/neo4j_graph_db.md
+      - "(ri:database-line) Nebula Graph Database": modules/memories/nebula_graph_db.md
     - "(ri:cpu-line) Parametric Memory": modules/memories/parametric_memory.md
 
   - "(ri:history-line) Scenario Examples":

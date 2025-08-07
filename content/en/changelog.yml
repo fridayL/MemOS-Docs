@@ -1,4 +1,30 @@
 versions:
+  - name: v0.2.3
+    date: 2025-08-07
+    changedInfo:
+      New Features:
+        - type: MemCube Construction
+          changedInfo:
+            - Added a text game demo based on the MemCube novel.
+        - type: Extended Evaluation Set
+          changedInfo:
+            - Added LongMemEval evaluation results and scripts.
+        - type: Playground
+          changedInfo:
+            - Expanded Playground features and algorithm performance.
+      Improvements:
+        - type: Plaintext Memory
+          changedInfo:
+            - Integrated internet search with Bocha.
+            - Added support for Nebula database.
+            - Added contextual understanding for the tree-structured plaintext memory search interface.
+      Bug Fixes:
+        - type: KV Cache Concatenation
+          changedInfo:
+            - Fixed the concat_cache method.
+        - type: Plaintext Memory
+          changedInfo:
+            - Fixed Nebula search-related issues.
   - name: v0.2.2
     date: 2025-07-29
     changedInfo:

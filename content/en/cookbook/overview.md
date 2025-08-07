@@ -69,7 +69,7 @@ Traditional documentation tells you **what it is**, API references tell you **ho
 - **Creative Showcase**:
   - Intelligent World Timeline System
   - Dynamic Working Memory World Background
-  - MemOS-Driven Text MUD Game
+  - MemOS-Driven Interactive Text Game
 
 ### 🚀 Coming Soon
 
