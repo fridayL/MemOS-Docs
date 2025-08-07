@@ -1,6 +1,174 @@
 {
   "versions": [
     {
+      "releaseUrl": "https://github.com/MemTensor/MemOS/releases/tag/v1.0.0",
+      "name": "v1.0.0",
+      "date": "2025-08-07",
+      "changedInfo": [
+        {
+          "type": "update",
+          "description": "readme",
+          "author": "tangg555",
+          "pr": 194,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/194"
+        },
+        {
+          "type": "fix",
+          "description": "nebula multi-embedding & add BochaAI Search Retriever",
+          "author": "CaralHsi",
+          "pr": 195,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/195"
+        },
+        {
+          "type": "feat",
+          "description": "modify product config",
+          "author": "CaralHsi",
+          "pr": 199,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/199"
+        },
+        {
+          "type": "fix",
+          "description": "fix bug when calling _concat_caches in kv.py (from pr#177)",
+          "author": "spitzblattr",
+          "pr": 205,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/205"
+        },
+        {
+          "type": "feat",
+          "description": "enhance retriever, reorganizer & NebulaGraph handling",
+          "author": "CaralHsi",
+          "pr": 200,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/200"
+        },
+        {
+          "type": "feat",
+          "description": "& refactor: add search function feature to test scheduler on a modified locome benchmark, and slightly change the logic of query consume and query monitors",
+          "author": "tangg555",
+          "pr": 204,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/204"
+        },
+        {
+          "type": "feature",
+          "description": "& fix bugs: fix bugs after removing initialize_working_memory_monitors; add dispatcher_monitor designed to monitor the thread pool in the dispatcher moduler, and meanwhile dispatcher is enhanced with thread issue handlers",
+          "author": "tangg555",
+          "pr": 207,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/207"
+        },
+        {
+          "type": "feat",
+          "description": "add custom request log",
+          "author": "CarltonXiang",
+          "pr": 206,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/206"
+        },
+        {
+          "type": "fix",
+          "description": "a temporal workaround for the \"virtualenv 20.33.0 breaks Poetry in GitHub Actions\"",
+          "author": "Ki-Seki",
+          "pr": 213,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/213"
+        },
+        {
+          "type": "chore",
+          "description": "The Poetry virtualenv issue persists; another temporary workaround is ok",
+          "author": "Ki-Seki",
+          "pr": 215,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/215"
+        },
+        {
+          "type": "fix",
+          "description": "reference for some string",
+          "author": "fridayL",
+          "pr": 211,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/211"
+        },
+        {
+          "type": "fix",
+          "description": "self.mem_cubes RuntimeError: dictionary changed size during iteration",
+          "author": "fridayL",
+          "pr": 216,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/216"
+        },
+        {
+          "type": "feat",
+          "description": "add embedding-aware graph query interfaces and parallel retrieval",
+          "author": "CaralHsi",
+          "pr": 212,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/212"
+        },
+        {
+          "type": "feat",
+          "description": "delete-custom-logger",
+          "author": "CarltonXiang",
+          "pr": 220,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/220"
+        },
+        {
+          "type": "refactor",
+          "description": "Conflict resolution, bug fixes mainly for the mem scheduler",
+          "author": "tangg555",
+          "pr": 221,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/221"
+        },
+        {
+          "type": "feat",
+          "description": "fix illumination",
+          "author": "CaralHsi",
+          "pr": 222,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/222"
+        },
+        {
+          "type": "fix",
+          "description": "reorganize and schedular bug",
+          "author": "CaralHsi",
+          "pr": 223,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/223"
+        },
+        {
+          "type": "memos",
+          "description": "v0.2.3 release",
+          "author": "kakack",
+          "pr": 225,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/225"
+        },
+        {
+          "type": "fix",
+          "description": "remove field name will cause error for org-memscheduler config",
+          "author": "fridayL",
+          "pr": 226,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/226"
+        },
+        {
+          "type": "memos",
+          "description": "v0.2.3 release",
+          "author": "kakack",
+          "pr": 227,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/227"
+        },
+        {
+          "type": "feat",
+          "description": "illumination",
+          "author": "CaralHsi",
+          "pr": 229,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/229"
+        },
+        {
+          "type": "chore",
+          "description": "Change version to v1.0.0",
+          "author": "kakack",
+          "pr": 230,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/230"
+        },
+        {
+          "type": "chore",
+          "description": "bump version to v1.0.0",
+          "author": "kakack",
+          "pr": 228,
+          "prUrl": "https://github.com/MemTensor/MemOS/pull/228"
+        }
+      ]
+    },
+    {
       "releaseUrl": "https://github.com/MemTensor/MemOS/releases/tag/v0.2.2",
       "name": "v0.2.2",
       "date": "2025-07-29",
