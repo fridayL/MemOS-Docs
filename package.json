@@ -8,7 +8,6 @@
     "dev": "nuxt dev",
     "sync-api": "node scripts/fetch-api.mjs",
     "sync-releases": "node scripts/fetch-releases.mjs",
-    "generate": "node scripts/generate.mjs",
     "publish": "node scripts/generate.mjs",
     "preview": "nuxt preview",
     "lint": "eslint .",
