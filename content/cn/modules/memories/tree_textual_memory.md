@@ -161,6 +161,66 @@ for i, node in enumerate(results):
     print(f"{i}: {node.memory}")
 ```
 
+### 从互联网检索记忆（可选）
+你也可以从 Google / Bing / Bocha（博查） 等搜索引擎实时获取网页内容，并自动切分为记忆节点。MemOS 提供了统一接口。
+
+以下示例演示如何检索“Alibaba 2024 ESG report”相关网页，并自动提取为结构化记忆。
+
+```python
+
+# 创建embedder
+embedder = EmbedderFactory.from_config(
+    EmbedderConfigFactory.model_validate({
+        "backend": "ollama",
+        "config": {"model_name_or_path": "nomic-embed-text:latest"},
+    })
+)
+
+# 配置检索器（以 BochaAI 为例）
+retriever_config = InternetRetrieverConfigFactory.model_validate({
+    "backend": "bocha",
+    "config": {
+        "api_key": "sk-xxx",  # 替换为你的 BochaAI API Key
+        "max_results": 5,
+        "reader": {  # 自动分块的 Reader 配置
+            "backend": "simple_struct",
+            "config": ...,  # 你的mem-reader config
+        },
+    }
+})
+
+# 实例化检索器
+retriever = InternetRetrieverFactory.from_config(retriever_config, embedder)
+
+# 执行网页检索
+results = retriever.retrieve_from_internet("Alibaba 2024 ESG report")
+
+# 添加到记忆图中
+for m in results:
+    tree_memory.add(m)
+
+```
+你也可以直接在 TreeTextMemoryConfig 中配置 internet_retriever 字段，例如：
+
+
+```json
+{
+  "internet_retriever": {
+    "backend": "bocha",
+    "config": {
+      "api_key": "sk-xxx",
+      "max_results": 5,
+      "reader": {
+        "backend": "simple_struct",
+        "config": ...
+      }
+    }
+  }
+}
+```
+
+这样，在调用 tree_memory.search(query) 时，系统会自动调用互联网检索（如 BochaAI / Google / Bing）然后将结果与本地图中的节点一起排序返回，无需手动调用 retriever.retrieve_from_internet
+
 ### 替换工作记忆
 
 用一个新的节点替换你当前的 `WorkingMemory`:
