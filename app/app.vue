@@ -39,7 +39,10 @@ function showContentNavigation() {
 }
 
 function isApiPage() {
-  return route.path.startsWith('/docs/api') || route.path.startsWith('/cn/docs/api/')
+  return route.path.startsWith('/docs/api')
+    || route.path.startsWith('/cn/docs/api/')
+    || route.path.startsWith('/api_reference')
+    || route.path.startsWith('/cn/api_reference')
 }
 
 provide('navigation', contentNavigation)
@@ -115,7 +118,7 @@ provide('navigation', contentNavigation)
     </template>
 
     <!-- Document footer -->
-    <AppFooter v-if="!route.path.startsWith('/docs/api/')" />
+    <AppFooter v-if="!isApiPage" />
 
     <ClientOnly>
       <LazyUContentSearch

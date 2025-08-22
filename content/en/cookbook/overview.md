@@ -184,7 +184,7 @@ print(f"MemOS Version: {memos.__version__}")
 - **GitHub Discussions**: Exchange experiences and ask questions at [MemOS Discussions](https://github.com/MemTensor/MemOS/discussions)
 - **Discord Community**: Join [MemOS Discord Server](https://discord.gg/Txbx3gebZR) for real-time communication
 - **Official Documentation**: Check [MemOS Official Documentation](https://memos-docs.openmem.net/home/overview/) for detailed usage guides
-- **API Reference**: Check [MemOS API Documentation](https://memos-docs.openmem.net/docs/api/info/) for interface details
+- **API Reference**: Check [MemOS API Documentation](https://memos-docs.openmem.net/api_reference/configure-memos/) for interface details
 - **WeChat Group**: Scan [QR Code](https://statics.memtensor.com.cn/memos/qr-code.png) to join WeChat technical exchange group
 
 ---

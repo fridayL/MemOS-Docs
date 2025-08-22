@@ -32,6 +32,19 @@ export default defineContentConfig({
       },
       type: 'page',
       schema
+    }),
+    openapi: defineCollection({
+      type: 'data',
+      source: 'api.json',
+      schema: z.object({
+        openapi: z.string(),
+        info: z.record(z.string(), z.any()).optional(),
+        paths: z.record(
+          z.string(),
+          z.record(z.string(), z.any())
+        ),
+        components: z.record(z.string(), z.any()).optional()
+      }).passthrough()
     })
   }
 })
