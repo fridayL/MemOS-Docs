@@ -1,4 +1,4 @@
-import type { PathsProps, FlatPathProps, PropertyProps } from '@/utils/openapi'
+import type { PathsProps, FlatPathProps } from '@/utils/openapi'
 import type { RouteLocation } from 'vue-router'
 
 interface OpenApiProps {
@@ -12,9 +12,8 @@ const useOpenApi = () => {
   const openapi = useState<OpenApiProps | null>('openapi', () => null)
   const schemas = useState<Record<string, SchemaProps>>('openapiSchemas', () => ({}))
   const paths = useState<FlatPathProps[]>('openapiPaths', () => ([]))
-  const { locale } = useI18n()
 
-  // 获取 OpenApi 数据
+  // Fetch OpenAPI data
   async function getOpenApi() {
     const { data } = await useAsyncData('openapi', async () => {
       return queryCollection('openapi').first()
@@ -45,7 +44,7 @@ const useOpenApi = () => {
     return schemas.value[key] || null
   }
 
-  // 获取 content 中的 schema
+  // Extract schema from content
   function getContentSchema(content?: ContentProps) {
     const contentType = content ? Object.keys(content)[0] : undefined
     const rawSchema = contentType ? content?.[contentType]?.schema : undefined

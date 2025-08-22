@@ -45,7 +45,7 @@ function isRequired(list: string[] | undefined | null, prop: string) {
         >
           {{ computedParam.description }}
         </p>
-        <!-- 处理anyOf -->
+        <!-- Handle anyOf -->
         <ApiRequestBodyArrayParam
           v-if="computedParam.anyOf?.length"
           :any-of="computedParam.anyOf"

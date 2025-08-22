@@ -41,8 +41,8 @@ function showContentNavigation() {
 function isApiPage() {
   return route.path.startsWith('/docs/api')
     || route.path.startsWith('/cn/docs/api/')
-    || route.path.startsWith('/api_reference')
-    || route.path.startsWith('/cn/api_reference')
+    || route.path.startsWith('/api-reference')
+    || route.path.startsWith('/cn/api-reference')
 }
 
 provide('navigation', contentNavigation)

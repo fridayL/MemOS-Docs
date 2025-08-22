@@ -43,12 +43,12 @@ onUnmounted(() => {
   clearTimeout(timer)
 })
 
-// 判断是否是参数
+// Determine whether segment is a parameter
 function isParameter(path: string) {
   return /^\{[^}]*\}$/.test(path)
 }
 
-// 复制地址
+// Copy full path
 function handleCopy() {
   copyText(props.path)
   isCopy.value = true
