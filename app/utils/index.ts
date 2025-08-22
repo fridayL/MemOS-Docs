@@ -13,3 +13,7 @@ export function getLangPath(path: string, locale: string) {
 export function getHomePath(path: string, locale: string) {
   return locale === 'cn' ? `https://memos.openmem.net/cn${path}` : `https://memos.openmem.net${path}`
 }
+
+export function copyText(text: string) {
+  navigator.clipboard.writeText(text)
+}

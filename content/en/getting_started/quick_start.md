@@ -97,5 +97,5 @@ knowledge.
 ## Need Help?
 Check out:
 - [Core Concepts](/home/core_concepts)
-- [API Reference](/docs/api/info)
+- [API Reference](/api_reference/configure-memos)
 - [Contribution Guide](/contribution/overview)
