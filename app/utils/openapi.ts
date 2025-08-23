@@ -1,6 +1,6 @@
 type MethodType = 'post' | 'get' | 'delete' | 'put'
 
-// 参数信息
+// Parameter information
 interface ParametersProp {
   name: string
   in: 'path' | 'query'
@@ -32,13 +32,13 @@ export interface ContentProps {
   }
 }
 
-// 请求体信息
+// Request body information
 export interface RequestProps {
   required: boolean
   content: ContentProps
 }
 
-// 请求响应信息
+// Response information
 interface ResponseProps {
   [key: string]: {
     description: string
@@ -46,7 +46,7 @@ interface ResponseProps {
   }
 }
 
-// OpenAPI path信息
+// OpenAPI path information
 interface PathProps {
   description: string
   operationId: string
@@ -60,14 +60,14 @@ export interface PathsProps {
   [key: string]: PathProps
 }
 
-// 扁平化后的路径
+// Flattened path
 export interface FlatPathProps extends PathProps {
   method: MethodType
   apiUrl: string
   routePath: string
 }
 
-// 解析 schema 引用
+// Resolve schema $ref
 export function resolveSchemaRef(
   ref: string | undefined | null,
   schemas: Record<string, unknown> | undefined | null
@@ -78,7 +78,7 @@ export function resolveSchemaRef(
   return (schemas[key] as Record<string, unknown>) || null
 }
 
-// 扁平化 OpenAPI paths
+// Flatten OpenAPI paths
 export function flattenPaths(paths: Record<string, PathsProps>) {
   const results: FlatPathProps[] = []
 
@@ -89,7 +89,7 @@ export function flattenPaths(paths: Record<string, PathsProps>) {
       results.push({
         apiUrl,
         method: method as MethodType,
-        routePath: `/api_reference/${routePath}`,
+        routePath: `/api-reference/${routePath}`,
         ...operation
       })
     })
