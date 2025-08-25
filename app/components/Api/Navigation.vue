@@ -70,7 +70,7 @@ const navigationData = computed(() => {
 
   return [{
     title: 'API Reference',
-    children: items.concat(singleItems)
+    children: singleItems.concat(items)
   }]
 })
 
