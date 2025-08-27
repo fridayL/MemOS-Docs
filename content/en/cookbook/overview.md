@@ -71,9 +71,23 @@ Traditional documentation tells you **what it is**, API references tell you **ho
   - Dynamic Working Memory World Background
   - MemOS-Driven Interactive Text Game
 
-### 🚀 Coming Soon
+### [Chapter 4: Using MemOS to Build a Production-Grade Knowledge Q&A System](/cookbook/chapter4/overview)
 
-- **Chapter 4: Building Production-Grade Knowledge Q&A System with MemOS**
+**Core Skills**: Concept graph construction, knowledge engineering, production deployment, small model enhancement
+
+- **Phase 1: Building the foundational structure of domain knowledge - Concept graph expansion**
+  - Seed concept acquisition: Extract core domain concepts from professional datasets
+  - Iterative expansion: Automated concept graph extension based on LLM
+  - Convergence and evaluation: Quantitative assessment of graph completeness
+- **Phase 2: Generating applicable knowledge content - QA pair generation based on graphs**
+  - Single concept knowledge generation: Generate in-depth Q&A for each concept node
+  - Relational knowledge generation: Build complex logical associations between concepts
+- **Phase 3: Building dynamic knowledge base - MemCube system deployment**
+  - Neo4j graph database integration
+  - MemOS system configuration and optimization
+  - Production environment deployment best practices
+- **Practical case**: Cardiovascular medicine domain knowledge Q&A system
+- **Performance validation**: Small model vs large model professional capability comparison
 
 ---
 
@@ -97,14 +111,23 @@ Chapter 1 → Chapter 2 → Chapter 3 (Intelligent Novel Analysis System)
 **For**: Developers with some AI development experience
 **Goal**: Master complex text processing, AI-driven memory extraction and intelligent reasoning systems
 
-### 🔴 Advanced Path (Total 12-20 hours)
+### 🔴 Advanced Path (Total 15-25 hours)
 
 ```
-Complete learning of all chapters + creative extension practice
+Chapter 1 → Chapter 2 → Chapter 3 → Chapter 4 (Production-Grade Knowledge Q&A System)
 ```
 
 **For**: Developers who want to build production-grade applications
-**Goal**: Master advanced features and innovative application patterns of MemOS
+**Goal**: Master knowledge engineering, concept graph construction and production deployment
+
+### 🚀 Expert Path (Total 20-30 hours)
+
+```
+Complete learning of all chapters + creative extension practice + custom domain applications
+```
+
+**For**: AI architects and senior developers
+**Goal**: Master all MemOS features and be able to design innovative AI memory systems
 
 ---
 
