@@ -3,7 +3,7 @@ title: REST API Server
 desc: MemOS provides a REST API server (written using FastAPI). Users can perform all operations through REST endpoints. 
 ---
 
-:Base64Image{src="https://statics.memtensor.com.cn/memos/openapi.png" alt="APIs supported by MemOS REST API Server"}
+![MemOS Architecture](https://statics.memtensor.com.cn/memos/openapi.png)
 <div style="text-align: center; margin-top: 10px">APIs supported by MemOS REST API Server</div>
 
 ### Features
@@ -18,11 +18,10 @@ desc: MemOS provides a REST API server (written using FastAPI). Users can perfor
 
 ### With Docker Compose
 ::steps{level="4"}
-The Development Docker Compose comes pre-configured with postgres pgvector, neo4j and a server/history/history.db volume for the history database.
+The Development Docker Compose comes pre-configured with qdrant, neo4j.
+The required environment variable to run the server is OPENAI_API_KEY.
 
-The only required environment variable to run the server is OPENAI_API_KEY.
-
-#### Create a .env file in the server/ directory and set your environment variables. For example:
+#### Create a `.env` file in the root directory and set your environment variables. For example:
 
 ```bash
 OPENAI_API_KEY=your-openai-api-key
@@ -38,7 +37,8 @@ docker compose up --build
 
 ### With Docker
 ::steps{level="4"}
-#### Create a .env file in the current directory and set your environment variables. For example:
+#### Create a `.env` file in the root directory and set your environment variables. For example:
+
 ```bash
 OPENAI_API_KEY=your-openai-api-key
 ```
@@ -55,7 +55,8 @@ docker run --env-file .env -p 8000:8000 memos-api-server
 
 ### Without Docker
 ::steps{level="4"}
-#### Create a .env file in the current directory and set your environment variables. For example:
+#### Create a `.env` file in the root directory and set your environment variables. For example:
+
 ```bash
 OPENAI_API_KEY=your-openai-api-key
 ```
