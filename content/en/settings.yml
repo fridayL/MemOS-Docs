@@ -45,6 +45,7 @@ nav:
       - "(ri:cloud-line) API": cookbook/chapter2/api.md
       - "(ri:node-tree) OLLAMA": cookbook/chapter2/ollama.md
     - "(ri:search-2-line) Chapter 3: Intelligent Novel Analysis System": cookbook/chapter3/overview.md
+    - "(ri:graduation-cap-line) Chapter 4: Using MemOS to Build a Production-Grade Knowledge Q&A System": cookbook/chapter4/overview.md
 
   - "(ri:star-line) Best Practice":
     - "(ri:speed-line) Performance Tuning": best_practice/performance_tuning.md
